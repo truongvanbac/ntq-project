@@ -1343,3 +1343,14 @@ Stack trace:
 [08-Jun-2015 15:39:07 Asia/Ho_Chi_Minh] PHP Warning:  date_format() expects parameter 1 to be DateTime, null given in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 65
 [08-Jun-2015 15:39:07 Asia/Ho_Chi_Minh] PHP Warning:  date_format() expects parameter 1 to be DateTime, null given in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 65
 [08-Jun-2015 15:39:07 Asia/Ho_Chi_Minh] PHP Warning:  date_format() expects parameter 1 to be DateTime, string given in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 65
+[08-Jun-2015 02:31:15 America/Los_Angeles] PHP Notice:  Undefined index: log in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 17
+[08-Jun-2015 02:33:45 America/Los_Angeles] PHP Notice:  Undefined index: log in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 17
+[08-Jun-2015 16:33:58 Asia/Ho_Chi_Minh] PHP Notice:  Undefined index: username in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\temp\tempadmin.php on line 25
+[08-Jun-2015 02:34:00 America/Los_Angeles] PHP Notice:  Undefined index: log in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 17
+[08-Jun-2015 02:34:10 America/Los_Angeles] PHP Notice:  Undefined index: log in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 17
+[08-Jun-2015 02:34:21 America/Los_Angeles] PHP Notice:  A session had already been started - ignoring session_start() in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 59
+[08-Jun-2015 02:34:21 America/Los_Angeles] PHP Notice:  Undefined variable: username in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 61
+[08-Jun-2015 02:34:21 America/Los_Angeles] PHP Notice:  Undefined variable: password in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 62
+[08-Jun-2015 02:34:22 America/Los_Angeles] PHP Notice:  Undefined index: log in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 17
+[08-Jun-2015 02:35:15 America/Los_Angeles] PHP Notice:  Undefined index: log in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 17
+[08-Jun-2015 02:35:52 America/Los_Angeles] PHP Notice:  Undefined index: log in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 17
