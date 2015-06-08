@@ -1,0 +1,65 @@
+<?php 
+startHeader();
+setTitle($title);
+
+        includeStyle('bootstrap.css');
+        includeStyle('icons.css');
+        includeStyle('login.css');
+        includeStyle('stylesheet.css');
+        includeStyle('stylesheets.css');
+endHeader();
+?>
+
+<div class="header">
+    <a class="logo" href="<?php echo BASE_URL?>/admin/category">
+        <img src="<?php echo includeImage('', 'logo.png')?>" alt="NTQ Solution - Admin Control Panel" title="NTQ Solution - Admin Control Panel"/>
+    </a>
+    
+</div>
+
+<div class="menu">
+
+    <div class="breadLine">
+        <div class="arrow"></div>
+        <div class="adminControl active">
+            Hi, <?php echo $_SESSION['username'];?>
+        </div>
+    </div>
+
+    <div class="admin">
+        <div class="image">
+            <img src="<?php echo includeImage('users/', 'avatar.jpg')?>" class="img-polaroid"/>
+        </div>
+        <ul class="control">
+            <li><span class="icon-cog"></span> <a href="edit-user.html">Update Profile</a></li>
+            <li><span class="icon-share-alt"></span> <a href="login/logout">Logout</a></li>
+        </ul>
+    </div>
+
+    <ul class="navigation">
+        <li>
+            <a href="<?php echo BASE_URL?>/admin/category">
+                <span class="isw-grid"></span><span class="text">Categories</span>
+            </a>
+        </li>
+        <li>
+            <a href="<?php echo BASE_URL?>/admin/product">
+                <span class="isw-list"></span><span class="text">Products</span>
+            </a>
+        </li>
+        <li>
+            <a href="<?php echo BASE_URL?>/admin/user">
+                <span class="isw-user"></span><span class="text">Users</span>
+            </a>
+        </li>
+    </ul>
+
+</div>
+<div class="content">
+<?php
+    echo $content;
+?>
+</div>
+<?php 
+getFooter();
+?>
