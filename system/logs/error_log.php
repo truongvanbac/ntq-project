@@ -1354,3 +1354,45 @@ Stack trace:
 [08-Jun-2015 02:34:22 America/Los_Angeles] PHP Notice:  Undefined index: log in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 17
 [08-Jun-2015 02:35:15 America/Los_Angeles] PHP Notice:  Undefined index: log in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 17
 [08-Jun-2015 02:35:52 America/Los_Angeles] PHP Notice:  Undefined index: log in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 17
+[08-Jun-2015 16:37:40 Asia/Ho_Chi_Minh] PHP Notice:  Undefined index: username in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\temp\tempadmin.php on line 25
+[08-Jun-2015 02:41:49 America/Los_Angeles] PHP Notice:  A session had already been started - ignoring session_start() in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 60
+[08-Jun-2015 02:41:49 America/Los_Angeles] PHP Notice:  Undefined index: username in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 62
+[08-Jun-2015 02:41:49 America/Los_Angeles] PHP Notice:  Undefined variable: username in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 63
+[08-Jun-2015 02:41:49 America/Los_Angeles] PHP Notice:  Undefined variable: password in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 64
+[08-Jun-2015 16:42:07 Asia/Ho_Chi_Minh] PHP Notice:  Undefined index: username in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\temp\tempadmin.php on line 25
+[08-Jun-2015 02:42:11 America/Los_Angeles] PHP Notice:  A session had already been started - ignoring session_start() in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 59
+[08-Jun-2015 02:42:11 America/Los_Angeles] PHP Notice:  Undefined index: username in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 61
+[08-Jun-2015 02:42:11 America/Los_Angeles] PHP Notice:  Undefined variable: username in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 62
+[08-Jun-2015 02:42:11 America/Los_Angeles] PHP Notice:  Undefined variable: password in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 63
+[08-Jun-2015 02:42:12 America/Los_Angeles] PHP Notice:  Undefined index: log in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 17
+[08-Jun-2015 02:42:16 America/Los_Angeles] PHP Notice:  Undefined index: log in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 17
+[08-Jun-2015 02:42:32 America/Los_Angeles] PHP Notice:  Undefined index: log in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 17
+[08-Jun-2015 02:42:37 America/Los_Angeles] PHP Notice:  A session had already been started - ignoring session_start() in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 59
+[08-Jun-2015 02:42:37 America/Los_Angeles] PHP Notice:  Undefined index: username in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 61
+[08-Jun-2015 02:42:37 America/Los_Angeles] PHP Notice:  Undefined variable: username in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 62
+[08-Jun-2015 02:42:37 America/Los_Angeles] PHP Notice:  Undefined variable: password in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 63
+[08-Jun-2015 02:42:38 America/Los_Angeles] PHP Notice:  Undefined index: log in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 17
+[08-Jun-2015 02:43:06 America/Los_Angeles] PHP Notice:  Undefined index: log in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 3
+[08-Jun-2015 02:43:06 America/Los_Angeles] PHP Notice:  Undefined index: log in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 18
+[08-Jun-2015 02:43:41 America/Los_Angeles] PHP Notice:  A session had already been started - ignoring session_start() in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 60
+[08-Jun-2015 02:43:41 America/Los_Angeles] PHP Notice:  Undefined index: username in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 62
+[08-Jun-2015 02:43:41 America/Los_Angeles] PHP Notice:  Undefined variable: username in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 63
+[08-Jun-2015 02:43:41 America/Los_Angeles] PHP Notice:  Undefined variable: password in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 64
+[08-Jun-2015 16:43:52 Asia/Ho_Chi_Minh] PHP Notice:  Undefined index: username in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\temp\tempadmin.php on line 25
+[08-Jun-2015 02:43:57 America/Los_Angeles] PHP Notice:  A session had already been started - ignoring session_start() in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 60
+[08-Jun-2015 02:43:57 America/Los_Angeles] PHP Notice:  Undefined index: username in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 62
+[08-Jun-2015 02:43:57 America/Los_Angeles] PHP Notice:  Undefined variable: username in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 63
+[08-Jun-2015 02:43:57 America/Los_Angeles] PHP Notice:  Undefined variable: password in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 64
+[08-Jun-2015 02:45:44 America/Los_Angeles] PHP Notice:  A session had already been started - ignoring session_start() in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\check_login.class.php on line 2
+[08-Jun-2015 16:45:44 Asia/Ho_Chi_Minh] PHP Notice:  Undefined index: username in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\temp\tempadmin.php on line 25
+[08-Jun-2015 02:45:56 America/Los_Angeles] PHP Notice:  A session had already been started - ignoring session_start() in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\check_login.class.php on line 2
+[08-Jun-2015 02:46:21 America/Los_Angeles] PHP Notice:  A session had already been started - ignoring session_start() in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 60
+[08-Jun-2015 02:46:21 America/Los_Angeles] PHP Notice:  Undefined index: username in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 62
+[08-Jun-2015 02:46:21 America/Los_Angeles] PHP Notice:  Undefined variable: username in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 63
+[08-Jun-2015 02:46:21 America/Los_Angeles] PHP Notice:  Undefined variable: password in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 64
+[08-Jun-2015 16:46:34 Asia/Ho_Chi_Minh] PHP Notice:  Undefined index: username in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\temp\tempadmin.php on line 25
+[08-Jun-2015 02:47:54 America/Los_Angeles] PHP Notice:  A session had already been started - ignoring session_start() in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 60
+[08-Jun-2015 02:47:54 America/Los_Angeles] PHP Notice:  Undefined index: username in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 62
+[08-Jun-2015 02:47:54 America/Los_Angeles] PHP Notice:  Undefined variable: username in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 63
+[08-Jun-2015 02:47:54 America/Los_Angeles] PHP Notice:  Undefined variable: password in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 64
+[08-Jun-2015 02:47:55 America/Los_Angeles] PHP Notice:  Undefined index: log in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\LoginController.class.php on line 18

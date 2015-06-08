@@ -1,5 +1,6 @@
 <?php
 session_start();
+$_SESSION['log'] = false;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -14,7 +15,7 @@ class LoginController extends Controller {
     }
 
     public function index() {
-        if ($_SESSION['log']) {
+        if ($_SESSION['log'] == true) {
             header('location: category');
         } else {
             $data = array(
@@ -57,7 +58,8 @@ class LoginController extends Controller {
 
     public function logout() {
         session_start();
-        session_destroy();
+        session_unset($_SESSION['log']);
+        session_unset($_SESSION['username']);
         setcookie('username', $username, time() - 60 * 60 * 24 * 365);
         setcookie('password', md5($password), time() - 60 * 60 * 24 * 365);
         header("location: ../login");
