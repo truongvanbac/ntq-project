@@ -1,3 +1,12 @@
+<?php includeScript('jquery-2.1.3.min.js')?>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#checkAll").click(function() {
+            $(".case").attr('checked', this.checked);
+        });
+
+    });
+</script>
 
 <div class="breadLine">
 
@@ -43,30 +52,45 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($lists as $list){?>
+                        <?php foreach ($lists as $list) { ?>
                             <tr>
-                                <td><input type="checkbox" name="checkbox"/></td>
-                                <td><?php echo $list['ct_id']?></td>
-                                <td><?php echo $list['ct_name']?></td>
+                                <td><input class="case" type="checkbox" name="checkbox"/></td>
+                                <td><?php echo $list['ct_id'] ?></td>
+                                <td><?php echo $list['ct_name'] ?></td>
                                 <td>
-                                    <?php 
-                                        if($list['ct_status'] == 1) {
-                                            echo "<span class='text-success'>Activated</span>";
-                                        } else {
-                                            echo "<span class='text-error'>Deactive</span>";
-                                        }
+                                    <?php
+                                    if ($list['ct_status'] == 1) {
+                                        echo "<span class='text-success'>Activated</span>";
+                                    } else {
+                                        echo "<span class='text-error'>Deactive</span>";
+                                    }
                                     ?>
                                 </td>
-                                <?php 
+
+                                <td>
+                                    <?php
                                     $date1 = date_create($list['ct_time_created']);
-                                    $date2 = $list['ct_time_update'];
-                                ?>
-                                <td><?php echo date_format($date1, "h:i:s d/m/Y");?></td>
-                                <td><?php echo $list['ct_time_update'];?></td>
-                                <td><a href="<?php echo BASE_URL?>/admin/category/edit/<?php echo $list['ct_id']?>" class="btn btn-info">Edit</a></td>
+                                    echo date_format($date1, "h:i:s d/m/Y");
+                                    ?>
+                                </td>
+
+
+                                <td>
+                                    <?php
+                                    $a = $list['ct_time_update'];
+                                    if ($a == '') {
+                                        echo $a;
+                                    } else {
+                                        echo date_format(date_create($a), "h:i:s d/m/Y");
+                                    }
+                                    //echo $a;
+                                    ?>
+                                </td>
+
+                                <td><a href="<?php echo BASE_URL ?>/admin/category/edit/<?php echo $list['ct_id'] ?>" class="btn btn-info">Edit</a></td>
                             </tr>
-                        <?php }?>
-                        
+                        <?php } ?>
+
                     </tbody>
                 </table>
                 <div class="bulk-action">

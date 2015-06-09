@@ -1,12 +1,12 @@
 <?php
 startHeader();
 setTitle($title);
-
 includeStyle('bootstrap.css');
 includeStyle('icons.css');
 includeStyle('login.css');
 includeStyle('stylesheet.css');
 includeStyle('stylesheets.css');
+includeScript('jquery-2.1.3.min.js');
 endHeader();
 ?>
 

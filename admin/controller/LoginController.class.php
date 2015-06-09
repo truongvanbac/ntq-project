@@ -12,6 +12,8 @@ class LoginController extends Controller {
     public function __construct() {
         parent::__construct();
         //var_dump($_SESSION['log']);
+        
+        print_r($_SESSION);
     }
 
     public function index() {
@@ -58,8 +60,7 @@ class LoginController extends Controller {
 
     public function logout() {
         session_start();
-        session_unset($_SESSION['log']);
-        session_unset($_SESSION['username']);
+        session_unset();
         setcookie('username', $username, time() - 60 * 60 * 24 * 365);
         setcookie('password', md5($password), time() - 60 * 60 * 24 * 365);
         header("location: ../login");

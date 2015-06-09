@@ -1,31 +1,35 @@
 <?php
 
-session_start();
-
 class CategoryController extends Controller {
 
     private $data2 = array(
         'title' => '',
-        'content' => ''
+        'content' => '',
+        'message' =>''
     );
 
     public function __construct() {
         parent::__construct();
         Check_login::check();
+        //print_r($_SESSION);
     }
 
     public function index() {
         $data = array(
             'lists' => Category::get_list_category()
         );
-
+//        echo "<pre>";
+//        var_dump($data['lists']);
+//        echo "</pre>";
         $data2['content'] = $this->view->load('list-category', $data);
         $data2['title'] = 'List Category';
         $this->view->loadTemplate('tempadmin', $data2);
     }
 
     public function add() {
-        $data = array();
+        static $data = array(
+            'message' => ''
+        );
         $data2['content'] = $this->view->load('add-category', $data);
         $data2['title'] = 'Add Category';
         $this->view->loadTemplate('tempadmin', $data2);
@@ -35,15 +39,14 @@ class CategoryController extends Controller {
                 $ct_name = $_POST['new-category'];
                 $ct_status = $_POST['select'];
 
-                echo $ct_name . ":" . $ct_status;
                 $result = Category::add_category($ct_name, $ct_status);
                 if ($result) {
-                    header("location: ../category");
+                    header("location: " . BASE_URL.'/admin/category');
                 } else {
-                    header("location: ../add");
+                    header("location: " . BASE_URL.'/admin/category/add');
                 }
             } else {
-                header("location: ../category/add");
+                header("location: " . BASE_URL.'/admin/category/add');
             }
         }
     }
@@ -58,6 +61,10 @@ class CategoryController extends Controller {
         $data = array(
             'edit_name' => Category::get_name_ct($ct_id)
         );
+//        echo "<pre>";
+//        var_dump(implode('', array_values($data['edit_name'])));
+//        echo "<pre>";
+        
         $data2['content'] = $this->view->load('edit-category', $data);
         $data2['title'] = 'Edit Category';
         $this->view->loadTemplate('tempadmin', $data2);

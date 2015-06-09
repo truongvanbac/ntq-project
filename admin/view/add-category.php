@@ -23,6 +23,7 @@
                     <div class="row-form">
                         <div class="span3">Category Name:</div>
                         <div class="span9"><input type="text" placeholder="some text value..." name="new-category"/></div>
+                        <?php echo $message;?>
                         <div class="clear"></div>
                     </div> 
                     <div class="row-form">

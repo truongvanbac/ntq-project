@@ -26,12 +26,12 @@ function includeExternalStyle($location) {
 
 function includeScript($filename) {
     global $area;
-    $path = "../" . $area . "/js/" . $filename;
+    $path = BASE_URL . "/public/" . $area . "/js/" . $filename;
     includeExternalScript($path);
 }
 
 function includeExternalScript($location) {
-    $string = "<script type='text/css' src='".$location."'></script>\n";
+    $string = "<script type='text/javascript' src='".$location."'></script>\n";
     echo $string;
 }
 
