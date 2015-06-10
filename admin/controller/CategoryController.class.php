@@ -5,7 +5,7 @@ class CategoryController extends Controller {
     private $data2 = array(
         'title' => '',
         'content' => '',
-        'message' =>''
+        'message' => ''
     );
 
     public function __construct() {
@@ -15,8 +15,14 @@ class CategoryController extends Controller {
     }
 
     public function index() {
+        $pages = new Pagination('10', 'p');
+        $pages->set_total(Category::count());
+        //var_dump(Category::count());
+        
         $data = array(
-            'lists' => Category::get_list_category()
+            'lists' => Category::get_list_category($pages->get_limit()),
+            'order' => "desc",
+            'page_links' => $pages->page_links()
         );
 //        echo "<pre>";
 //        var_dump($data['lists']);
@@ -41,12 +47,12 @@ class CategoryController extends Controller {
 
                 $result = Category::add_category($ct_name, $ct_status);
                 if ($result) {
-                    header("location: " . BASE_URL.'/admin/category');
+                    header("location: " . BASE_URL . '/admin/category');
                 } else {
-                    header("location: " . BASE_URL.'/admin/category/add');
+                    header("location: " . BASE_URL . '/admin/category/add');
                 }
             } else {
-                header("location: " . BASE_URL.'/admin/category/add');
+                header("location: " . BASE_URL . '/admin/category/add');
             }
         }
     }
@@ -61,9 +67,6 @@ class CategoryController extends Controller {
         $data = array(
             'edit_name' => Category::get_name_ct($ct_id)
         );
-//        echo "<pre>";
-//        var_dump(implode('', array_values($data['edit_name'])));
-//        echo "<pre>";
         
         $data2['content'] = $this->view->load('edit-category', $data);
         $data2['title'] = 'Edit Category';
@@ -73,18 +76,67 @@ class CategoryController extends Controller {
             if (($_POST['name-edit'] != '') && (($_POST['select'] != ''))) {
                 $ct_name = $_POST['name-edit'];
                 $ct_status = $_POST['select'];
-                echo $ct_name . ":" . $ct_status;
 
                 $result = Category::edit_category($ct_id, $ct_name, $ct_status);
                 if ($result) {
-                    header("location: ".BASE_URL.'/admin/category');
+                    header("location: " . BASE_URL . '/admin/category');
                 } else {
-                    header("location: ".BASE_URL.'/admin/category/edit/'.$ct_id);
+                    header("location: " . BASE_URL . '/admin/category/edit/' . $ct_id);
                 }
             } else {
-                header("location: ".BASE_URL.'/admin/category/edit/'.$ct_id);
+                header("location: " . BASE_URL . '/admin/category/edit/' . $ct_id);
             }
         }
+    }
+
+    public function active() {
+        if (isset($_POST['btn-ac-ct'])) {
+            if (!empty($_POST['checkbox'])) {
+                foreach (($_POST['checkbox']) as $check) {
+                    $result = Category::update_active($check, '1');
+                }
+            }
+        }
+        if (isset($_POST['btn-dac-ct'])) {
+            if (!empty($_POST['checkbox'])) {
+                foreach (($_POST['checkbox']) as $check) {
+                    Category::update_active($check, '0');
+                }
+            }
+        }
+
+        header("location: " . BASE_URL . '/admin/category');
+    }
+
+    public function sort() {
+        global $url;
+        $url = rtrim($url, "/");
+        $urlArray = array();
+        $urlArray = explode("/", $url);
+        $item = $urlArray[3];
+        
+        $order = $urlArray[4];
+        
+        
+        
+        if ($order == "asc") {
+            //$order = "desc";
+            $data = array(
+                'order' => "desc",
+                'lists' => Category::sort_item($item, $order)
+            );
+        } else {
+            //$order = "asc";
+            $data = array(
+                'order' => "asc",
+                'lists' => Category::sort_item($item, $order),
+                'page_links' => ''
+            );
+        }
+        
+        $data2['content'] = $this->view->load('list-category', $data);
+        $data2['title'] = 'List Category';
+        $this->view->loadTemplate('tempadmin', $data2);
     }
 
 }

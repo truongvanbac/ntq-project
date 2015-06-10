@@ -1,4 +1,5 @@
 <?php
+ob_start();
 /**
  * Template class
  */
@@ -42,5 +43,5 @@ class Template {
         }
     }
 }
-
+ob_flush();
 ?>

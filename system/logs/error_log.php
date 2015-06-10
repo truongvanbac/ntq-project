@@ -972,3 +972,148 @@ Stack trace:
 [10-Jun-2015 02:24:10 Asia/Ho_Chi_Minh] PHP Warning:  array_values() expects parameter 1 to be array, null given in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php on line 62
 [10-Jun-2015 02:24:10 Asia/Ho_Chi_Minh] PHP Warning:  implode(): Invalid arguments passed in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php on line 62
 [10-Jun-2015 02:24:10 Asia/Ho_Chi_Minh] PHP Warning:  Cannot modify header information - headers already sent by (output started at E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php:62) in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 82
+[10-Jun-2015 04:19:03 Asia/Ho_Chi_Minh] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S22]: Column not found: 1054 Unknown column 'sortASC' in 'order clause'' in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php:119
+Stack trace:
+#0 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php(119): PDO->query('select * from c...')
+#1 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php(122): Category::sort_item('sort', 'ASC')
+#2 [internal function]: CategoryController->sort()
+#3 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\index.php(60): call_user_func(Array)
+#4 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\index.php(98): callHook()
+#5 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\public\index.php(3): require_once('E:\\Bitnami\\Ruby...')
+#6 {main}
+  thrown in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php on line 119
+[09-Jun-2015 14:19:22 America/Los_Angeles] PHP Notice:  Undefined offset: 4 in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 115
+[10-Jun-2015 04:19:22 Asia/Ho_Chi_Minh] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S22]: Column not found: 1054 Unknown column 'ct_idASC' in 'order clause'' in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php:119
+Stack trace:
+#0 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php(119): PDO->query('select * from c...')
+#1 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php(122): Category::sort_item('ct_id', 'ASC')
+#2 [internal function]: CategoryController->sort()
+#3 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\index.php(60): call_user_func(Array)
+#4 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\index.php(98): callHook()
+#5 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\public\index.php(3): require_once('E:\\Bitnami\\Ruby...')
+#6 {main}
+  thrown in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php on line 119
+[09-Jun-2015 14:19:42 America/Los_Angeles] PHP Notice:  Undefined offset: 4 in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 115
+[09-Jun-2015 14:19:47 America/Los_Angeles] PHP Notice:  Undefined offset: 4 in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 115
+[09-Jun-2015 14:20:09 America/Los_Angeles] PHP Notice:  Undefined offset: 4 in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 115
+[09-Jun-2015 14:24:58 America/Los_Angeles] PHP Notice:  Undefined offset: 4 in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 115
+[10-Jun-2015 04:29:30 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: order in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 56
+[10-Jun-2015 04:31:01 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: desc in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 124
+[10-Jun-2015 04:31:05 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: desc in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 124
+[10-Jun-2015 04:32:15 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: order in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 56
+[10-Jun-2015 04:32:17 Asia/Ho_Chi_Minh] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S22]: Column not found: 1054 Unknown column 'br' in 'order clause'' in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php:119
+Stack trace:
+#0 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php(119): PDO->query('select * from c...')
+#1 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php(125): Category::sort_item('ct_id', '<br')
+#2 [internal function]: CategoryController->sort()
+#3 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\index.php(60): call_user_func(Array)
+#4 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\index.php(98): callHook()
+#5 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\public\index.php(3): require_once('E:\\Bitnami\\Ruby...')
+#6 {main}
+  thrown in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php on line 119
+[10-Jun-2015 04:33:03 Asia/Ho_Chi_Minh] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '>' at line 1' in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php:119
+Stack trace:
+#0 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php(119): PDO->query('select * from c...')
+#1 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php(125): Category::sort_item('ct_id', 'desc>')
+#2 [internal function]: CategoryController->sort()
+#3 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\index.php(60): call_user_func(Array)
+#4 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\index.php(98): callHook()
+#5 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\public\index.php(3): require_once('E:\\Bitnami\\Ruby...')
+#6 {main}
+  thrown in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php on line 119
+[10-Jun-2015 04:36:26 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: order in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 56
+[10-Jun-2015 04:36:44 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: order in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 56
+[10-Jun-2015 04:37:18 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: order in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 56
+[10-Jun-2015 04:37:58 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: order in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 56
+[10-Jun-2015 04:38:38 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: order in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 56
+[10-Jun-2015 04:42:45 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: order in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 56
+[10-Jun-2015 04:43:39 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: order in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 56
+[10-Jun-2015 04:43:49 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: order in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 56
+[10-Jun-2015 04:44:33 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: order in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 56
+[10-Jun-2015 04:44:39 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: order in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 56
+[10-Jun-2015 04:45:04 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: order in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 56
+[09-Jun-2015 14:45:06 America/Los_Angeles] PHP Notice:  Undefined variable: lists in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 65
+[09-Jun-2015 14:45:06 America/Los_Angeles] PHP Warning:  Invalid argument supplied for foreach() in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 65
+[10-Jun-2015 09:33:55 Asia/Ho_Chi_Minh] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'int) desc' at line 1' in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php:119
+Stack trace:
+#0 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php(119): PDO->query('select * from c...')
+#1 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php(129): Category::sort_item('ct_id', 'desc')
+#2 [internal function]: CategoryController->sort()
+#3 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\index.php(60): call_user_func(Array)
+#4 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\index.php(98): callHook()
+#5 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\public\index.php(3): require_once('E:\\Bitnami\\Ruby...')
+#6 {main}
+  thrown in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php on line 119
+[10-Jun-2015 09:36:55 Asia/Ho_Chi_Minh] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ct_id desc' at line 1' in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php:119
+Stack trace:
+#0 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php(119): PDO->query('select * from c...')
+#1 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php(129): Category::sort_item('ct_id', 'desc')
+#2 [internal function]: CategoryController->sort()
+#3 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\index.php(60): call_user_func(Array)
+#4 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\index.php(98): callHook()
+#5 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\public\index.php(3): require_once('E:\\Bitnami\\Ruby...')
+#6 {main}
+  thrown in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php on line 119
+[10-Jun-2015 09:37:08 Asia/Ho_Chi_Minh] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ct_name desc' at line 1' in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php:119
+Stack trace:
+#0 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php(119): PDO->query('select * from c...')
+#1 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php(129): Category::sort_item('ct_name', 'desc')
+#2 [internal function]: CategoryController->sort()
+#3 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\index.php(60): call_user_func(Array)
+#4 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\index.php(98): callHook()
+#5 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\public\index.php(3): require_once('E:\\Bitnami\\Ruby...')
+#6 {main}
+  thrown in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php on line 119
+[10-Jun-2015 09:45:10 Asia/Ho_Chi_Minh] PHP Warning:  Cannot modify header information - headers already sent by (output started at E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\lib\Template.class.php:35) in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 81
+[10-Jun-2015 09:45:41 Asia/Ho_Chi_Minh] PHP Warning:  Cannot modify header information - headers already sent by (output started at E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\lib\Template.class.php:35) in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 80
+[10-Jun-2015 09:46:25 Asia/Ho_Chi_Minh] PHP Warning:  Cannot modify header information - headers already sent by (output started at E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\lib\Template.class.php:35) in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 80
+[10-Jun-2015 09:47:36 Asia/Ho_Chi_Minh] PHP Warning:  Cannot modify header information - headers already sent by (output started at E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\lib\Template.class.php:35) in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 80
+[10-Jun-2015 09:47:58 Asia/Ho_Chi_Minh] PHP Warning:  Cannot modify header information - headers already sent by (output started at E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\lib\Template.class.php:35) in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 80
+[10-Jun-2015 09:48:43 Asia/Ho_Chi_Minh] PHP Warning:  Cannot modify header information - headers already sent by (output started at E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\lib\Template.class.php:35) in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 80
+[10-Jun-2015 09:49:22 Asia/Ho_Chi_Minh] PHP Warning:  Cannot modify header information - headers already sent by (output started at E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\lib\Template.class.php:35) in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 77
+[10-Jun-2015 09:50:08 Asia/Ho_Chi_Minh] PHP Warning:  Cannot modify header information - headers already sent by (output started at E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\lib\Template.class.php:35) in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 77
+[10-Jun-2015 09:51:23 Asia/Ho_Chi_Minh] PHP Warning:  Cannot modify header information - headers already sent by (output started at E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\lib\Template.class.php:35) in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 78
+[10-Jun-2015 09:51:48 Asia/Ho_Chi_Minh] PHP Warning:  Cannot modify header information - headers already sent by (output started at E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\lib\Template.class.php:35) in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 77
+[10-Jun-2015 09:53:12 Asia/Ho_Chi_Minh] PHP Warning:  Cannot modify header information - headers already sent by (output started at E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\lib\Template.class.php:35) in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 77
+[10-Jun-2015 09:53:59 Asia/Ho_Chi_Minh] PHP Warning:  Cannot modify header information - headers already sent by (output started at E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\lib\Template.class.php:35) in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 78
+[10-Jun-2015 09:54:54 Asia/Ho_Chi_Minh] PHP Warning:  Cannot modify header information - headers already sent by (output started at E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\lib\Template.class.php:38) in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 77
+[10-Jun-2015 09:55:07 Asia/Ho_Chi_Minh] PHP Warning:  Cannot modify header information - headers already sent by (output started at E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\lib\Template.class.php:38) in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 77
+[10-Jun-2015 09:55:27 Asia/Ho_Chi_Minh] PHP Warning:  Cannot modify header information - headers already sent by (output started at E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\lib\Template.class.php:35) in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 77
+[10-Jun-2015 10:19:39 Asia/Ho_Chi_Minh] PHP Warning:  Missing argument 1 for Category::get_list_category(), called in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 22 and defined in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php on line 10
+[10-Jun-2015 10:19:39 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: limit in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php on line 12
+[10-Jun-2015 10:21:03 Asia/Ho_Chi_Minh] PHP Warning:  Missing argument 1 for Category::get_list_category(), called in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 22 and defined in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php on line 10
+[10-Jun-2015 10:21:03 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: limit in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php on line 12
+[10-Jun-2015 10:21:18 Asia/Ho_Chi_Minh] PHP Warning:  Missing argument 1 for Category::get_list_category(), called in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 22 and defined in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php on line 10
+[10-Jun-2015 10:21:18 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: limit in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php on line 12
+[10-Jun-2015 10:22:08 Asia/Ho_Chi_Minh] PHP Warning:  Missing argument 1 for Category::get_list_category(), called in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 22 and defined in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php on line 10
+[10-Jun-2015 10:22:08 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: limit in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php on line 12
+[10-Jun-2015 10:22:59 Asia/Ho_Chi_Minh] PHP Warning:  Missing argument 1 for Category::get_list_category(), called in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 22 and defined in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php on line 10
+[10-Jun-2015 10:22:59 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: limit in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php on line 12
+[09-Jun-2015 20:29:02 America/Los_Angeles] PHP Notice:  A session had already been started - ignoring session_start() in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\check_login.class.php on line 2
+[09-Jun-2015 20:29:13 America/Los_Angeles] PHP Notice:  A session had already been started - ignoring session_start() in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\check_login.class.php on line 2
+[09-Jun-2015 20:29:16 America/Los_Angeles] PHP Notice:  A session had already been started - ignoring session_start() in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\check_login.class.php on line 2
+[10-Jun-2015 10:29:16 Asia/Ho_Chi_Minh] PHP Warning:  Cannot modify header information - headers already sent by (output started at E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\lib\Template.class.php:35) in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 82
+[10-Jun-2015 10:29:34 Asia/Ho_Chi_Minh] PHP Warning:  Cannot modify header information - headers already sent by (output started at E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\lib\Template.class.php:35) in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 82
+[10-Jun-2015 10:31:39 Asia/Ho_Chi_Minh] PHP Warning:  Cannot modify header information - headers already sent by (output started at E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\lib\Template.class.php:35) in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 82
+[10-Jun-2015 10:32:04 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: page_links in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 114
+[10-Jun-2015 10:33:06 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: pages in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 131
+[10-Jun-2015 10:33:06 Asia/Ho_Chi_Minh] PHP Fatal error:  Call to a member function page_links() on a non-object in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 131
+[10-Jun-2015 10:35:04 Asia/Ho_Chi_Minh] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ascLIMIT 0,10' at line 1' in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php:125
+Stack trace:
+#0 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php(125): PDO->query('select * from c...')
+#1 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php(135): Category::sort_item('ct_id', 'asc', 'LIMIT 0,10')
+#2 [internal function]: CategoryController->sort()
+#3 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\index.php(60): call_user_func(Array)
+#4 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\index.php(98): callHook()
+#5 E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\public\index.php(3): require_once('E:\\Bitnami\\Ruby...')
+#6 {mai in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\model\Category.class.php on line 125
+[10-Jun-2015 10:39:43 Asia/Ho_Chi_Minh] PHP Warning:  Cannot modify header information - headers already sent by (output started at E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\lib\Template.class.php:35) in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 82
+[10-Jun-2015 10:42:59 Asia/Ho_Chi_Minh] PHP Warning:  Cannot modify header information - headers already sent by (output started at E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\lib\Template.class.php:35) in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\controller\CategoryController.class.php on line 82
+[10-Jun-2015 10:51:12 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: page_links in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 114
+[10-Jun-2015 10:51:16 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: page_links in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 114
+[10-Jun-2015 10:51:30 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: page_links in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 114
+[10-Jun-2015 10:51:34 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: page_links in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 114
+[10-Jun-2015 10:51:43 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: page_links in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 114
+[10-Jun-2015 10:51:47 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: page_links in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 114
+[10-Jun-2015 10:51:51 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: page_links in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 114
+[10-Jun-2015 10:51:55 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: page_links in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 114

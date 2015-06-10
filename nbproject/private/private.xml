@@ -3,9 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Bitnami/Rubystack-2.0.0-24/apache2/htdocs/ntq-project/admin/controller/check_login.class.php</file>
+            <file>file:/E:/Bitnami/Rubystack-2.0.0-24/apache2/htdocs/ntq-project/admin/view/list-category.php</file>
+            <file>file:/E:/Bitnami/Rubystack-2.0.0-24/apache2/htdocs/ntq-project/lib/Model.class.php</file>
+            <file>file:/E:/Bitnami/Rubystack-2.0.0-24/apache2/htdocs/ntq-project/admin/view/add-category.php</file>
+            <file>file:/E:/Bitnami/Rubystack-2.0.0-24/apache2/htdocs/ntq-project/admin/model/Category.class.php</file>
             <file>file:/E:/Bitnami/Rubystack-2.0.0-24/apache2/htdocs/ntq-project/admin/controller/CategoryController.class.php</file>
-            <file>file:/E:/Bitnami/Rubystack-2.0.0-24/apache2/htdocs/ntq-project/admin/controller/LoginController.class.php</file>
         </group>
     </open-files>
 </project-private>

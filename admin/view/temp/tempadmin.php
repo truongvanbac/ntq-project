@@ -6,6 +6,7 @@ includeStyle('icons.css');
 includeStyle('login.css');
 includeStyle('stylesheet.css');
 includeStyle('stylesheets.css');
+includeStyle('pagination.css');
 includeScript('jquery-2.1.3.min.js');
 endHeader();
 ?>

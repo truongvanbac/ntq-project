@@ -7,13 +7,24 @@ class Category extends Model {
     protected static $tableName = 'category';
     protected static $primaryKey = 'ct_id';
 
-    public static function get_list_category() {
+    public static function get_list_category($limit) {
         $db = Database::getInstance();
-        $query = "select * from category";
+        $query = "select * from category " . $limit;
         $s = $db->query($query);
         $result = $s->fetchAll();
         return $result;
     }
+    
+    public static function count() {
+        $db = Database::getInstance();
+        $query = "select count(ct_id) from category";
+        $s = $db->query($query);
+        $result = $s->fetchColumn();
+        return $result;
+    }
+    
+    
+    
 
     public static function add_category($ct_name, $ct_status) {
         $db = Database::getInstance();
@@ -60,11 +71,6 @@ class Category extends Model {
         );
         
         $name = implode('', array_values($data3['name']));
-        
-//        $check = "select count(ct_name) from category where ct_name = :ct_name";
-//        $s = $db->prepare($check);
-//        $s->execute($data2);
-//        $count = $s->fetchColumn();
         $count = Category::count_colum('ct_name', $data2);
         if (($count == 0) || (($count == 1) && ($ct_name == $name))) {
             $query = "UPDATE category SET ct_name = :ct_name, ct_status = :ct_status,"
@@ -92,5 +98,33 @@ class Category extends Model {
         $s->execute($data);
         return $s->fetchColumn();
     }
+    
+    
+    public static function update_active($ct_id, $value) {
+        $db = Database::getInstance();
+        $data = array(
+            ':ct_status' => $value,
+            ':ct_id' => $ct_id,
+            ':ct_time_update' => date("Y-m-d h:i:s")
+                
+        );
+        
+        $query = "update category SET ct_status = :ct_status, ct_time_update = :ct_time_update where ct_id = :ct_id";
+        $s = $db->prepare($query);
+        $result = $s->execute($data);
+        if($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public static function sort_item($item, $typesort) {
+        $db = Database::getInstance();
+        $query = "select * from category order by ". $item ." ".$typesort;
+        $result = $db->query($query);
+        return $result->fetchAll();
+    }
+    
 
 }
