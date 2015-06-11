@@ -1117,3 +1117,6 @@ Stack trace:
 [10-Jun-2015 10:51:47 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: page_links in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 114
 [10-Jun-2015 10:51:51 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: page_links in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 114
 [10-Jun-2015 10:51:55 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: page_links in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 114
+[10-Jun-2015 11:14:09 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: page_links in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 114
+[10-Jun-2015 11:14:26 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: page_links in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 114
+[10-Jun-2015 11:14:42 Asia/Ho_Chi_Minh] PHP Notice:  Undefined variable: page_links in E:\Bitnami\Rubystack-2.0.0-24\apache2\htdocs\ntq-project\admin\view\list-category.php on line 114
