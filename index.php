@@ -1,6 +1,7 @@
 <?php
 define('ROOT',dirname(realpath(__FILE__)) . "/");
 define('BASE_URL', 'http://localhost/ntq-project');
+define('DIR_UPLOAD', ROOT . 'public/uploads/');
 
 include(ROOT . 'system/configs/config.php');
 include(ROOT . 'lib/functions.php');
@@ -78,22 +79,8 @@ function __autoload($className) {
     }
 }
 
-function unregisterGlobals() {
-    if (ini_get('register_globals')) {
-        $array = array('_SESSION', '_POST', '_GET', '_COOKIE', '_REQUEST', '_SERVER', '_ENV', '_FILES');
-        foreach ($array as $value) {
-            foreach ($GLOBALS[$value] as $key => $var) {
-                if ($var === $GLOBALS[$key]) {
-                    unset($GLOBALS[$key]);
-                }
-            }
-        }
-    }
-}
-
 
 $area = "home";
-unregisterGlobals();
 setErrorLogging();
 callHook();
 

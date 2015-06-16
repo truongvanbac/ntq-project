@@ -20,7 +20,7 @@
 <div class="breadLine">
 
     <ul class="breadcrumb">
-        <li><a href="list-categories.html">List Categories</a></li>
+        <li><a href="<?php echo BASE_URL . '/admin/category'?>">List Categories</a></li>
     </ul>
 
 </div>
@@ -47,7 +47,7 @@
                 <div class="clear"></div>
             </div>
             <div class="block-fluid table-sorting">
-                <a href="category/add" class="btn btn-add">Add Category</a>
+                <a href="<?php echo BASE_URL?>/admin/category/add" class="btn btn-add">Add Category</a>
                 <form action="<?php echo BASE_URL ?>/admin/category/active" method="POST">
                     <table cellpadding="0" cellspacing="0" width="100%" class="table" id="tSortable_2">
                         <thead>

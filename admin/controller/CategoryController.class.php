@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 class CategoryController extends Controller {
 
     private $data2 = array(
@@ -7,26 +7,24 @@ class CategoryController extends Controller {
         'content' => '',
         'message' => ''
     );
-
+    
     public function __construct() {
         parent::__construct();
-        Check_login::check();
-        //print_r($_SESSION);
+        if(empty($_SESSION['log'])) {
+            header('location : login');
+        }
     }
 
     public function index() {
-        $pages = new Pagination('10', 'p');
+        $pages = new Pagination('10', 'page');
         $pages->set_total(Category::count());
-        //var_dump(Category::count());
         
         $data = array(
             'lists' => Category::get_list_category($pages->get_limit()),
             'order' => "desc",
             'page_links' => $pages->page_links()
         );
-//        echo "<pre>";
-//        var_dump($data['lists']);
-//        echo "</pre>";
+        
         $data2['content'] = $this->view->load('list-category', $data);
         $data2['title'] = 'List Category';
         $this->view->loadTemplate('tempadmin', $data2);
@@ -93,7 +91,7 @@ class CategoryController extends Controller {
         if (isset($_POST['btn-ac-ct'])) {
             if (!empty($_POST['checkbox'])) {
                 foreach (($_POST['checkbox']) as $check) {
-                    $result = Category::update_active($check, '1');
+                    Category::update_active($check, '1');
                 }
             }
         }
@@ -118,21 +116,24 @@ class CategoryController extends Controller {
         $order = $urlArray[4];
         
         
+        $pages = new Pagination('10', 'page');
+        $pages->set_total(Category::count());
         
         if ($order == "asc") {
-            //$order = "desc";
             $data = array(
                 'order' => "desc",
-                'lists' => Category::sort_item($item, $order)
+                'lists' => Category::sort_item($item, $order, $pages->get_limit()),
+                'page_links' => $pages->page_links()
             );
         } else {
             //$order = "asc";
             $data = array(
                 'order' => "asc",
-                'lists' => Category::sort_item($item, $order),
-                'page_links' => ''
+                'lists' => Category::sort_item($item, $order, $pages->get_limit()),   
+                'page_links' => $pages->page_links()
             );
         }
+        
         
         $data2['content'] = $this->view->load('list-category', $data);
         $data2['title'] = 'List Category';

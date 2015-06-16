@@ -24,7 +24,6 @@ class Category extends Model {
     }
     
     
-    
 
     public static function add_category($ct_name, $ct_status) {
         $db = Database::getInstance();
@@ -37,11 +36,7 @@ class Category extends Model {
         $data2 = array(
             ':ct_name' => $ct_name
         );
-
-//        $check = "select count(ct_name) from category where ct_name = :ct_name";
-//        $s = $db->prepare($check);
-//        $s->execute($data2);
-//        $count = $s->fetchColumn();
+        
         $count = self::count_colum('ct_name', $data2);
         if ($count == 0) {
             $query = "INSERT INTO category(ct_name, ct_status, ct_time_created) VALUES(:ct_name, :ct_status, :time)";
@@ -119,9 +114,9 @@ class Category extends Model {
         }
     }
     
-    public static function sort_item($item, $typesort) {
+    public static function sort_item($item, $typesort, $limit) {
         $db = Database::getInstance();
-        $query = "select * from category order by ". $item ." ".$typesort;
+        $query = "select * from category order by ". $item ." ".$typesort . " " . $limit;
         $result = $db->query($query);
         return $result->fetchAll();
     }

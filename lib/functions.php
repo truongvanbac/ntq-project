@@ -47,4 +47,9 @@ function getFooter() {
     echo "\n</body>\n</html>";
 }
 
+function getImage($imgName) {
+    $path =BASE_URL . "/public/uploads/" . $imgName;
+    echo $path;
+}
+
 ?>

@@ -1,7 +1,25 @@
+<?php includeScript('jquery-2.1.3.min.js') ?>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#checkAll").click(function() {
+            if (this.checked) {
+                $('.case').each(function() {
+                    this.checked = true;
+                });
+            } else {
+                $('.case').each(function() {
+                    this.checked = false;
+                });
+            }
+        });
+
+    });
+</script>
+
 <div class="breadLine">
 
     <ul class="breadcrumb">
-        <li><a href="list-users.html">List Users</a></li>
+        <li><a href="<?php echo BASE_URL . '/admin/user'?>">List Users</a></li>
     </ul>
 
 </div>
@@ -28,125 +46,68 @@
                 <div class="clear"></div>
             </div>
             <div class="block-fluid table-sorting">
-                <a href="add-user.html" class="btn btn-add">Add User</a>
+                <a href="<?php echo BASE_URL . '/admin/user/add'?>" class="btn btn-add">Add User</a>
+                 <form action="<?php echo BASE_URL ?>/admin/user/active" method="POST">
                 <table cellpadding="0" cellspacing="0" width="100%" class="table" id="tSortable_2">
                     <thead>
                         <tr>
                             <th><input type="checkbox" id="checkAll"/></th>
-                            <th width="15%" class="sorting"><a href="#">ID</a></th>
-                            <th width="35%" class="sorting"><a href="#">Username</a></th>
-                            <th width="20%" class="sorting"><a href="#">Activate</a></th>
-                            <th width="10%" class="sorting"><a href="#">Time Created</a></th>
-                            <th width="10%" class="sorting"><a href="#">Time Updated</a></th>
+                            <th width="15%" class="sorting"><a href="<?php echo BASE_URL ?>/admin/user/sort/user_id/<?php echo $order; ?>">ID</a></th>
+                            <th width="35%" class="sorting"><a href="<?php echo BASE_URL ?>/admin/user/sort/username/<?php echo $order; ?>">Username</a></th>
+                            <th width="20%" class="sorting"><a href="<?php echo BASE_URL ?>/admin/user/sort/status/<?php echo $order; ?>">Activate</a></th>
+                            <th width="10%" class="sorting"><a href="<?php echo BASE_URL ?>/admin/user/sort/user_time_created/<?php echo $order; ?>">Time Created</a></th>
+                            <th width="10%" class="sorting"><a href="<?php echo BASE_URL ?>/admin/user/sort/user_time_updated/<?php echo $order; ?>">Time Updated</a></th>
                             <th width="10%">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><input type="checkbox" name="checkbox"/></td>
-                            <td>1</td>
-                            <td>User 1</td>
-                            <td><span class="text-success">Activated</span></td>
-                            <td>15:00 05/10/2014</td>
-                            <td>15:00 05/10/2014</td>
-                            <td><a href="edit-user.html" class="btn btn-info">Edit</a></td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" name="checkbox"/></td>
-                            <td>2</td>
-                            <td>User 2</td>
-                            <td><span class="text-success">Activated</span></td>
-                            <td>15:00 05/10/2014</td>
-                            <td>15:00 05/10/2014</td>
-                            <td><a href="edit-user.html" class="btn btn-info">Edit</a></td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" name="checkbox"/></td>
-                            <td>3</td>
-                            <td>User 3</td>
-                            <td><span class="text-success">Activated</span></td>
-                            <td>15:00 05/10/2014</td>
-                            <td>15:00 05/10/2014</td>
-                            <td><a href="edit-user.html" class="btn btn-info">Edit</a></td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" name="checkbox"/></td>
-                            <td>4</td>
-                            <td>User 4</td>
-                            <td><span class="text-success">Activated</span></td>
-                            <td>15:00 05/10/2014</td>
-                            <td>15:00 05/10/2014</td>
-                            <td><a href="edit-user.html" class="btn btn-info">Edit</a></td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" name="checkbox"/></td>
-                            <td>5</td>
-                            <td>User 6</td>
-                            <td><span class="text-error">Deactivate</span></td>
-                            <td>15:00 05/10/2014</td>
-                            <td>15:00 05/10/2014</td>
-                            <td><a href="edit-user.html" class="btn btn-info">Edit</a></td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" name="checkbox"/></td>
-                            <td>6</td>
-                            <td>User 6</td>
-                            <td><span class="text-success">Activated</span></td>
-                            <td>15:00 05/10/2014</td>
-                            <td>15:00 05/10/2014</td>
-                            <td><a href="edit-user.html" class="btn btn-info">Edit</a></td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" name="checkbox"/></td>
-                            <td>7</td>
-                            <td>User 7</td>
-                            <td><span class="text-error">Deactivate</span></td>
-                            <td>15:00 05/10/2014</td>
-                            <td>15:00 05/10/2014</td>
-                            <td><a href="edit-user.html" class="btn btn-info">Edit</a></td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" name="checkbox"/></td>
-                            <td>8</td>
-                            <td>User 8</td>
-                            <td><span class="text-success">Activated</span></td>
-                            <td>15:00 05/10/2014</td>
-                            <td>15:00 05/10/2014</td>
-                            <td><a href="edit-user.html" class="btn btn-info">Edit</a></td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" name="checkbox"/></td>
-                            <td>9</td>
-                            <td>User 9</td>
-                            <td><span class="text-error">Deactivate</span></td>
-                            <td>15:00 05/10/2014</td>
-                            <td>15:00 05/10/2014</td>
-                            <td><a href="edit-user.html" class="btn btn-info">Edit</a></td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" name="checkbox"/></td>
-                            <td>10</td>
-                            <td>User 10</td>
-                            <td><span class="text-success">Activated</span></td>
-                            <td>15:00 05/10/2014</td>
-                            <td>15:00 05/10/2014</td>
-                            <td><a href="edit-user.html" class="btn btn-info">Edit</a></td>
-                        </tr>
+                        <?php foreach ($lists as $list) { ?>
+                            <tr>
+                                <td><input class="case" type="checkbox" value="<?php echo $list['user_id']; ?>" name="checkbox[]"/></td>
+                                <td><?php echo $list['user_id'] ?></td>
+                                <td><?php echo $list['username'] ?></td>
+                                <td>
+                                    <?php
+                                    if ($list['status'] == 1) {
+                                        echo "<span class='text-success'>Activated</span>";
+                                    } else {
+                                        echo "<span class='text-error'>Deactive</span>";
+                                    }
+                                    ?>
+                                </td>
+
+                                <td>
+                                    <?php
+                                    $date1 = date_create($list['user_time_created']);
+                                    echo date_format($date1, "h:i:s d/m/Y");
+                                    ?>
+                                </td>
+
+
+                                <td>
+                                    <?php
+                                    $a = $list['user_time_updated'];
+                                    if ($a == '') {
+                                        echo $a;
+                                    } else {
+                                        echo date_format(date_create($a), "h:i:s d/m/Y");
+                                    }
+                                    //echo $a;
+                                    ?>
+                                </td>
+
+                                <td><a href="<?php echo BASE_URL ?>/admin/user/edit/<?php echo $list['user_id'] ?>" class="btn btn-info">Edit</a></td>
+                            </tr>
+                        <?php } ?>
                     </tbody>
                 </table>
                 <div class="bulk-action">
-                    <a href="#" class="btn btn-success">Activate</a>
-                    <a href="#" class="btn btn-danger">Delete</a>
+                    <input type="submit" class="btn btn-success" name="btn-ac-user" value="Activate">
+                    <input type="submit" class="btn btn-danger" name="btn-dac-user" value="Deactive">
                 </div><!-- /bulk-action-->
+                 </form>
                 <div class="dataTables_paginate">
-                    <a class="first paginate_button paginate_button_disabled" href="#">First</a>
-                    <a class="previous paginate_button paginate_button_disabled" href="#">Previous</a>
-                    <span>
-                        <a class="paginate_active" href="#">1</a>
-                        <a class="paginate_button" href="#">2</a>
-                    </span>
-                    <a class="next paginate_button" href="#">Next</a>
-                    <a class="last paginate_button" href="#">Last</a>
+                    <?php echo $page_links; ?>
                 </div>
                 <div class="clear"></div>
             </div>
