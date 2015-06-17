@@ -2,11 +2,15 @@
 session_start();
 
 class ProductController extends Controller {
+
+    //Biến $data2 lưu trữ dữ liệu xuất ra view
     private $data2 = array(
         'title' => '',
         'content' => '',
         'message' => ''
     );
+
+    //Hàm khoeir tạo
     public function __construct() {
         parent::__construct();
         if(empty($_SESSION['log'])) {
@@ -14,6 +18,8 @@ class ProductController extends Controller {
         }
     }
     
+
+    //Trang hiển thị danh sách products
     public function index() {
         $pages = new Pagination('10', 'page');
         $pages->set_total(Product::count());
@@ -29,6 +35,8 @@ class ProductController extends Controller {
         $this->view->loadTemplate('tempadmin', $data2);
     }
     
+
+    //Thêm mới một product
     public function add() {
         $data = array(
             
@@ -64,7 +72,7 @@ class ProductController extends Controller {
         }
     }
     
-    
+    //Sủa product
     public function edit() {
         global $url;
         $url = rtrim($url, "/");
@@ -105,7 +113,7 @@ class ProductController extends Controller {
         }
     }
     
-    
+    //Update active
     public function active() {
         if (isset($_POST['btn-ac-pd'])) {
             if (!empty($_POST['checkbox'])) {
@@ -125,7 +133,9 @@ class ProductController extends Controller {
         header("location: " . BASE_URL . '/admin/product');
     }
     
-    
+
+
+    //Sắp xếp
     public function sort() {
         global $url;
         $url = rtrim($url, "/");
@@ -157,6 +167,21 @@ class ProductController extends Controller {
         
         $data2['content'] = $this->view->load('list-product', $data);
         $data2['title'] = 'List Product';
+        $this->view->loadTemplate('tempadmin', $data2);
+    }
+
+    public function getDataSearched() {
+        if(isset($_POST['btn-search-pd'])) {
+            if($_POST['search'] != '') {
+                $string = $_POST['search'];
+                $data = array(
+                    'lists' => Product::searching_process($string)
+                );
+            }
+        }
+
+        $data2['content'] = $this->view->load('list-product', $data);
+        $data2['title'] = 'Data searching';
         $this->view->loadTemplate('tempadmin', $data2);
     }
     

@@ -1,11 +1,12 @@
-<?php includeScript('jquery-2.1.3.min.js') ?>
+<?php 
+includeScript('jquery-2.1.3.min.js');
+?>
 <script type="text/javascript">
     $(document).ready(function() {
         $("#checkAll").click(function() {
             if (this.checked) {
                 $('.case').each(function() {
                     this.checked = true;
-                    //alert('.case').val();
                 });
             } else {
                 $('.case').each(function() {
@@ -13,9 +14,10 @@
                 });
             }
         });
-
     });
 </script>
+
+
 
 <div class="breadLine">
 
@@ -29,9 +31,9 @@
 
     <div class="row-fluid">
         <div class="span12 search">
-            <form>
+            <form action="<?php echo BASE_URL . '/admin/category/getDataSearched'?>" method="POST">
                 <input type="text" class="span11" placeholder="Some text for search..." name="search"/>
-                <button class="btn span1" type="submit">Search</button>
+                <button class="btn span1" type="submit" name="btn-search-ct">Search</button>
             </form>
         </div>
     </div>

@@ -5,13 +5,10 @@ ob_start();
  */
 class Template {
 	
-    
-    public function __construct() {
-    }
-    
     private $__content = array();
     private $__content2 = array();
     
+    //Load view
     public function load($view, $data = array()) {
         extract($data);
         ob_start();
@@ -23,7 +20,7 @@ class Template {
         return $content;
     }
     
-    
+    //Load template
     public function loadTemplate($view, $data = array()) {
         extract($data);
         ob_start();
@@ -37,6 +34,7 @@ class Template {
         }
     }
     
+    //Show view
     public function show() {
         foreach ($this->__content as $html) {
             echo $html;

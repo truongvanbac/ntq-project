@@ -6,10 +6,12 @@ class Controller {
 	
     protected $view = NULL;
     public function __construct() {   
-        $this->view = new Template();
+        $this->view = new Template();       //Khởi tạo template
     }
     
-    public function uploadImg($file) {
+
+    //Uploda image
+    protected function uploadImg($file) {
         $target_dir = DIR_UPLOAD;
         $target_file = $target_dir . basename($file['name']);
         $uploadOk = true;
@@ -33,6 +35,8 @@ class Controller {
         }
         
     }
+
+    
 }
 
 ?>

@@ -2,12 +2,10 @@
 session_start();
 class CategoryController extends Controller {
 
-    private $data2 = array(
-        'title' => '',
-        'content' => '',
-        'message' => ''
-    );
+    //Lưu trữ nội dung truyền đến template
+    private $data2 = array();
     
+    //Hàm khởi tạo
     public function __construct() {
         parent::__construct();
         if(empty($_SESSION['log'])) {
@@ -15,10 +13,13 @@ class CategoryController extends Controller {
         }
     }
 
+    //Trang category, hiển thị danh sách tất cả các category
     public function index() {
-        $pages = new Pagination('10', 'page');
-        $pages->set_total(Category::count());
+        $pages = new Pagination('10', 'page');  //Khởi tạo phân trang
+        $pages->set_total(Category::count());   //Sét tổng số phần tử của trang
         
+
+        //Biến $data lưu trữ dữ liệu truyền đến view
         $data = array(
             'lists' => Category::get_list_category($pages->get_limit()),
             'order' => "desc",
@@ -30,8 +31,11 @@ class CategoryController extends Controller {
         $this->view->loadTemplate('tempadmin', $data2);
     }
 
+
+
+    //Thêm category
     public function add() {
-        static $data = array(
+        $data = array(
             'message' => ''
         );
         $data2['content'] = $this->view->load('add-category', $data);
@@ -55,15 +59,17 @@ class CategoryController extends Controller {
         }
     }
 
+
+    //Chỉnh sửa category
     public function edit() {
         global $url;
         $url = rtrim($url, "/");
         $urlArray = array();
-        $urlArray = explode("/", $url);
-        $ct_id = $urlArray[3];
+        $urlArray = explode("/", $url);     //Tách url thành mảng
+        $ct_id = $urlArray[3];      //Lấy id category
 
         $data = array(
-            'edit_name' => Category::get_name_ct($ct_id)
+            'edit_name' => Category::getCategory($ct_id)
         );
         
         $data2['content'] = $this->view->load('edit-category', $data);
@@ -87,6 +93,7 @@ class CategoryController extends Controller {
         }
     }
 
+    //Update active các phần tử
     public function active() {
         if (isset($_POST['btn-ac-ct'])) {
             if (!empty($_POST['checkbox'])) {
@@ -106,6 +113,7 @@ class CategoryController extends Controller {
         header("location: " . BASE_URL . '/admin/category');
     }
 
+    //Sắp xếp
     public function sort() {
         global $url;
         $url = rtrim($url, "/");
@@ -140,4 +148,30 @@ class CategoryController extends Controller {
         $this->view->loadTemplate('tempadmin', $data2);
     }
 
+    //Tìm kiếm dữ liệu
+    public function getDataSearched() {
+        
+
+        if(isset($_POST['btn-search-ct'])) {
+            if($_POST['search'] != '') {
+                $string = $_POST['search'];
+                //$array = Category::seaching_process($string);
+                $totalRecord = Category::seaching_process($string)['count'];
+                $pages = new Pagination('1', 'page');
+                $pages->set_total($totalRecord);
+                $data = array(
+                    'lists' => Category::seaching_process($string, $pages->get_limit())['result'],
+                    'page_links' => $pages->page_links()
+                );
+            }
+            //var_dump($data['lists']);
+            // echo '<pre>';
+            // var_dump($totalRecord);
+            // echo '</pre>';
+        }
+
+        $data2['content'] = $this->view->load('list-category', $data);
+        $data2['title'] = 'Data Searching Category';
+        $this->view->loadTemplate('tempadmin', $data2);
+    }
 }

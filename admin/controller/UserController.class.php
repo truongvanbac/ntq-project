@@ -3,20 +3,25 @@ session_start();
 
 class UserController extends Controller {
     
+    // Biến $data2 lưu trữ dữ liệu truyền ra view
    private $data2 = array(
         'title' => '',
         'content' => ''
     );
+
+   //Hầm khỏi tạo
     public function __construct() {
         parent::__construct();
     }
     
+
+    //Trang hiển thị danh sách user
     public function index() {
         $pages = new Pagination('10', 'page');
-        $pages->set_total(User::count(0));
+        $pages->set_total(User::count());
         
         $data = array(
-            'lists' => User::getAll(0, $pages->get_limit()),
+            'lists' => User::getAll($pages->get_limit()),
             'order' => "desc",
             'page_links' => $pages->page_links()
         );
@@ -26,6 +31,7 @@ class UserController extends Controller {
         $this->view->loadTemplate('tempadmin', $data2);
     }
     
+    //Thêm user
     public function add() {
         $data = array(
             
@@ -55,6 +61,8 @@ class UserController extends Controller {
         }
     }
     
+
+    //Sửa user 
     public function edit() {
         global $url;
         $url = rtrim($url, "/");
@@ -96,6 +104,8 @@ class UserController extends Controller {
         }
     }
     
+
+    //Update active
     public function active() {
         if (isset($_POST['btn-ac-user'])) {
             if (!empty($_POST['checkbox'])) {
@@ -115,6 +125,7 @@ class UserController extends Controller {
         header("location: " . BASE_URL . '/admin/user');
     }
     
+    //Sắp xếp
     public function sort() {
         global $url;
         $url = rtrim($url, "/");
@@ -126,7 +137,7 @@ class UserController extends Controller {
         
         
         $pages = new Pagination('10', 'page');
-        $pages->set_total(User::count(0));
+        $pages->set_total(User::count());
         
         if ($order == "asc") {
             $data = array(

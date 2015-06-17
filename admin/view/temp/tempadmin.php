@@ -8,6 +8,7 @@ includeStyle('stylesheet.css');
 includeStyle('stylesheets.css');
 includeStyle('pagination.css');
 includeScript('jquery-2.1.3.min.js');
+includeScript('checkBox.js');
 endHeader();
 ?>
 

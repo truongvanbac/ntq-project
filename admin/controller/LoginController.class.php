@@ -8,6 +8,7 @@ session_start();
 
 class LoginController extends Controller {
 
+    //Hàm khởi tạo
     public function __construct() {
         parent::__construct();
         if(!empty($_SESSION['log'])) {
@@ -15,7 +16,7 @@ class LoginController extends Controller {
         }
     }
     
-    
+    //Đăng nhập
     public function index() {
         
         $data = array(
@@ -42,10 +43,8 @@ class LoginController extends Controller {
 
                     if (isset($_POST['remember'])) {
                         setcookie('username', $username, time() + 60 * 60 * 24 * 365);
-                        setcookie('password', md5($password), time() + 60 * 60 * 24 * 365);
                     } else {
                         setcookie('username', $username, time() - 60 * 60 * 24 * 365);
-                        setcookie('password', md5($password), time() - 60 * 60 * 24 * 365);
                     }
 
                     header("location: category");
@@ -56,11 +55,10 @@ class LoginController extends Controller {
         }
     }
 
+    //Đăng xuất
     public function logout() {
-        session_start();
         session_unset();
         setcookie('username', $username, time() - 60 * 60 * 24 * 365);
-        setcookie('password', md5($password), time() - 60 * 60 * 24 * 365);
         header("location: ../login");
     }
 

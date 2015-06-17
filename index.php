@@ -1,12 +1,14 @@
 <?php
-define('ROOT',dirname(realpath(__FILE__)) . "/");
-define('BASE_URL', 'http://localhost/ntq-project');
-define('DIR_UPLOAD', ROOT . 'public/uploads/');
+define('ROOT',dirname(realpath(__FILE__)) . "/");   //Đường dẫn đến thư mục chứa project
+define('BASE_URL', 'http://localhost/ntq-project'); //Base url 
+define('DIR_UPLOAD', ROOT . 'public/uploads/');     //Đường dẫn đến thư mục uploads hình ảnh
 
-include(ROOT . 'system/configs/config.php');
-include(ROOT . 'lib/functions.php');
+include(ROOT . 'system/configs/config.php');    //Include file config
+include(ROOT . 'lib/functions.php');    //Include function dùng chung
 
+@$url = $_GET['url'];   //Lấy url
 
+//Set error log
 function setErrorLogging(){
     if(DEVELOPMENT_ENVIRONMENT == true) {
         error_reporting(E_ALL);
@@ -19,13 +21,13 @@ function setErrorLogging(){
     ini_set('error_log',ROOT . 'system/logs/error_log.php');
 }
 
-
-function callHook() {
+//Load controller và action
+function load() {
     global $url;
     global $area;
     $url = rtrim($url,"/");
     $urlArray = array();
-    $urlArray = explode("/",$url);
+    $urlArray = explode("/",$url);  //Tách chuỗi url thành mảng
     
     $controller = DEFAULT_CONROLLER;
     $action = DEFAULT_ACTION;
@@ -37,12 +39,12 @@ function callHook() {
     }
     
     
-    if(isset($urlArray[0]) && !empty($urlArray[0])) {
+    if(!empty($urlArray[0])) {
         $controller = array_shift($urlArray);
     }
     
     
-    if(isset($urlArray[0]) && !empty($urlArray[0])) {
+    if(!empty($urlArray[0])) {
         $action = array_shift($urlArray);
     }
     
@@ -64,6 +66,7 @@ function callHook() {
     }
 }
 
+//Autoload các calss
 function __autoload($className) {
     $paths = array(
         ROOT."/lib/",
@@ -79,9 +82,8 @@ function __autoload($className) {
     }
 }
 
-
 $area = "home";
 setErrorLogging();
-callHook();
+load();
 
 
