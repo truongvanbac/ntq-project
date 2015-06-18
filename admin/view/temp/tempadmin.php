@@ -30,7 +30,7 @@ endHeader();
 
     <div class="admin">
         <div class="image">
-            <img src="<?php echo includeImage('users/', 'avatar.jpg') ?>" class="img-polaroid"/>
+            <img src="<?php getImage($oldUser['user_img'])?>" class="img-polaroid"/>
         </div>
         <ul class="control">
             <li><span class="icon-cog"></span> <a href="<?php echo BASE_URL . '/admin/user/edit/1'?>">Update Profile</a></li>

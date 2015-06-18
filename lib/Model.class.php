@@ -46,13 +46,12 @@ class Model {
     }
 
     //Đếm số record
-    protected static function countRowOfColumn($tableName, $column, $value) {
+    protected static function countRowByColumn($tableName, $column, $value) {
         $db = Database::getInstance();
-        $query = "select count($column) from $tableName where $column = '" . $value . "'";
-        var_dump($query);
-        $s = $db->prepare($query);
-        $s->execute();
-        return $s->rowCount();
+        $query = "select count($column) from " . $tableName ." where $column = '" . $value . "'";
+        $s = $db->query($query);
+        $result = $s->fetchColumn();
+        return $result;
     }
 
     //Lấy category theo id
@@ -88,5 +87,39 @@ class Model {
         // var_dump($dataResult);
         // echo '</pre>';
         return $dataResult;
+    }
+
+    //Function insert dữ liệu vào bảng
+    protected static function insertDataToTable($tableName, $data = array()) {
+        $db = Database::getInstance();
+        $query = "INSERT INTO " . $tableName . "(";
+        foreach ($data as $key => $value) {
+            $query .= $key . ", ";
+        }
+
+        $query = rtrim($query, ' ,');
+        $query .= ") VALUES(";
+        foreach ($data as $key => $value) {
+            $query .= ":" . $key . ", ";
+        }
+
+        $query = rtrim($query, ' ,');
+        $query .= ")";
+        
+        $s = $db->prepare($query);
+        $s->execute($data);
+    }
+
+    //Function update dữ liệu của bảng
+    protected static function updateDataInTable($tableName, $id, $column, $data = array()) {
+        $db = Database::getInstance();
+        $query = "UPDATE " . $tableName . " SET ";
+        foreach ($data as $key => $value) {
+            $query .= $key . " = :" . $key . ", "; 
+        }
+        $query = rtrim($query, ' ,');
+        $query .= " WHERE " . $column . " = " . $id;
+        $s = $db->prepare($query);
+        $s->execute($data);
     }
 }

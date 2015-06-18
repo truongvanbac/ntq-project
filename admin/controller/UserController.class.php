@@ -159,7 +159,31 @@ class UserController extends Controller {
         $data2['title'] = 'List User';
         $this->view->loadTemplate('tempadmin', $data2);
     }
+
+    //Tìm kiếm dữ liệu
+    public function getDataSearched() {
+        
+
+        if(isset($_POST['btn-search-user'])) {
+            if($_POST['search'] != '') {
+                $string = $_POST['search'];
+                //$array = Category::seaching_process($string);
+                $totalRecord = User::seaching_process($string)['count'];
+                $pages = new Pagination('10', 'page');
+                $pages->set_total($totalRecord);
+                $data = array(
+                    'lists' => User::seaching_process($string, $pages->get_limit())['result'],
+                    'page_links' => $pages->page_links()
+                );
+            }
+            //var_dump($data['lists']);
+            // echo '<pre>';
+            // var_dump($totalRecord);
+            // echo '</pre>';
+        }
+
+        $data2['content'] = $this->view->load('list-user', $data);
+        $data2['title'] = 'Data Searching User';
+        $this->view->loadTemplate('tempadmin', $data2);
+    }
 }
-
-
-

@@ -28,9 +28,9 @@
 
     <div class="row-fluid">
         <div class="span12 search">
-            <form>
+            <form method="post" action="<?php echo BASE_URL . '/admin/user/getDataSearched'?>">
                 <input type="text" class="span11" placeholder="Some text for search..." name="search"/>
-                <button class="btn span1" type="submit">Search</button>
+                <button class="btn span1" type="submit" name = "btn-search-user">Search</button>
             </form>
         </div>
     </div>

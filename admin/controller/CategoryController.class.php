@@ -3,7 +3,9 @@ session_start();
 class CategoryController extends Controller {
 
     //Lưu trữ nội dung truyền đến template
-    private $data2 = array();
+    private $data2 = array(
+        'oldUser' => User::getUser('1')
+    );
     
     //Hàm khởi tạo
     public function __construct() {
@@ -157,7 +159,7 @@ class CategoryController extends Controller {
                 $string = $_POST['search'];
                 //$array = Category::seaching_process($string);
                 $totalRecord = Category::seaching_process($string)['count'];
-                $pages = new Pagination('1', 'page');
+                $pages = new Pagination('10', 'page');
                 $pages->set_total($totalRecord);
                 $data = array(
                     'lists' => Category::seaching_process($string, $pages->get_limit())['result'],

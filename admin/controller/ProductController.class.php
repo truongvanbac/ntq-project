@@ -170,18 +170,30 @@ class ProductController extends Controller {
         $this->view->loadTemplate('tempadmin', $data2);
     }
 
+    //Tìm kiếm dữ liệu
     public function getDataSearched() {
+        
+
         if(isset($_POST['btn-search-pd'])) {
             if($_POST['search'] != '') {
                 $string = $_POST['search'];
+                //$array = Category::seaching_process($string);
+                $totalRecord = Product::searching_process($string)['count'];
+                $pages = new Pagination('10', 'page');
+                $pages->set_total($totalRecord);
                 $data = array(
-                    'lists' => Product::searching_process($string)
+                    'lists' => Product::searching_process($string, $pages->get_limit())['result'],
+                    'page_links' => $pages->page_links()
                 );
             }
+            //var_dump($data['lists']);
+            // echo '<pre>';
+            // var_dump($totalRecord);
+            // echo '</pre>';
         }
 
         $data2['content'] = $this->view->load('list-product', $data);
-        $data2['title'] = 'Data searching';
+        $data2['title'] = 'Data Searching Product';
         $this->view->loadTemplate('tempadmin', $data2);
     }
     
