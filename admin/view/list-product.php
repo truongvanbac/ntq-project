@@ -28,7 +28,7 @@
 
     <div class="row-fluid">
         <div class="span12 search">
-            <form action="<?php echo BASE_URL . '/admin/product/getDataSearched'?>" method="post">
+            <form action="<?php echo BASE_URL . '/admin/product/getDataSearched'?>" method="GET">
                 <input type="text" class="span11" placeholder="Some text for search..." name="search"/>
                 <button class="btn span1" type="submit" name = "btn-search-pd">Search</button>
             </form>
@@ -47,6 +47,9 @@
             </div>
             <div class="block-fluid table-sorting">
                 <a href="<?php echo BASE_URL . '/admin/product/add'?>" class="btn btn-add">Add Product</a>
+
+                <?php if($count != 0) {?>
+
                 <form action="<?php echo BASE_URL ?>/admin/product/active" method="POST">
                 <table cellpadding="0" cellspacing="0" width="100%" class="table" id="tSortable_2">
                     <thead>
@@ -108,6 +111,12 @@
                     <input type="submit" class="btn btn-danger" name="btn-dac-pd" value="Deactive">
                 </div><!-- /bulk-action-->
                 <form>
+
+                <?php } else {
+                        echo "<p><center><i>No Product</i></center></p>";
+                    }
+                ?>
+
                 <div class="dataTables_paginate">
                     <?php echo $page_links; ?>
                 </div>

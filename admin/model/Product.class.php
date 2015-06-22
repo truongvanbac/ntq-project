@@ -32,6 +32,10 @@ class Product extends Model {
         // return $result;
         return Model::getItemById(self::$tableName, self::$primaryKey, $pd_id);
     }
+
+    public static function getIdProduct($pd_id) {
+        return Model::getIdItem(self::$tableName, $pd_id, self::$primaryKey);
+    }
     
     
     
@@ -44,16 +48,13 @@ class Product extends Model {
             'pd_des' => $des,
             'pd_img' => $file,
             'pd_status' => $status,
-            'pd_time_created' => date("Y-m-d h:i:s")
+            'pd_time_created' => date("Y-m-d h:i:s"),
+            'pd_time_updated' => date("Y-m-d h:i:s")
         );
         
         
-        $count = self::count_colum('pd_name', $pd_name);
+        $count = self::count_colum('pd_name', $name);
         if ($count == 0) {
-            // $query = "INSERT INTO product(pd_name, pd_price, pd_des, pd_img, pd_status, pd_time_created)"
-            //         . " VALUES(:pd_name, :pd_price, :pd_des, :pd_img ,:pd_status, :time)";
-            // $stmp = $db->prepare($query);
-            // $stmp->execute($data);
             Model::insertDataToTable(self::$tableName, $data);
             return true;
         } else {

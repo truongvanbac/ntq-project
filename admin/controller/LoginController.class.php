@@ -12,7 +12,7 @@ class LoginController extends Controller {
     public function __construct() {
         parent::__construct();
         if(!empty($_SESSION['log'])) {
-            header('location: category');
+            header("location: " . BASE_URL . '/admin/category');
         }
     }
     
@@ -28,7 +28,7 @@ class LoginController extends Controller {
         
         
         if (isset($_POST['btn-login'])) {
-            if ((!empty($_POST['username'])) || (!empty($_POST['password']))) {
+            if ((!empty($_POST['username'])) && (!empty($_POST['password']))) {
 
                 $username = $_POST['username'];
                 $password = $_POST['password'];
@@ -39,27 +39,31 @@ class LoginController extends Controller {
                     $_SESSION['username'] = $username;
                     $_SESSION['log'] = true;
 
-                    echo $_SESSION['username'];
-
                     if (isset($_POST['remember'])) {
-                        setcookie('username', $username, time() + 60 * 60 * 24 * 365);
+                        setcookie('username', $username, time() + 7200);
                     } else {
-                        setcookie('username', $username, time() - 60 * 60 * 24 * 365);
+                        setcookie('username', $username, time() - 7200);
                     }
 
-                    header("location: category");
+                    header("location: " . BASE_URL . '/admin/category');
                 } else {
-                    header("location: " . BASE_URL . "/admin/login");
+                    echo "<script>";
+                    echo "alert('Account is existent');";
+                    echo "</script>";
                 }
+            } else {
+                echo "<script>";
+                echo "alert('Let\'s input username and password');";
+                echo "</script>";
             }
         }
     }
 
     //Đăng xuất
     public function logout() {
-        session_unset();
-        setcookie('username', $username, time() - 60 * 60 * 24 * 365);
-        header("location: ../login");
+        session_destroy();
+        setcookie('username', $username, time() - 7200);
+        header("location: " . BASE_URL . "/admin/login");
     }
 
 }

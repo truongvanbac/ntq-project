@@ -5,8 +5,10 @@
 class Controller {
 	
     protected $view = NULL;
+    protected $regular = NULL;
     public function __construct() {   
         $this->view = new Template();       //Khởi tạo template
+        $this->regular = new RegularExpression();
     }
     
 

@@ -19,19 +19,26 @@
                 <div class="clear"></div>
             </div>
             <div class="block-fluid">
-                <form action="" method="POST">
+                <form action="<?php echo BASE_URL . '/admin/category/add'?>" method="POST">
                     <div class="row-form">
                         <div class="span3">Category Name:</div>
-                        <div class="span9"><input type="text" placeholder="some text value..." name="new-category"/></div>
-                        <?php echo $message;?>
+                        <div class="span9"><input type="text" placeholder="some text value..." name="new-category" value="<?php echo $oldName; ?>"/></div>
+                       
                         <div class="clear"></div>
                     </div> 
                     <div class="row-form">
                         <div class="span3">Activate:</div>
                         <div class="span9">
                             <select name="select">
-                                <option value="1">Activate</option>
-                                <option value="0">Deactivate</option>
+                                <?php 
+                                    if($oldStatus == '1') {
+                                        echo "<option value='1' seleted>Activate</option>";
+                                        echo "<option value='0'>Deactivate</option>";
+                                    } else {
+                                        echo "<option value='1'>Activate</option>";
+                                        echo "<option value='0' seleted>Deactivate</option>";
+                                    }
+                                ?>
                             </select>
                         </div>
                         <div class="clear"></div>

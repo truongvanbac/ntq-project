@@ -3,11 +3,13 @@
 class TestController extends Controller {
 
 	public function index() {
-		$data3 = array(
-            'name' => Category::getCategory(2)
-        );
-        
-        $name = ($data3['name']['ct_name']);
-        var_dump($name);
+		$pattern = '[a-z]';
+		$subject = 'adsads';
+		$check = $this->regular->check($pattern, $subject);
+		if($check) {
+			echo 'ok';
+		} else {
+			echo 'No';
+		}		
 	}
 }

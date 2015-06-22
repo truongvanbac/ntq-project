@@ -31,7 +31,7 @@ includeScript('jquery-2.1.3.min.js');
 
     <div class="row-fluid">
         <div class="span12 search">
-            <form action="<?php echo BASE_URL . '/admin/category/getDataSearched'?>" method="POST">
+            <form action="<?php echo BASE_URL . '/admin/category/getDataSearched'?>" method="GET">
                 <input type="text" class="span11" placeholder="Some text for search..." name="search"/>
                 <button class="btn span1" type="submit" name="btn-search-ct">Search</button>
             </form>
@@ -50,6 +50,9 @@ includeScript('jquery-2.1.3.min.js');
             </div>
             <div class="block-fluid table-sorting">
                 <a href="<?php echo BASE_URL?>/admin/category/add" class="btn btn-add">Add Category</a>
+
+                <?php if($count != 0) {?>
+
                 <form action="<?php echo BASE_URL ?>/admin/category/active" method="POST">
                     <table cellpadding="0" cellspacing="0" width="100%" class="table" id="tSortable_2">
                         <thead>
@@ -95,7 +98,6 @@ includeScript('jquery-2.1.3.min.js');
                                         } else {
                                             echo date_format(date_create($a), "h:i:s d/m/Y");
                                         }
-                                        //echo $a;
                                         ?>
                                     </td>
 
@@ -110,7 +112,10 @@ includeScript('jquery-2.1.3.min.js');
                         <input type="submit" class="btn btn-danger" name="btn-dac-ct" value="Deactive">
                     </div><!-- /bulk-action-->
                 </form>
-
+                <?php } else {
+                        echo "<p><center><i>No Category</i></center></p>";
+                    }
+                ?>
 
                 <div class="dataTables_paginate">
                     <?php echo $page_links;?>

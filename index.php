@@ -8,18 +8,6 @@ include(ROOT . 'lib/functions.php');    //Include function dùng chung
 
 @$url = $_GET['url'];   //Lấy url
 
-//Set error log
-function setErrorLogging(){
-    if(DEVELOPMENT_ENVIRONMENT == true) {
-        error_reporting(E_ALL);
-        ini_set('display_errors', "1");
-    } else {
-        error_reporting(E_ALL);
-        ini_set('display_errors', "0");
-    }
-    ini_set('log_errors', "1");
-    ini_set('error_log',ROOT . 'system/logs/error_log.php');
-}
 
 //Load controller và action
 function load() {
@@ -83,7 +71,6 @@ function __autoload($className) {
 }
 
 $area = "home";
-setErrorLogging();
 load();
 
 

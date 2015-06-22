@@ -4,17 +4,13 @@ session_start();
 class ProductController extends Controller {
 
     //Biến $data2 lưu trữ dữ liệu xuất ra view
-    private $data2 = array(
-        'title' => '',
-        'content' => '',
-        'message' => ''
-    );
+    private $data2 = array();
 
     //Hàm khoeir tạo
     public function __construct() {
         parent::__construct();
         if(empty($_SESSION['log'])) {
-            header('location : login');
+            header("location: " . BASE_URL . '/admin/login');  
         }
     }
     
@@ -27,9 +23,10 @@ class ProductController extends Controller {
         $data = array(
             'lists' => Product::get_list_product($pages->get_limit()),
             'order' => "desc",
-            'page_links' => $pages->page_links()
+            'page_links' => $pages->page_links(),
+            'count' => Product::count()
         );
-        
+        $data2['oldUser'] = User::getUser(1);
         $data2['content'] = $this->view->load('list-product', $data);
         $data2['title'] = 'List Product';
         $this->view->loadTemplate('tempadmin', $data2);
@@ -39,37 +36,71 @@ class ProductController extends Controller {
     //Thêm mới một product
     public function add() {
         $data = array(
-            
+            'oldName' => '',
+            'oldPrice' =>'',
+            'oldDes' => '',
+            'oldStatus' => '1'
         );
-        $data2['content'] = $this->view->load('add-product', $data);
-        $data2['title'] = 'Add Product';
-        $this->view->loadTemplate('tempadmin', $data2);
+        
         
         if(isset($_POST['btn-add-pd'])) {
             if(($_POST['pd_name'] != '') && ($_POST['pd_price'] != '') && ($_POST['pd_text'] != '')
                     && ($_POST['select'] != '')) {
-                $name = $_POST['pd_name'];
-                $price = $_POST['pd_price'];
-                $des = $_POST['pd_text'];
+
+                $name = htmlentities($_POST['pd_name']);
+                $price = htmlentities($_POST['pd_price']);
+                $des = htmlentities($_POST['pd_text']);
                 $status = $_POST['select'];
                 $fileName = $_FILES['fileToUpload'];
+
+
+                $data['oldName'] = $name;
+                $data['oldPrice'] = $price;
+                $data['oldDes'] = $des;
+                $data['oldStatus'] = $status;
+
                 
-                if($this->uploadImg($fileName)) {
-                    $result = Product::addProduct($name, $price, $des, $fileName['name'], $status);
-                    //$result = Product::addProduct('Product 1', 150000, "Product 1", "hello", 1);
-                    if($result) {
-                        header("location: " . BASE_URL . "/admin/product");
-                        //echo "OK";
+                if($this->regular->check('[0-9]', $price)) {
+                    if(($fileName['name'] != '') && ($this->uploadImg($fileName))) {
+
+                        $result = Product::addProduct($name, $price, $des, $fileName['name'], $status);
+
+                        if($result) {
+                            echo "<script>";
+                            echo "setTimeout(
+                                function() {
+                                    alert('Successfull');
+                                    window.location = ('http://localhost/ntq-project/admin/product');
+                                }
+                            , 500);";
+                            echo "</script>";
+                        } else {
+                            echo "<script>";
+                            echo "alert('Product name is invalid');";
+                            echo "</script>";
+                        }
                     } else {
-                        header("location: " . BASE_URL . "/admin/product/add");
-                        //echo "Failed 1";
+                        echo "<script>";
+                        echo "alert('Upload Image is Failed');";
+                        echo "</script>";
                     }
                 } else {
-                    //echo "Failed 2";
+                    echo "<script>";
+                    echo "alert('Price is nummeric');";
+                    echo "</script>";
                 }
-                //echo $name . '<br>' . $price . '<br>' . $des . '<br>' . $status . '<br>' . $fileName['name'];
+            } else {
+                echo "<script>";
+                echo "alert('Let\'s input fully Product name, Price and Description');";
+                echo "</script>";
             }
         }
+        $data2['oldUser'] = User::getUser(1);
+        $data2['content'] = $this->view->load('add-product', $data);
+        $data2['title'] = 'Add Product';
+        $this->view->loadTemplate('tempadmin', $data2);
+
+
     }
     
     //Sủa product
@@ -84,33 +115,75 @@ class ProductController extends Controller {
             'oldPd' => Product::getProduct($pd_id)
         );
         
-        $data2['content'] = $this->view->load('edit-product', $data);
-        $data2['title'] = 'Edit Product';
-        $this->view->loadTemplate('tempadmin', $data2);
-        
-        if (isset($_POST['btn-edit-pd'])) {
-            if(($_POST['edit-name'] != '') && ($_POST['edit-price'] != '') && ($_POST['edit-des'] != '')
-                    && ($_POST['select'] != '')) {
-                
-                $name = $_POST['edit-name'];
-                $price = $_POST['edit-price'];
-                $des = $_POST['edit-des'];
-                $status = $_POST['select'];
-                $fileName = $_FILES['fileToUpload'];
 
-                if(($fileName['name'] != '') && ($this->uploadImg($fileName))) {
-                    $result = Product::editProduct($pd_id, $name, $price, $des, $fileName['name'], $status);
-                    if($result) {
-                        header("location: " . BASE_URL . "/admin/product");
-                        
-                    } else {
-                        header("location: " . BASE_URL . "/admin/product/add");
+
+         //Kiem tra id category co ton tai hay khong
+        $checkUrl = Product::getIdProduct($pd_id);
+        if($checkUrl == 0) {
+            echo "<script>";
+            echo "setTimeout(
+                    function() {
+                        alert('Error, not existent category id!!!');
+                        window.location = ('http://localhost/ntq-project/admin/category');
                     }
+                , 500);";
+            echo "</script>";
+        } else {
+            if (isset($_POST['btn-edit-pd'])) {
+                if(($_POST['edit-name'] != '') && ($_POST['edit-price'] != '') && ($_POST['edit-des'] != '')
+                        && ($_POST['select'] != '')) {
+                    
+                    $name = htmlentities($_POST['edit-name']);
+                    $price = htmlentities($_POST['edit-price']);
+                    $des = htmlentities($_POST['edit-des']);
+                    $status = $_POST['select'];
+                    $fileName = ($_FILES['fileToUpload']);
+
+                    if($fileName['name'] == '') {
+                        $fileName['name'] = Product::getProduct($pd_id)['pd_img'];
+                    }
+
+                    if($this->regular->check('[0-9]', $price) && ($price >= 0)) {
+                        if(($fileName['name'] != '') && ($this->uploadImg($fileName))) {
+                            $result = Product::editProduct($pd_id, $name, $price, $des, $fileName['name'], $status);
+                            if($result) {
+                                echo "<script>";
+                                echo "setTimeout(
+                                    function() {
+                                        alert('Successfull');
+                                        window.location = ('http://localhost/ntq-project/admin/product');
+                                    }
+                                , 500);";
+                                echo "</script>";
+                                
+                            } else {
+                                echo "<script>";
+                                echo "alert('Product name is invalid');";
+                                echo "</script>";
+                            }
+                        } else {
+                            echo "<script>";
+                            echo "alert('Upload Image is Failed');";
+                            echo "</script>";
+                        }
+                    } else {
+                        echo "<script>";
+                        echo "alert('Price is nummeric and positive');";
+                        echo "</script>";
+                    }
+
                 } else {
-                    header("location: " . BASE_URL . '/admin/product/edit/' . $pd_id);
+                    echo "<script>";
+                    echo "alert('Let\'s input fully Product name, Price and Description');";
+                    echo "</script>";
                 }
             }
         }
+
+        $data2['oldUser'] = User::getUser(1);
+        $data2['content'] = $this->view->load('edit-product', $data);
+        $data2['title'] = 'Edit Product';
+        $this->view->loadTemplate('tempadmin', $data2);
     }
     
     //Update active
@@ -153,14 +226,15 @@ class ProductController extends Controller {
             $data = array(
                 'order' => "desc",
                 'lists' => Product::sort_item($item, $order, $pages->get_limit()),
-                'page_links' => $pages->page_links()
+                'page_links' => $pages->page_links(),
+                'count' => Product::count()
             );
         } else {
-            //$order = "asc";
             $data = array(
                 'order' => "asc",
                 'lists' => Product::sort_item($item, $order, $pages->get_limit()),   
-                'page_links' => $pages->page_links()
+                'page_links' => $pages->page_links(),
+                'count' => Product::count()
             );
         }
         
@@ -174,24 +248,20 @@ class ProductController extends Controller {
     public function getDataSearched() {
         
 
-        if(isset($_POST['btn-search-pd'])) {
-            if($_POST['search'] != '') {
-                $string = $_POST['search'];
-                //$array = Category::seaching_process($string);
+        if(isset($_GET['btn-search-pd'])) {
+            if($_GET['search'] != '') {
+                $string = $_GET['search'];
                 $totalRecord = Product::searching_process($string)['count'];
                 $pages = new Pagination('10', 'page');
                 $pages->set_total($totalRecord);
                 $data = array(
                     'lists' => Product::searching_process($string, $pages->get_limit())['result'],
-                    'page_links' => $pages->page_links()
+                    'page_links' => $pages->page_links(),
+                    'count' => $totalRecord
                 );
             }
-            //var_dump($data['lists']);
-            // echo '<pre>';
-            // var_dump($totalRecord);
-            // echo '</pre>';
         }
-
+        $data2['oldUser'] = User::getUser(1);
         $data2['content'] = $this->view->load('list-product', $data);
         $data2['title'] = 'Data Searching Product';
         $this->view->loadTemplate('tempadmin', $data2);

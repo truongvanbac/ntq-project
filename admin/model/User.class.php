@@ -41,6 +41,10 @@ class User extends Model {
     public static function count() {
         return Model::countRecord(self::$tableName, self::$primaryKey);
     }
+
+    public static function getIdUser($user_id) {
+        return Model::getIdItem(self::$tableName, $user_id, self::$primaryKey);
+    }
     
 
     //Thêm 1 user mới
@@ -52,15 +56,12 @@ class User extends Model {
             'pass' => $pass,
             'user_img' => $img,
             'status' => $status,
-            'user_time_created' => date("Y-m-d h:i:s")
+            'user_time_created' => date("Y-m-d h:i:s"),
+            'user_time_updated' => date("Y-m-d h:i:s")
         );
         
         $count = self::count_colum('username', $username);
         if ($count == 0) {
-            // $query = "INSERT INTO users(username, user_email, pass, user_img, status, user_time_created)"
-            //         . " VALUES(:username, :user_email, :pass, :user_img ,:status, :time)";
-            // $stmp = $db->prepare($query);
-            // $stmp->execute($data);
             Model::insertDataToTable(self::$tableName, $data);
             return true;
         } else {

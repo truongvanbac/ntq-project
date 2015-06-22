@@ -122,4 +122,12 @@ class Model {
         $s = $db->prepare($query);
         $s->execute($data);
     }
+
+
+    protected static function getIdItem($tableName, $id, $column) {
+        $db = Database::getInstance();
+        $query = "SELECT count($column) FROM $tableName WHERE $column = '$id'";
+        $s = $db->query($query);
+        return $s->fetchColumn();
+    }
 }

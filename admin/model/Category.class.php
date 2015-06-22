@@ -24,6 +24,10 @@ class Category extends Model {
         return Model::getItemById(self::$tableName, 'ct_id',$ct_id);
     }
     
+    public static function getIdCategory($ct_id) {
+        return Model::getIdItem(self::$tableName, $ct_id, self::$primaryKey);
+    }
+
 
     //Them moi 1 category
     public static function add_category($ct_name, $ct_status) {
@@ -31,15 +35,12 @@ class Category extends Model {
         $data = array(
             'ct_name' => $ct_name,
             'ct_status' => $ct_status,
-            'ct_time_created' => date("Y-m-d h:i:s")
+            'ct_time_created' => date("Y-m-d h:i:s"),
+            'ct_time_update' => date("Y-m-d h:i:s")
         );
 
         $count = self::count_colum('ct_name', $ct_name);
         if ($count == 0) {
-            // $query = "INSERT INTO category(ct_name, ct_status, ct_time_created) VALUES(:ct_name, :ct_status, :time)";
-            // //var_dump($query);
-            // $stmp = $db->prepare($query);
-            // $stmp->execute($data);
             Model::insertDataToTable(self::$tableName, $data);
             return true;
         } else {

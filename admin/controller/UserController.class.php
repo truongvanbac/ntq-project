@@ -5,16 +5,18 @@ class UserController extends Controller {
     
     // Biến $data2 lưu trữ dữ liệu truyền ra view
    private $data2 = array(
-        'title' => '',
-        'content' => ''
     );
 
    //Hầm khỏi tạo
     public function __construct() {
         parent::__construct();
+        if(empty($_SESSION['log'])) {
+            header("location: " . BASE_URL . '/admin/login');
+        }
+
+        
     }
     
-
     //Trang hiển thị danh sách user
     public function index() {
         $pages = new Pagination('10', 'page');
@@ -23,9 +25,10 @@ class UserController extends Controller {
         $data = array(
             'lists' => User::getAll($pages->get_limit()),
             'order' => "desc",
-            'page_links' => $pages->page_links()
+            'page_links' => $pages->page_links(),
+            'count' => User::count()
         );
-        
+        $data2['oldUser'] = User::getUser(1);
         $data2['content'] = $this->view->load('list-user', $data);
         $data2['title'] = 'List User';
         $this->view->loadTemplate('tempadmin', $data2);
@@ -34,31 +37,63 @@ class UserController extends Controller {
     //Thêm user
     public function add() {
         $data = array(
-            
+            'oldName' => '',
+            'oldEmail' => '',
+            'oldStatus' => '1'
         );
-        $data2['content'] = $this->view->load('add-user', $data);
-        $data2['title'] = 'Add User';
-        $this->view->loadTemplate('tempadmin', $data2);
         
         if(isset($_POST['btn-add-user'])) {
             if(($_POST['username'] != '') && ($_POST['pass'] != '') && ($_POST['select'] != '')) {
-                $name = $_POST['username'];
+
+                $name = htmlentities($_POST['username']);
                 $pass = md5($_POST['pass']);
                 $email = $_POST['email'];
                 $status = $_POST['select'];
                 $fileName = $_FILES['fileToUpload'];
-                
-                if($this->uploadImg($fileName)) {
-                    $result = User::addUser($name, $email, $pass, $fileName['name'], $status);
-                    if($result) {
-                        header("location: " . BASE_URL . "/admin/user");
+
+                $data['oldName'] = $name;
+                $data['oldEmail'] = $email;
+                $data['oldStatus'] = $status;
+
+                if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    if(($fileName['name'] != '') && ($this->uploadImg($fileName))) {
+                        $result = User::addUser($name, $email, $pass, $fileName['name'], $status);
+
+                        if($result) {
+                            echo "<script>";
+                            echo "setTimeout(
+                                function() {
+                                    alert('Successfull');
+                                    window.location = ('http://localhost/ntq-project/admin/user');
+                                }
+                            , 500);";
+                            echo "</script>";
+                        } else {
+                            echo "<script>";
+                            echo "alert('Username is existent!');";
+                            echo "</script>";
+                        }
                     } else {
-                        header("location: " . BASE_URL . "/admin/user/add");
+                        echo "<script>";
+                        echo "alert('Upload Image is Fail!');";
+                        echo "</script>";
                     }
                 } else {
+                    echo "<script>";
+                    echo "alert('Email is invalid!');";
+                    echo "</script>";
                 }
+            } else {
+                echo "<script>";
+                echo "alert('Let\'s input username, email, password');";
+                echo "</script>";
             }
         }
+
+        $data2['oldUser'] = User::getUser(1);
+        $data2['content'] = $this->view->load('add-user', $data);
+        $data2['title'] = 'Add User';
+        $this->view->loadTemplate('tempadmin', $data2);
     }
     
 
@@ -74,34 +109,72 @@ class UserController extends Controller {
             'oldUser' => User::getUser($user_id)
         );
         
-        $data2['content'] = $this->view->load('edit-user', $data);
-        $data2['title'] = 'Edit User';
-        $this->view->loadTemplate('tempadmin', $data2);
-        
-        if (isset($_POST['btn-edit-user'])) {
-            if(($_POST['edit-username'] != '') && ($_POST['edit_pass'] != '') && ($_POST['select'] != '')) {
-                
-                $username = $_POST['edit-username'];
-                $pass = $_POST['edit_pass'];
-                $email = $_POST['edit-email'];
-                $status = $_POST['select'];
-                $fileName = $_FILES['fileToUpload'];
-
-                if(($fileName['name'] != '') && ($this->uploadImg($fileName))) {
-                    $result = User::editUser($user_id, $username, $email, $pass, $fileName['name'], $status);
-                    if($result) {
-                        header("location: " . BASE_URL . "/admin/user");
-                        
-                    } else {
-                        header("location: " . BASE_URL . "/admin/user/edit/" . $user_id);
-                        echo "LOI UPDATE";
+        $checkUrl = User::getIdUser($user_id);
+        if($checkUrl == 0) {
+            echo "<script>";
+            echo "setTimeout(
+                    function() {
+                        alert('Error, not existent user id!!!');
+                        window.location = ('http://localhost/ntq-project/admin/user');
                     }
+                , 500);";
+            echo "</script>";
+        } else {
+            if (isset($_POST['btn-edit-user'])) {
+                if(($_POST['edit-username'] != '') && ($_POST['edit_pass'] != '') && ($_POST['edit_email'] != '') && ($_POST['select'] != '')) {
+                    
+                    $username = htmlentities($_POST['edit-username']);
+                    $pass = md5($_POST['edit_pass']);
+                    $email = $_POST['edit_email'];
+                    $status = $_POST['select'];
+                    $fileName = $_FILES['fileToUpload'];
+
+                    if($fileName['name'] == '') {
+                        $fileName['name'] = User::getUser($user_id)['user_img'];
+                    }
+
+
+                    if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                        if(($fileName['name'] != '') && ($this->uploadImg($fileName))) {
+                            $result = User::editUser($user_id, $username, $email, $pass, $fileName['name'], $status);
+                            if($result) {
+                                echo "<script>";
+                                echo "setTimeout(
+                                    function() {
+                                        alert('Successfull');
+                                        window.location = ('http://localhost/ntq-project/admin/user');
+                                    }
+                                , 500);";
+                                echo "</script>";
+                                
+                            } else {
+                                echo "<script>";
+                                echo "alert('Usernam is Existent');";
+                                echo "</script>";
+                            }
+                        } else {
+                            echo "<script>";
+                            echo "alert('Upload Image is Fail');";
+                            echo "</script>";
+                        }
+                    } else {
+                        echo "<script>";
+                        echo "alert('Email is invalid');";
+                        echo "</script>";
+                    }
+
                 } else {
-                    header("location: " . BASE_URL . '/admin/user/edit/' . $user_id);
-                    echo "LOI UPLOAD";
+                    echo "<script>";
+                    echo "alert('Let\'s input fully Username, Email, Pass');";
+                    echo "</script>";
                 }
             }
         }
+
+        $data2['oldUser'] = User::getUser(1);
+        $data2['content'] = $this->view->load('edit-user', $data);
+        $data2['title'] = 'Edit User';
+        $this->view->loadTemplate('tempadmin', $data2);
     }
     
 
@@ -143,18 +216,19 @@ class UserController extends Controller {
             $data = array(
                 'order' => "desc",
                 'lists' => User::sort_item($item, $order, $pages->get_limit()),
-                'page_links' => $pages->page_links()
+                'page_links' => $pages->page_links(),
+                'count' => User::count()
             );
         } else {
-            //$order = "asc";
             $data = array(
                 'order' => "asc",
                 'lists' => User::sort_item($item, $order, $pages->get_limit()),   
-                'page_links' => $pages->page_links()
+                'page_links' => $pages->page_links(),
+                'count' => User::count()
             );
         }
-        
-        
+
+        $data2['oldUser'] = User::getUser(1);
         $data2['content'] = $this->view->load('list-user', $data);
         $data2['title'] = 'List User';
         $this->view->loadTemplate('tempadmin', $data2);
@@ -164,24 +238,21 @@ class UserController extends Controller {
     public function getDataSearched() {
         
 
-        if(isset($_POST['btn-search-user'])) {
-            if($_POST['search'] != '') {
-                $string = $_POST['search'];
+        if(isset($_GET['btn-search-user'])) {
+            if($_GET['search'] != '') {
+                $string = $_GET['search'];
                 //$array = Category::seaching_process($string);
                 $totalRecord = User::seaching_process($string)['count'];
                 $pages = new Pagination('10', 'page');
                 $pages->set_total($totalRecord);
                 $data = array(
                     'lists' => User::seaching_process($string, $pages->get_limit())['result'],
-                    'page_links' => $pages->page_links()
+                    'page_links' => $pages->page_links(),
+                    'count' => $totalRecord
                 );
             }
-            //var_dump($data['lists']);
-            // echo '<pre>';
-            // var_dump($totalRecord);
-            // echo '</pre>';
         }
-
+        $data2['oldUser'] = User::getUser(1);
         $data2['content'] = $this->view->load('list-user', $data);
         $data2['title'] = 'Data Searching User';
         $this->view->loadTemplate('tempadmin', $data2);

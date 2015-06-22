@@ -22,12 +22,12 @@
                     <form method="POST" enctype="multipart/form-data">
                     	<div class="row-form">
                             <div class="span3">Username:</div>
-                            <div class="span9"><input type="text" placeholder="some text value..." name="username"/></div>
+                            <div class="span9"><input type="text" placeholder="some text value..." name="username" value="<?php echo $oldName;?>"/></div>
                             <div class="clear"></div>
                         </div> 
                     	<div class="row-form">
                             <div class="span3">Email:</div>
-                            <div class="span9"><input type="text" placeholder="some text value..." name="email"/></div>
+                            <div class="span9"><input type="text" placeholder="some text value..." name="email" value="<?php echo $oldEmail;?>"/></div>
                             <div class="clear"></div>
                         </div> 
                     	<div class="row-form">
@@ -44,8 +44,15 @@
                             <div class="span3">Activate:</div>
                             <div class="span9">
                                 <select name="select">
-                                    <option value="1">Activate</option>
-                                    <option value="0">Deactivate</option>
+                                    <?php 
+                                        if($oldStatus == '1') {
+                                        echo "<option value='1' seleted>Activate</option>";
+                                        echo "<option value='0'>Deactivate</option>";
+                                    } else {
+                                        echo "<option value='1'>Activate</option>";
+                                        echo "<option value='0' seleted>Deactivate</option>";
+                                    }
+                                    ?>
                                 </select>
                             </div>
                             <div class="clear"></div>
