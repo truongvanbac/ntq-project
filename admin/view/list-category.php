@@ -32,7 +32,7 @@ includeScript('jquery-2.1.3.min.js');
     <div class="row-fluid">
         <div class="span12 search">
             <form action="<?php echo BASE_URL . '/admin/category/getDataSearched'?>" method="GET">
-                <input type="text" class="span11" placeholder="Some text for search..." name="search"/>
+                <input type="text" class="span11" placeholder="Some text for search..." name="search" value="<?php echo $valueSearch;?>"/>
                 <button class="btn span1" type="submit" name="btn-search-ct">Search</button>
             </form>
         </div>

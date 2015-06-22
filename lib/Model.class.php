@@ -76,7 +76,6 @@ class Model {
             }
         }
         $query = rtrim($query, ' or');
-        //var_dump($query);
         $query .= " " . $limit;
         $s = $db->prepare($query);
         $s->execute();

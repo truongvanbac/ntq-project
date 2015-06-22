@@ -11,9 +11,20 @@ class LoginController extends Controller {
     //Hàm khởi tạo
     public function __construct() {
         parent::__construct();
-        if(!empty($_SESSION['log'])) {
+
+        
+        if(isset($_COOKIE)) {
+            if(!empty($_COOKIE['username'])) {
+                $_SESSION['log'] = true;
+                $_SESSION['username'] = $_COOKIE['username'];
+            }
+        }
+
+
+        if(isset($_SESSION['log'])) {
             header("location: " . BASE_URL . '/admin/category');
         }
+
     }
     
     //Đăng nhập
@@ -48,7 +59,7 @@ class LoginController extends Controller {
                     header("location: " . BASE_URL . '/admin/category');
                 } else {
                     echo "<script>";
-                    echo "alert('Account is existent');";
+                    echo "alert('Account is not existent');";
                     echo "</script>";
                 }
             } else {
@@ -61,8 +72,9 @@ class LoginController extends Controller {
 
     //Đăng xuất
     public function logout() {
+        session_start();
         session_destroy();
-        setcookie('username', $username, time() - 7200);
+        setcookie('username');
         header("location: " . BASE_URL . "/admin/login");
     }
 

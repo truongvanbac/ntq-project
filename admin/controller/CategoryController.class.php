@@ -28,7 +28,8 @@ class CategoryController extends Controller {
             'lists' => Category::get_list_category($pages->get_limit()),
             'order' => "desc",
             'page_links' => $pages->page_links(),
-            'count' => Category::count()
+            'count' => Category::count(),
+            'valueSearch' => ''
         );
         $data2['oldUser'] = User::getUser(1);
         $data2['content'] = $this->view->load('list-category', $data);
@@ -203,22 +204,28 @@ class CategoryController extends Controller {
 
     //Tìm kiếm dữ liệu
     public function getDataSearched() {
-        
-
-        if(isset($_GET['btn-search-ct'])) {
+        $data3 = array();
+        $value = '';
+        //if(isset($_GET['btn-search-ct'])) {
             if($_GET['search'] != '') {
                 $string = $_GET['search'];
-                //$array = Category::seaching_process($string);
+                $data3 = explode(' ', $string);
+                for($i = 0; $i<count($data3); $i++) {
+                    $value .= $data3[$i] . '+'; 
+                }
+
+                $value = rtrim($value, ' +');
                 $totalRecord = Category::seaching_process($string)['count'];
                 $pages = new Pagination('10', 'page');
                 $pages->set_total($totalRecord);
                 $data = array(
                     'lists' => Category::seaching_process($string, $pages->get_limit())['result'],
-                    'page_links' => $pages->page_links(),
-                    'count' => $totalRecord
+                    'page_links' => $pages->page_links($path='?',$ext = "&search=$value"),
+                    'count' => $totalRecord,
+                    'valueSearch' => $string
                 );
             }
-        }
+        //}
         $data2['oldUser'] = User::getUser(1);
         $data2['content'] = $this->view->load('list-category', $data);
         $data2['title'] = 'Data Searching Category';
