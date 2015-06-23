@@ -26,9 +26,10 @@ class UserController extends Controller {
             'lists' => User::getAll($pages->get_limit()),
             'order' => "desc",
             'page_links' => $pages->page_links(),
-            'count' => User::count()
+            'count' => User::count(),
+            'valueSearch' => ''
         );
-        $data2['oldUser'] = User::getUser(1);
+        $data2['oldUser'] = User::getUser(User::getIdAdmin());
         $data2['content'] = $this->view->load('list-user', $data);
         $data2['title'] = 'List User';
         $this->view->loadTemplate('tempadmin', $data2);
@@ -60,37 +61,22 @@ class UserController extends Controller {
                         $result = User::addUser($name, $email, $pass, $fileName['name'], $status);
 
                         if($result) {
-                            echo "<script>";
-                            echo "setTimeout(
-                                function() {
-                                    alert('Successfull');
-                                    window.location = ('http://localhost/ntq-project/admin/user');
-                                }
-                            , 500);";
-                            echo "</script>";
+                            directScript('Successfull!', '' . BASE_URL . '/admin/user');
                         } else {
-                            echo "<script>";
-                            echo "alert('Username is existent!');";
-                            echo "</script>";
+                            notifyScript('Username is existent');
                         }
                     } else {
-                        echo "<script>";
-                        echo "alert('Upload Image is Fail!');";
-                        echo "</script>";
+                        notifyScript('Upload Image is Fail!');
                     }
                 } else {
-                    echo "<script>";
-                    echo "alert('Email is invalid!');";
-                    echo "</script>";
+                    notifyScript('Email is invalid!');
                 }
             } else {
-                echo "<script>";
-                echo "alert('Let\'s input username, email, password');";
-                echo "</script>";
+                notifyScript('Input username, email, password');
             }
         }
 
-        $data2['oldUser'] = User::getUser(1);
+        $data2['oldUser'] = User::getUser(User::getIdAdmin());
         $data2['content'] = $this->view->load('add-user', $data);
         $data2['title'] = 'Add User';
         $this->view->loadTemplate('tempadmin', $data2);
@@ -109,16 +95,9 @@ class UserController extends Controller {
             'oldUser' => User::getUser($user_id)
         );
         
-        $checkUrl = User::getIdUser($user_id);
+        $checkUrl = User::checkIdUser($user_id);
         if($checkUrl == 0) {
-            echo "<script>";
-            echo "setTimeout(
-                    function() {
-                        alert('Error, not existent user id!!!');
-                        window.location = ('http://localhost/ntq-project/admin/user');
-                    }
-                , 500);";
-            echo "</script>";
+            directScript('Error, not existent user id!!!', '' . BASE_URL . '/admin/user');
         } else {
             if (isset($_POST['btn-edit-user'])) {
                 if(($_POST['edit-username'] != '') && ($_POST['edit_pass'] != '') && ($_POST['edit_email'] != '') && ($_POST['select'] != '')) {
@@ -138,40 +117,25 @@ class UserController extends Controller {
                         if(($fileName['name'] != '') && ($this->uploadImg($fileName))) {
                             $result = User::editUser($user_id, $username, $email, $pass, $fileName['name'], $status);
                             if($result) {
-                                echo "<script>";
-                                echo "setTimeout(
-                                    function() {
-                                        alert('Successfull');
-                                        window.location = ('http://localhost/ntq-project/admin/user');
-                                    }
-                                , 500);";
-                                echo "</script>";
+                                directScript('Successfull!', '' . BASE_URL . '/admin/user');
                                 
                             } else {
-                                echo "<script>";
-                                echo "alert('Usernam is Existent');";
-                                echo "</script>";
+                                notifyScript('Username is existent');
                             }
                         } else {
-                            echo "<script>";
-                            echo "alert('Upload Image is Fail');";
-                            echo "</script>";
+                            notifyScript('Upload Image is Fail');
                         }
                     } else {
-                        echo "<script>";
-                        echo "alert('Email is invalid');";
-                        echo "</script>";
+                        notifyScript('Email is invalid');
                     }
 
                 } else {
-                    echo "<script>";
-                    echo "alert('Let\'s input fully Username, Email, Pass');";
-                    echo "</script>";
+                    notifyScript('Input Username, Email, Pass');
                 }
             }
         }
 
-        $data2['oldUser'] = User::getUser(1);
+        $data2['oldUser'] = User::getUser(User::getIdAdmin());
         $data2['content'] = $this->view->load('edit-user', $data);
         $data2['title'] = 'Edit User';
         $this->view->loadTemplate('tempadmin', $data2);
@@ -228,7 +192,8 @@ class UserController extends Controller {
             );
         }
 
-        $data2['oldUser'] = User::getUser(1);
+        $data['valueSearch'] = '';
+        $data2['oldUser'] = User::getUser(User::getIdAdmin());
         $data2['content'] = $this->view->load('list-user', $data);
         $data2['title'] = 'List User';
         $this->view->loadTemplate('tempadmin', $data2);
@@ -237,22 +202,34 @@ class UserController extends Controller {
     //Tìm kiếm dữ liệu
     public function getDataSearched() {
         
+        $data3 = array();
+        $value = '';
 
-        if(isset($_GET['btn-search-user'])) {
+        //if(isset($_GET['btn-search-user'])) {
             if($_GET['search'] != '') {
                 $string = $_GET['search'];
                 //$array = Category::seaching_process($string);
+
+                $data3 = explode(' ', $string);
+                for($i = 0; $i<count($data3); $i++) {
+                    $value .= $data3[$i] . '+'; 
+                }
+
+                $value = rtrim($value, ' +');
+
                 $totalRecord = User::seaching_process($string)['count'];
                 $pages = new Pagination('10', 'page');
                 $pages->set_total($totalRecord);
                 $data = array(
                     'lists' => User::seaching_process($string, $pages->get_limit())['result'],
-                    'page_links' => $pages->page_links(),
-                    'count' => $totalRecord
+                    'page_links' => $pages->page_links($path='?',$ext = "&search=$value"),
+                    'count' => $totalRecord,
+                    'valueSearch' => $string
                 );
             }
-        }
-        $data2['oldUser'] = User::getUser(1);
+        //}
+
+        $data2['oldUser'] = User::getUser(User::getIdAdmin());
         $data2['content'] = $this->view->load('list-user', $data);
         $data2['title'] = 'Data Searching User';
         $this->view->loadTemplate('tempadmin', $data2);

@@ -1,13 +1,19 @@
 <?php
-define('ROOT',dirname(realpath(__FILE__)) . "/");   //Đường dẫn đến thư mục chứa project
-define('BASE_URL', 'http://localhost/ntq-project'); //Base url 
-define('DIR_UPLOAD', ROOT . 'public/uploads/');     //Đường dẫn đến thư mục uploads hình ảnh
+define('ROOT',dirname(realpath(__FILE__)) . "/");
+define('DIR_UPLOAD', ROOT . 'public/uploads/');
 
-include(ROOT . 'system/configs/config.php');    //Include file config
-include(ROOT . 'lib/functions.php');    //Include function dùng chung
+include(ROOT . 'system/configs/config.php');
+include(ROOT . 'lib/functions.php');
 
-@$url = $_GET['url'];   //Lấy url
+$url = $_GET['url'];   //Lấy url
 
+$host = $_SERVER['HTTP_HOST'];
+$self = $_SERVER['PHP_SELF'];
+$arrayUrl = array();
+$arrayUrl = explode('/', $self);
+$base_url = "http://" . $host . "/" . $arrayUrl[1];
+
+define('BASE_URL', $base_url);
 
 //Load controller và action
 function load() {
@@ -47,10 +53,8 @@ function load() {
     $dispatch = new $controller();
     
     
-    if ((int)method_exists($controller, $action)) {
+    if (method_exists($controller, $action)) {
         call_user_func(array($dispatch,$action));
-    } else {
-        error_log("Unknown page/action, Controller = ".$controller.", action = ".$action);
     }
 }
 

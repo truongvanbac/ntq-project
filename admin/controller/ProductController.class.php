@@ -24,9 +24,11 @@ class ProductController extends Controller {
             'lists' => Product::get_list_product($pages->get_limit()),
             'order' => "desc",
             'page_links' => $pages->page_links(),
-            'count' => Product::count()
+            'count' => Product::count(),
+            'valueSearch' => ''
         );
-        $data2['oldUser'] = User::getUser(1);
+
+        $data2['oldUser'] = User::getUser(User::getIdAdmin());
         $data2['content'] = $this->view->load('list-product', $data);
         $data2['title'] = 'List Product';
         $this->view->loadTemplate('tempadmin', $data2);
@@ -60,42 +62,27 @@ class ProductController extends Controller {
                 $data['oldStatus'] = $status;
 
                 
-                if($this->regular->check('[0-9]', $price)) {
+                if(($this->regular->check('[0-9]', $price)) && ($price >= 0)) {
                     if(($fileName['name'] != '') && ($this->uploadImg($fileName))) {
 
                         $result = Product::addProduct($name, $price, $des, $fileName['name'], $status);
 
                         if($result) {
-                            echo "<script>";
-                            echo "setTimeout(
-                                function() {
-                                    alert('Successfull');
-                                    window.location = ('http://localhost/ntq-project/admin/product');
-                                }
-                            , 500);";
-                            echo "</script>";
+                            directScript('Successfull!', '' . BASE_URL . '/admin/product');
                         } else {
-                            echo "<script>";
-                            echo "alert('Product name is invalid');";
-                            echo "</script>";
+                            notifyScript('Product name is existent');
                         }
                     } else {
-                        echo "<script>";
-                        echo "alert('Upload Image is Failed');";
-                        echo "</script>";
+                        notifyScript('Upload Image is Failed');
                     }
                 } else {
-                    echo "<script>";
-                    echo "alert('Price is nummeric');";
-                    echo "</script>";
+                    notifyScript('Price is nummeric');
                 }
             } else {
-                echo "<script>";
-                echo "alert('Let\'s input fully Product name, Price and Description');";
-                echo "</script>";
+                notifyScript('Input Product name, Price and Description is fully');
             }
         }
-        $data2['oldUser'] = User::getUser(1);
+        $data2['oldUser'] = User::getUser(User::getIdAdmin());
         $data2['content'] = $this->view->load('add-product', $data);
         $data2['title'] = 'Add Product';
         $this->view->loadTemplate('tempadmin', $data2);
@@ -120,14 +107,7 @@ class ProductController extends Controller {
          //Kiem tra id category co ton tai hay khong
         $checkUrl = Product::getIdProduct($pd_id);
         if($checkUrl == 0) {
-            echo "<script>";
-            echo "setTimeout(
-                    function() {
-                        alert('Error, not existent category id!!!');
-                        window.location = ('http://localhost/ntq-project/admin/category');
-                    }
-                , 500);";
-            echo "</script>";
+            directScript('Error, not existent category id', '' . BASE_URL . '/admin/product');
         } else {
             if (isset($_POST['btn-edit-pd'])) {
                 if(($_POST['edit-name'] != '') && ($_POST['edit-price'] != '') && ($_POST['edit-des'] != '')
@@ -144,43 +124,28 @@ class ProductController extends Controller {
                     }
 
                     if($this->regular->check('[0-9]', $price) && ($price >= 0)) {
-                        if(($fileName['name'] != '') && ($this->uploadImg($fileName))) {
+                        if(($fileName['name'] != '') || ($this->uploadImg($fileName))) {
                             $result = Product::editProduct($pd_id, $name, $price, $des, $fileName['name'], $status);
                             if($result) {
-                                echo "<script>";
-                                echo "setTimeout(
-                                    function() {
-                                        alert('Successfull');
-                                        window.location = ('http://localhost/ntq-project/admin/product');
-                                    }
-                                , 500);";
-                                echo "</script>";
+                                directScript('Successfull!', '' . BASE_URL . '/admin/product');
                                 
                             } else {
-                                echo "<script>";
-                                echo "alert('Product name is invalid');";
-                                echo "</script>";
+                                notifyScript('Product name is existent');
                             }
                         } else {
-                            echo "<script>";
-                            echo "alert('Upload Image is Failed');";
-                            echo "</script>";
+                            notifyScript('Upload Image is Failed');
                         }
                     } else {
-                        echo "<script>";
-                        echo "alert('Price is nummeric and positive');";
-                        echo "</script>";
+                        notifyScript('Price is nummeric and positive');
                     }
 
                 } else {
-                    echo "<script>";
-                    echo "alert('Let\'s input fully Product name, Price and Description');";
-                    echo "</script>";
+                    notifyScript('Input fully Product name, Price and Description fully');
                 }
             }
         }
 
-        $data2['oldUser'] = User::getUser(1);
+        $data2['oldUser'] = User::getUser(User::getIdAdmin());
         $data2['content'] = $this->view->load('edit-product', $data);
         $data2['title'] = 'Edit Product';
         $this->view->loadTemplate('tempadmin', $data2);
@@ -238,7 +203,7 @@ class ProductController extends Controller {
             );
         }
         
-        
+        $data['valueSearch'] = '';
         $data2['content'] = $this->view->load('list-product', $data);
         $data2['title'] = 'List Product';
         $this->view->loadTemplate('tempadmin', $data2);
@@ -247,21 +212,32 @@ class ProductController extends Controller {
     //Tìm kiếm dữ liệu
     public function getDataSearched() {
         
+        $data3 = array();
+        $value = '';
 
-        if(isset($_GET['btn-search-pd'])) {
-            if($_GET['search'] != '') {
-                $string = $_GET['search'];
-                $totalRecord = Product::searching_process($string)['count'];
-                $pages = new Pagination('10', 'page');
-                $pages->set_total($totalRecord);
-                $data = array(
-                    'lists' => Product::searching_process($string, $pages->get_limit())['result'],
-                    'page_links' => $pages->page_links(),
-                    'count' => $totalRecord
-                );
+        if($_GET['search'] != '') {
+            $string = $_GET['search'];
+
+            $data3 = explode(' ', $string);
+            for($i = 0; $i<count($data3); $i++) {
+                $value .= $data3[$i] . '+'; 
             }
+
+            $value = rtrim($value, ' +');
+            $totalRecord = Product::searching_process($string)['count'];
+            $pages = new Pagination('10', 'page');
+            $pages->set_total($totalRecord);
+            $data = array(
+                'lists' => Product::searching_process($string, $pages->get_limit())['result'],
+                'page_links' => $pages->page_links($path='?',$ext = "&search=$value"),
+                'count' => $totalRecord,
+                'order' => "desc",
+                'valueSearch' => $string
+            );
         }
-        $data2['oldUser'] = User::getUser(1);
+
+
+        $data2['oldUser'] = User::getUser(User::getIdAdmin());
         $data2['content'] = $this->view->load('list-product', $data);
         $data2['title'] = 'Data Searching Product';
         $this->view->loadTemplate('tempadmin', $data2);

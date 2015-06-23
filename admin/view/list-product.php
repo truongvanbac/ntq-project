@@ -29,7 +29,7 @@
     <div class="row-fluid">
         <div class="span12 search">
             <form action="<?php echo BASE_URL . '/admin/product/getDataSearched'?>" method="GET">
-                <input type="text" class="span11" placeholder="Some text for search..." name="search"/>
+                <input type="text" class="span11" placeholder="Some text for search..." name="search" value="<?php echo $valueSearch;?>"/>
                 <button class="btn span1" type="submit" name = "btn-search-pd">Search</button>
             </form>
         </div>
@@ -70,7 +70,7 @@
                                 <td><input class="case" type="checkbox" value="<?php echo $list['pd_id']; ?>" name="checkbox[]"/></td>
                                 <td><?php echo $list['pd_id'] ?></td>
                                 <td><?php echo $list['pd_name'] ?></td>
-                                <td><?php echo $list['pd_price']?> VND</td>
+                                <td><?php echo moneyFormat($list['pd_price'])?> VND</td>
                                 <td>
                                     <?php
                                     if ($list['pd_status'] == 1) {

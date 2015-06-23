@@ -61,4 +61,32 @@ function getImage($imgName) {
     echo $path;
 }
 
+
+//Thong bao script su kien
+function notifyScript($stringNotify) {
+    echo "<script>";
+    echo "alert('$stringNotify');";
+    echo "</script>";
+}
+
+//Chuyen huong bang script
+function directScript($stringNotify, $location) {
+    echo "<script>";
+    echo "setTimeout(
+        function() {
+            alert('$stringNotify');
+            window.location = ('$location');
+        }
+    , 500);";
+    echo "</script>";
+}
+
+//Chuyen ve dinh dang tien chua cac dau cham
+function moneyFormat($value) {
+    $data = array();
+    $count = count($value);
+    $result = number_format($value, ((int)$count/3), "," , ".");
+    return $result;
+}
+
 ?>

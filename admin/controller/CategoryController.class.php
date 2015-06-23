@@ -11,16 +11,15 @@ class CategoryController extends Controller {
         parent::__construct();
 
         if(empty($_SESSION['log'])) {
-            header("location: " . BASE_URL . '/admin/login');
-           
+            header("location: " . BASE_URL . '/admin/login');  
         }
 
     }
 
     //Trang category, hiển thị danh sách tất cả các category
     public function index() {
-        $pages = new Pagination('10', 'page');  //Khởi tạo phân trang
-        $pages->set_total(Category::count());   //Sét tổng số phần tử của trang
+        $pages = new Pagination('10', 'page');
+        $pages->set_total(Category::count());
         
 
         //Biến $data lưu trữ dữ liệu truyền đến view
@@ -31,7 +30,7 @@ class CategoryController extends Controller {
             'count' => Category::count(),
             'valueSearch' => ''
         );
-        $data2['oldUser'] = User::getUser(1);
+        $data2['oldUser'] = User::getUser(User::getIdAdmin());
         $data2['content'] = $this->view->load('list-category', $data);
         $data2['title'] = 'List Category';
         $this->view->loadTemplate('tempadmin', $data2);
@@ -59,26 +58,15 @@ class CategoryController extends Controller {
 
                 $result = Category::add_category($ct_name, $ct_status);
                 if ($result) {
-                    echo "<script>";
-                    echo "setTimeout(
-                        function() {
-                            alert('Successfull');
-                            window.location = ('http://localhost/ntq-project/admin/category');
-                        }
-                    , 500);";
-                    echo "</script>";
+                    directScript('Successfull!', '' . BASE_URL . '/admin/category');
                 } else {
-                    echo "<script>";
-                    echo "alert('Category name is invalid');";
-                    echo "</script>";
+                    notifyScript('Category name is existent');
                 }
             } else {
-                echo "<script>";
-                echo "alert('Let\'s input category name');";
-                echo "</script>";
+                notifyScript('Please Input Category Name');
             }
         }
-        $data2['oldUser'] = User::getUser(1);
+        $data2['oldUser'] = User::getUser(User::getIdAdmin());
         $data2['content'] = $this->view->load('add-category', $data);
         $data2['title'] = 'Add Category';
         $this->view->loadTemplate('tempadmin', $data2);
@@ -100,14 +88,7 @@ class CategoryController extends Controller {
          //Kiem tra id category co ton tai hay khong
         $checkUrl = Category::getIdCategory($ct_id);
         if($checkUrl == 0) {
-            echo "<script>";
-            echo "setTimeout(
-                    function() {
-                        alert('Error, not existent category id!!!');
-                        window.location = ('http://localhost/ntq-project/admin/category');
-                    }
-                , 500);";
-            echo "</script>";
+            directScript('Error, not existent category id', '' . BASE_URL . '/admin/category');
         } else {
             if (isset($_POST['btn-edit-ct'])) {
 
@@ -119,27 +100,16 @@ class CategoryController extends Controller {
 
                     $result = Category::edit_category($ct_id, $ct_name, $ct_status);
                     if ($result) {
-                        echo "<script>";
-                        echo "setTimeout(
-                            function() {
-                                alert('Successfull');
-                                window.location = ('http://localhost/ntq-project/admin/category');
-                            }
-                        , 500);";
-                        echo "</script>";
+                        directScript('Successfull!', '' . BASE_URL . '/admin/category');
                     } else {
-                        echo "<script>";
-                        echo "alert('Category name is invalid');";
-                        echo "</script>";
+                        notifyScript('Category name is existent');
                     }
                 } else {
-                    echo "<script>";
-                    echo "alert('Let\'s input category name');";
-                    echo "</script>";
+                    notifyScript('Please input category name');
                 }
             }
         }
-        $data2['oldUser'] = User::getUser(1);
+        $data2['oldUser'] = User::getUser(User::getIdAdmin());
         $data2['content'] = $this->view->load('edit-category', $data);
         $data2['title'] = 'Edit Category';
         $this->view->loadTemplate('tempadmin', $data2);
@@ -172,7 +142,6 @@ class CategoryController extends Controller {
         $urlArray = array();
         $urlArray = explode("/", $url);
         $item = $urlArray[3];
-        
         $order = $urlArray[4];
         
         
@@ -196,7 +165,8 @@ class CategoryController extends Controller {
             );
         }
         
-        $data2['oldUser'] = User::getUser(1);
+        $data['valueSearch'] = '';
+        $data2['oldUser'] = User::getUser(User::getIdAdmin());
         $data2['content'] = $this->view->load('list-category', $data);
         $data2['title'] = 'List Category';
         $this->view->loadTemplate('tempadmin', $data2);
@@ -206,27 +176,26 @@ class CategoryController extends Controller {
     public function getDataSearched() {
         $data3 = array();
         $value = '';
-        //if(isset($_GET['btn-search-ct'])) {
-            if($_GET['search'] != '') {
-                $string = $_GET['search'];
-                $data3 = explode(' ', $string);
-                for($i = 0; $i<count($data3); $i++) {
-                    $value .= $data3[$i] . '+'; 
-                }
-
-                $value = rtrim($value, ' +');
-                $totalRecord = Category::seaching_process($string)['count'];
-                $pages = new Pagination('10', 'page');
-                $pages->set_total($totalRecord);
-                $data = array(
-                    'lists' => Category::seaching_process($string, $pages->get_limit())['result'],
-                    'page_links' => $pages->page_links($path='?',$ext = "&search=$value"),
-                    'count' => $totalRecord,
-                    'valueSearch' => $string
-                );
+        if($_GET['search'] != '') {
+            $string = $_GET['search'];
+            $data3 = explode(' ', $string);
+            for($i = 0; $i<count($data3); $i++) {
+                $value .= $data3[$i] . '+'; 
             }
-        //}
-        $data2['oldUser'] = User::getUser(1);
+
+            $value = rtrim($value, ' +');
+            $totalRecord = Category::seaching_process($string)['count'];
+            $pages = new Pagination('10', 'page');
+            $pages->set_total($totalRecord);
+            $data = array(
+                'lists' => Category::seaching_process($string, $pages->get_limit())['result'],
+                'page_links' => $pages->page_links($path='?',$ext = "&search=$value"),
+                'count' => $totalRecord,
+                'valueSearch' => $string
+            );
+        }
+
+        $data2['oldUser'] = User::getUser(User::getIdAdmin());
         $data2['content'] = $this->view->load('list-category', $data);
         $data2['title'] = 'Data Searching Category';
         $this->view->loadTemplate('tempadmin', $data2);

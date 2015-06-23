@@ -61,7 +61,6 @@ class Model {
         $s = $db->query($query);
         $result = $s->fetch(PDO::FETCH_ASSOC);
         return $result;
-        //return $s->fetchColumn();
     }
 
     //Tìm kiếm phần tử
@@ -122,11 +121,12 @@ class Model {
         $s->execute($data);
     }
 
-
+    //Kiem tra id cua item
     protected static function getIdItem($tableName, $id, $column) {
         $db = Database::getInstance();
         $query = "SELECT count($column) FROM $tableName WHERE $column = '$id'";
         $s = $db->query($query);
         return $s->fetchColumn();
     }
+
 }

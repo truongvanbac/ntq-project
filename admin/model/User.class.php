@@ -1,5 +1,4 @@
 <?php
-
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -42,10 +41,18 @@ class User extends Model {
         return Model::countRecord(self::$tableName, self::$primaryKey);
     }
 
-    public static function getIdUser($user_id) {
+    //Kiem tra xem id co ton tai hay khong
+    public static function checkIdUser($user_id) {
         return Model::getIdItem(self::$tableName, $user_id, self::$primaryKey);
     }
-    
+
+    public static function getIdAdmin() {
+        $db = Database::getInstance();
+        $query = "SELECT user_id FROM " . self::$tableName . " WHERE  username = '" . $_SESSION['username'] . "'";
+        $s = $db->query($query);
+        return $s->fetchColumn();
+    }
+ 
 
     //Thêm 1 user mới
     public static function addUser($username, $email, $pass, $img, $status) {
