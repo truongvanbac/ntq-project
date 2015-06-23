@@ -25,6 +25,7 @@ class LoginController extends Controller {
             header("location: " . BASE_URL . '/admin/category');
         }
 
+
     }
     
     //Đăng nhập
@@ -58,14 +59,10 @@ class LoginController extends Controller {
 
                     header("location: " . BASE_URL . '/admin/category');
                 } else {
-                    echo "<script>";
-                    echo "alert('Account is not existent');";
-                    echo "</script>";
+                    notifyScript('Account is not existent');
                 }
             } else {
-                echo "<script>";
-                echo "alert('Let\'s input username and password');";
-                echo "</script>";
+                notifyScript('Input username and password');
             }
         }
     }

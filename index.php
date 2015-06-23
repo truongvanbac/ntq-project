@@ -48,7 +48,6 @@ function load() {
     
     $controllerName = $controller;
     $controller = ucwords($controller);
-    $model = rtrim($controller, 's');
     $controller .= 'Controller';
     $dispatch = new $controller();
     

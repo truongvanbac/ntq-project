@@ -33,8 +33,8 @@ endHeader();
             <img src="<?php getImage($oldUser['user_img'])?>" class="img-polaroid"/>
         </div>
         <ul class="control">
-            <li><span class="icon-cog"></span> <a href="<?php echo BASE_URL . '/admin/user/edit/1'?>">Update Profile</a></li>
-            <li><span class="icon-share-alt"></span> <a href="login/logout">Logout</a></li>
+            <li><span class="icon-cog"></span> <a href="<?php echo BASE_URL . '/admin/user/edit/' . User::getIdAdmin();?>">Update Profile</a></li>
+            <li><span class="icon-share-alt"></span> <a href="<?php echo BASE_URL . '/admin/login/logout'?>">Logout</a></li>
         </ul>
     </div>
 

@@ -49,9 +49,9 @@ class ProductController extends Controller {
             if(($_POST['pd_name'] != '') && ($_POST['pd_price'] != '') && ($_POST['pd_text'] != '')
                     && ($_POST['select'] != '')) {
 
-                $name = htmlentities($_POST['pd_name']);
+                $name = htmlentities($_POST['pd_name'], ENT_QUOTES);
                 $price = htmlentities($_POST['pd_price']);
-                $des = htmlentities($_POST['pd_text']);
+                $des = htmlentities($_POST['pd_text'], ENT_QUOTES);
                 $status = $_POST['select'];
                 $fileName = $_FILES['fileToUpload'];
 
@@ -113,7 +113,7 @@ class ProductController extends Controller {
                 if(($_POST['edit-name'] != '') && ($_POST['edit-price'] != '') && ($_POST['edit-des'] != '')
                         && ($_POST['select'] != '')) {
                     
-                    $name = htmlentities($_POST['edit-name']);
+                    $name = htmlentities($_POST['edit-name'], ENT_QUOTES);
                     $price = htmlentities($_POST['edit-price']);
                     $des = htmlentities($_POST['edit-des']);
                     $status = $_POST['select'];

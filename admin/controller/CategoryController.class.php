@@ -30,6 +30,7 @@ class CategoryController extends Controller {
             'count' => Category::count(),
             'valueSearch' => ''
         );
+
         $data2['oldUser'] = User::getUser(User::getIdAdmin());
         $data2['content'] = $this->view->load('list-category', $data);
         $data2['title'] = 'List Category';
@@ -49,7 +50,7 @@ class CategoryController extends Controller {
 
         if (isset($_POST['btn-add-ct'])) {
             if ((($_POST['new-category'] != '')) && (($_POST['select'] != ''))) {
-                $ct_name = htmlentities($_POST['new-category']);
+                $ct_name = htmlentities($_POST['new-category'], ENT_QUOTES);
                 $ct_status = $_POST['select'];
 
 
@@ -58,7 +59,7 @@ class CategoryController extends Controller {
 
                 $result = Category::add_category($ct_name, $ct_status);
                 if ($result) {
-                    directScript('Successfull!', '' . BASE_URL . '/admin/category');
+                    directScript('Successfull!', BASE_URL . '/admin/category');
                 } else {
                     notifyScript('Category name is existent');
                 }
@@ -94,7 +95,7 @@ class CategoryController extends Controller {
 
                 if (($_POST['name-edit'] != '') && (($_POST['select'] != ''))) {
 
-                    $ct_name = htmlentities($_POST['name-edit']);
+                    $ct_name = htmlentities($_POST['name-edit'], ENT_QUOTES);
                     $ct_status = $_POST['select'];
 
 

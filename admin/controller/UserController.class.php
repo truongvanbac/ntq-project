@@ -46,7 +46,7 @@ class UserController extends Controller {
         if(isset($_POST['btn-add-user'])) {
             if(($_POST['username'] != '') && ($_POST['pass'] != '') && ($_POST['select'] != '')) {
 
-                $name = htmlentities($_POST['username']);
+                $name = htmlentities($_POST['username'], ENT_QUOTES);
                 $pass = md5($_POST['pass']);
                 $email = $_POST['email'];
                 $status = $_POST['select'];
@@ -102,7 +102,7 @@ class UserController extends Controller {
             if (isset($_POST['btn-edit-user'])) {
                 if(($_POST['edit-username'] != '') && ($_POST['edit_pass'] != '') && ($_POST['edit_email'] != '') && ($_POST['select'] != '')) {
                     
-                    $username = htmlentities($_POST['edit-username']);
+                    $username = htmlentities($_POST['edit-username'], ENT_QUOTES);
                     $pass = md5($_POST['edit_pass']);
                     $email = $_POST['edit_email'];
                     $status = $_POST['select'];
