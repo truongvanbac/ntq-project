@@ -1,5 +1,4 @@
 <?php
-date_default_timezone_set("Asia/Ho_Chi_Minh");
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -13,7 +12,7 @@ class Product extends Model {
 
 
     //Lấy toàn bộ record của bảng
-    public static function get_list_product($limit) {
+    public static function get_list($limit) {
         return Model::getAllRecord(self::$tableName, $limit);
     }
     
@@ -40,13 +39,15 @@ class Product extends Model {
     
     
     //Thêm mới product
-    public static function addProduct($name, $price, $des, $file, $status) {
+    public static function addProduct($name, $price, $des, $file = array(), $status) {
         $db = Database::getInstance();
         $data = array(
             'pd_name' => $name,
             'pd_price' => $price,
             'pd_des' => $des,
-            'pd_img' => $file,
+            'pd_img0' => $file[0],
+            'pd_img1' => $file[1],
+            'pd_img2' => $file[2],
             'pd_status' => $status,
             'pd_time_created' => date("Y-m-d h:i:s"),
             'pd_time_updated' => date("Y-m-d h:i:s")
@@ -64,13 +65,15 @@ class Product extends Model {
     }
     
     //Sửa product
-    public static function editProduct($pd_id, $pd_name, $price, $des, $file, $status) {
+    public static function editProduct($pd_id, $pd_name, $price, $des, $file = array(), $status) {
         $db = Database::getInstance();
         $data = array(
             'pd_name' => $pd_name,
             'pd_price' => $price,
             'pd_des' => $des,
-            'pd_img' => $file,
+            'pd_img0' => $file[0],
+            'pd_img1' => $file[1],
+            'pd_img2' => $file[2],
             'pd_status' => $status,
             'pd_time_updated' => date("Y-m-d h:i:s")
         );
@@ -130,13 +133,13 @@ class Product extends Model {
         return Model::sort(self::$tableName, $item, $typesort, $limit);
     }
 
-    public static function searching_process($string, $limit=null) {
+    public static function seaching_process($string, $limit=null) {
         $column = array(
-            '1' => 'pd_name',
-            '2' => 'pd_price',
-            '3' => 'pd_id'
+            'pd_name' => 'pd_name',
+            'pd_price' => 'pd_price',
+            'pd_id' => 'pd_id'
         );
 
-        return Model::searchingElement(self::$tableName, $string, $column);
+        return Model::searchingElement(self::$tableName, $string, $column, $limit);
     }
 }

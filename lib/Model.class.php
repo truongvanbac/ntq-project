@@ -81,9 +81,6 @@ class Model {
         $dataResult = array();
         $dataResult['result'] = $s->fetchAll();
         $dataResult['count'] = $s->rowCount();
-        // echo '<pre>';
-        // var_dump($dataResult);
-        // echo '</pre>';
         return $dataResult;
     }
 

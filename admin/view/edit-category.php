@@ -22,7 +22,10 @@
                 <form action="" method="POST">
                     <div class="row-form">
                         <div class="span3">Category Name:</div>
-                        <div class="span9"><input type="text" placeholder="some text value..." name="name-edit" value="<?php echo $edit_name['ct_name'];?>"/></div>
+                        <div class="span9">
+                            <input type="text" placeholder="some text value..." name="name-edit" value="<?php echo $edit_name['ct_name'];?>"/>
+                            <p id='notifyMessage'><?php echo $message;?></p>
+                        </div>
                         <div class="clear"></div>
                     </div> 
                     <div class="row-form">

@@ -22,22 +22,34 @@
                     <form method="POST" enctype="multipart/form-data">
                     	<div class="row-form">
                             <div class="span3">Username:</div>
-                            <div class="span9"><input type="text" placeholder="some text value..." name="username" value="<?php echo $oldName;?>"/></div>
+                            <div class="span9">
+                                <input type="text" placeholder="some text value..." name="username" value="<?php echo $oldName;?>"/>
+                                <p id='notifyMessage'><?php echo $messageName; ?></p>
+                            </div>
                             <div class="clear"></div>
                         </div> 
                     	<div class="row-form">
                             <div class="span3">Email:</div>
-                            <div class="span9"><input type="text" placeholder="some text value..." name="email" value="<?php echo $oldEmail;?>"/></div>
+                            <div class="span9">
+                                <input type="text" placeholder="some text value..." name="email" value="<?php echo $oldEmail;?>"/>
+                                <p id='notifyMessage'><?php echo $messageEmail; ?></p>
+                            </div>
                             <div class="clear"></div>
                         </div> 
                     	<div class="row-form">
                             <div class="span3">Password:</div>
-                            <div class="span9"><input type="text" placeholder="some text value..." name="pass"/></div>
+                            <div class="span9">
+                                <input type="password" placeholder="some text value..." name="pass"/>
+                                <p id='notifyMessage'><?php echo $messagePass; ?></p>
+                            </div>
                             <div class="clear"></div>
                         </div> 
                     	<div class="row-form">
                             <div class="span3">Upload Avatar:</div>
-                            <div class="span9"><input type="file" name="fileToUpload"></div>
+                            <div class="span9">
+                                <input type="file" name="fileToUpload">
+                                <p id='notifyMessage'><?php echo $messageImg; ?></p>
+                            </div>
                             <div class="clear"></div>
                         </div> 
                         <div class="row-form">
@@ -46,11 +58,11 @@
                                 <select name="select">
                                     <?php 
                                         if($oldStatus == '1') {
-                                        echo "<option value='1' seleted>Activate</option>";
+                                        echo "<option value='1' selected>Activate</option>";
                                         echo "<option value='0'>Deactivate</option>";
                                     } else {
                                         echo "<option value='1'>Activate</option>";
-                                        echo "<option value='0' seleted>Deactivate</option>";
+                                        echo "<option value='0' selected>Deactivate</option>";
                                     }
                                     ?>
                                 </select>

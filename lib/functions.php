@@ -89,4 +89,31 @@ function moneyFormat($value) {
     return $result;
 }
 
+function redirect($location) {
+    if(!empty($location)) {
+        header("location: " . $location);
+    }
+}
+
+
+function getMethod($item) {
+    switch ($_SERVER['REQUEST_METHOD']) {
+        case 'POST': 
+            return $_POST[$item]; 
+            break;
+        case 'GET':
+            return $_GET[$item];
+            break;
+    }
+}
+
+function urlAnalyze() {
+    global $url;
+    $url = rtrim($url, "/");
+    $urlArray = array();
+    $urlArray = explode("/", $url);
+    return $urlArray;
+}
+
+
 ?>

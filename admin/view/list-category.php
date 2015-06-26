@@ -108,8 +108,8 @@ includeScript('jquery-2.1.3.min.js');
                         </tbody>
                     </table>
                     <div class="bulk-action">
-                        <input type="submit" class="btn btn-success" name="btn-ac-ct" value="Activate">
-                        <input type="submit" class="btn btn-danger" name="btn-dac-ct" value="Deactive">
+                        <input type="submit" class="btn btn-success" name="btn-ac" value="Activate">
+                        <input type="submit" class="btn btn-danger" name="btn-dac" value="Deactive">
                     </div><!-- /bulk-action-->
                 </form>
                 <?php } else {

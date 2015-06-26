@@ -1,11 +1,17 @@
 <?php
+session_start();
+date_default_timezone_set("Asia/Ho_Chi_Minh");
+
 define('ROOT',dirname(realpath(__FILE__)) . "/");
 define('DIR_UPLOAD', ROOT . 'public/uploads/');
 
-include(ROOT . 'system/configs/config.php');
-include(ROOT . 'lib/functions.php');
+require_once(ROOT . 'system/configs/rounter.php');
+require_once(ROOT . 'system/configs/config.php');
+require_once(ROOT . 'system/configs/validationNotify.php');
+require_once(ROOT . 'lib/functions.php');
 
 $url = $_GET['url'];   //Lấy url
+
 
 $host = $_SERVER['HTTP_HOST'];
 $self = $_SERVER['PHP_SELF'];

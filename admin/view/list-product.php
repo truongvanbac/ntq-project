@@ -107,8 +107,8 @@
                     </tbody>
                 </table>
                 <div class="bulk-action">
-                    <input type="submit" class="btn btn-success" name="btn-ac-pd" value="Activate">
-                    <input type="submit" class="btn btn-danger" name="btn-dac-pd" value="Deactive">
+                    <input type="submit" class="btn btn-success" name="btn-ac" value="Activate">
+                    <input type="submit" class="btn btn-danger" name="btn-dac" value="Deactive">
                 </div><!-- /bulk-action-->
                 <form>
 

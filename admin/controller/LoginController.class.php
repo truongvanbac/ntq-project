@@ -1,18 +1,17 @@
 <?php
-session_start();
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
-class LoginController extends Controller {
+class LoginController extends BaseController {
 
     //Hàm khởi tạo
     public function __construct() {
         parent::__construct();
 
-        
+        //Kiem tra cookie        
         if(isset($_COOKIE)) {
             if(!empty($_COOKIE['username'])) {
                 $_SESSION['log'] = true;
@@ -20,23 +19,25 @@ class LoginController extends Controller {
             }
         }
 
-
+        //Kiem tra session
         if(isset($_SESSION['log'])) {
-            header("location: " . BASE_URL . '/admin/category');
+            redirect(BASE_URL  . LIST_CATEGORY);
         }
 
 
     }
+
+    public function checkLogin(){}
     
     //Đăng nhập
     public function index() {
         
         $data = array(
-            'title' => 'Login Administrator'
+            'title' => 'Login Administrator',
+            'message' => '',
+            'message1' => '',
+            'message2' => ''
         );
-        $this->view->load('login', $data);
-        $this->view->show();
-
         
         
         if (isset($_POST['btn-login'])) {
@@ -57,22 +58,26 @@ class LoginController extends Controller {
                         setcookie('username', $username, time() - 7200);
                     }
 
-                    header("location: " . BASE_URL . '/admin/category');
+                    redirect(BASE_URL . LIST_CATEGORY);
                 } else {
-                    notifyScript('Account is not existent');
+                    $data['message'] = 'Account is not existent!';
                 }
-            } else {
-                notifyScript('Input username and password');
+            } else if(empty($_POST['username'])) {
+                $data['message1'] = 'Input username!';
+            } else if(empty($_POST['password'])) {
+                $data['message2'] = 'Input password!';
             }
         }
+
+        $this->view->load('login', $data);
+        $this->view->show();
     }
 
     //Đăng xuất
     public function logout() {
-        session_start();
         session_destroy();
         setcookie('username');
-        header("location: " . BASE_URL . "/admin/login");
+        redirect(BASE_URL . LOGIN);
     }
 
 }

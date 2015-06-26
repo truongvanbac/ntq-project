@@ -22,24 +22,36 @@
                 <form action="" method="POST" enctype="multipart/form-data">
                     <div class="row-form">
                         <div class="span3">Product Name:</div>
-                        <div class="span9"><input type="text" placeholder="some text value..." name="pd_name" value="<?php echo $oldName;?>"/></div>
+                        <div class="span9">
+                            <input type="text" placeholder="some text value..." name="pd_name" value="<?php echo $oldName;?>"/>
+                            <p id='notifyMessage'><?php echo $messageName?><p>
+                        </div>
                         <div class="clear"></div>
                     </div> 
                     <div class="row-form">
                         <div class="span3">Price:</div>
-                        <div class="span9"><input type="text" placeholder="some text value..." name="pd_price" value="<?php echo $oldPrice;?>"/></div>
+                        <div class="span9">
+                            <input type="text" placeholder="some text value..." name="pd_price" value="<?php echo $oldPrice;?>"/>
+                            <p id='notifyMessage'><?php echo $messagePrice?><p>
+                        </div>
                         <div class="clear"></div>
                     </div> 
                     <div class="row-form">
                         <div class="span3">Description:</div>
                         <div class="span9">
                             <textarea name="pd_text" placeholder="Textarea field placeholder..."><?php echo $oldDes;?></textarea>
+                            <p id='notifyMessage'><?php echo $messageDes?><p>
                         </div>
                         <div class="clear"></div>
                     </div> 
                     <div class="row-form">
                         <div class="span3">Upload Image:</div>
-                        <div class="span9"><input type="file" name="fileToUpload"></div>
+                        <div class="span9">
+                            <?php for($i = 0; $i < NUM_IMG; $i++) { ?>
+                                <input type="file" name="fileToUpload[]">
+                            <?php }?>
+                            <p id='notifyMessage'><?php echo $messageImg?><p>
+                        </div>
                         <div class="clear"></div>
                     </div> 
                     <div class="row-form">
@@ -48,11 +60,11 @@
                             <select name="select">
                                 <?php 
                                     if($oldStatus == '1') {
-                                        echo "<option value='1' seleted>Activate</option>";
+                                        echo "<option value='1' selected>Activate</option>";
                                         echo "<option value='0'>Deactivate</option>";
                                     } else {
                                         echo "<option value='1'>Activate</option>";
-                                        echo "<option value='0' seleted>Deactivate</option>";
+                                        echo "<option value='0' selected>Deactivate</option>";
                                     }
                                 ?>
                             </select>

@@ -18,13 +18,18 @@ endHeader();
         <div class="control-group">
             <label for="inputUsername">Username</label>                
             <input type="text" id="inputUsername" name="username"/>
+            <p id = 'notifyMessage'><?php echo $message1?></p>
         </div>
         <div class="control-group">
             <label for="inputPassword">Password</label>                
-            <input type="password" id="inputPassword" name="password"/>                
+            <input type="password" id="inputPassword" name="password"/> 
+            <p id = 'notifyMessage'><?php echo $message2?></p>               
         </div>
         <div class="control-group" style="margin-bottom: 5px;">                
             <label class="checkbox"><input type="checkbox" name="remember"> Remember me</label>                                                
+        </div>
+        <div class="control-group" style="margin-bottom: 5px;">
+            <center><p id = 'notifyMessage'><?php echo $message?></p></center>                        
         </div>
         <div class="form-actions">
             <button type="submit" class="btn btn-block" name="btn-login">Login</button>

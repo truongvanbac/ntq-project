@@ -1,6 +1,5 @@
 <?php
 
-define('DEVELOPMENT_ENVIRONMENT', TRUE);
 define('DEFAULT_CONROLLER', 'index');
 define('DEFAULT_ACTION', 'index');
 
@@ -15,4 +14,16 @@ define('DB_PASS','bac17041994');
 define('TB_CATEGORY', 'category');
 define('TB_PRODUCT', 'product');
 define('TB_USER', 'user');
+
+//Phan trang
+define('PER_PAGE', '10');
+define('INSTANT', 'page');
+
+//Item
+define('CATEGORY', 'Category');
+define('PRODUCT', 'Product');
+define('USER', 'User');
+
+define('NUM_IMG', '3');
+
 ?>

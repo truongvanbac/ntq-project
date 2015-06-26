@@ -22,25 +22,45 @@
                 <form action="" method="POST" enctype="multipart/form-data">
                     <div class="row-form">
                         <div class="span3">Product Name:</div>
-                        <div class="span9"><input type="text" placeholder="some text value..." name="edit-name" value="<?php echo $oldPd['pd_name'];?>"/></div>
+                        <div class="span9">
+                            <input type="text" placeholder="some text value..." name="edit-name" value="<?php echo $oldPd['pd_name'];?>"/>
+                            <p id='notifyMessage'><?php echo $messageName; ?></p>
+                        </div>
                         <div class="clear"></div>
                     </div> 
                     <div class="row-form">
                         <div class="span3">Price:</div>
-                        <div class="span9"><input type="text" placeholder="some text value..." name="edit-price" value="<?php echo $oldPd['pd_price'];?>" /></div>
+                        <div class="span9">
+                            <input type="text" placeholder="some text value..." name="edit-price" value="<?php echo $oldPd['pd_price'];?>" />
+                            <p id='notifyMessage'><?php echo $messagePrice?></p>
+                        </div>
                         <div class="clear"></div>
                     </div> 
                     <div class="row-form">
                         <div class="span3">Description:</div>
-                        <div class="span9"><textarea name="edit-des" placeholder="Textarea field placeholder..." ><?php echo $oldPd['pd_des'];?></textarea></div>
+                        <div class="span9">
+                            <textarea name="edit-des" placeholder="Textarea field placeholder..." ><?php echo $oldPd['pd_des'];?></textarea>
+                            <p id='notifyMessage'><?php echo $messageDes?></p>
+                        </div>
                         <div class="clear"></div>
                     </div> 
                     <div class="row-form">
                         <div class="span3">Upload Image:</div>
                         <div class="span9">
-                            <img id="img-show" src="<?php getImage($oldPd['pd_img'])?>" alt="Old Image" width="50" height="50">
+
+                            <?php 
+                                for($i = 0; $i < NUM_IMG; $i++) {
+                                    if($oldPd["pd_img" . $i] != '') { ?>
+                                        <img id="img-show" src="<?php getImage($oldPd["pd_img" . $i])?>" alt="Old Image" width="50" height="50">
+                                    <?php }
+                                }
+                            ?>
                             <br>
-                            <input type="file" name="fileToUpload">
+
+                            <?php for($i = 0; $i < NUM_IMG; $i++) { ?>
+                                <input type="file" name="fileToUpload[]">
+                            <?php }?>
+                            <p id='notifyMessage'><?php echo $messageImg?></p>
                         </div>
                         <div class="clear"></div>
                     </div> 

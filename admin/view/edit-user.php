@@ -25,17 +25,26 @@
                 <form method="POST" enctype="multipart/form-data">
                     <div class="row-form">
                         <div class="span3">Username:</div>
-                        <div class="span9"><input type="text" placeholder="some text value..." name="edit-username" value="<?php echo $oldUser['username']?>"/></div>
+                        <div class="span9">
+                            <input type="text" placeholder="some text value..." name="edit_username" value="<?php echo $oldUser['username']?>"/>
+                            <p id='notifyMessage'><?php echo $messageName; ?></p>
+                        </div>
                         <div class="clear"></div>
                     </div> 
                     <div class="row-form">
                         <div class="span3">Email:</div>
-                        <div class="span9"><input type="text" placeholder="some text value..." name="edit_email" value="<?php echo $oldUser['user_email']?>"/></div>
+                        <div class="span9">
+                            <input type="text" placeholder="some text value..." name="edit_email" value="<?php echo $oldUser['user_email']?>"/>
+                            <p id='notifyMessage'><?php echo $messageEmail; ?></p>
+                        </div>
                         <div class="clear"></div>
                     </div> 
                     <div class="row-form">
                         <div class="span3">Password:</div>
-                        <div class="span9"><input type="text" placeholder="some text value..." name="edit_pass" value="<?php echo ($oldUser['pass'])?>"/></div>
+                        <div class="span9">
+                            <input type="password" placeholder="some text value..." name="edit_pass" value="<?php echo ($oldUser['pass'])?>"/>
+                            <p id='notifyMessage'><?php echo $messagePass; ?></p>
+                        </div>
                         <div class="clear"></div>
                     </div> 
                     <div class="row-form">
@@ -44,6 +53,7 @@
                             <img id="img-show" src="<?php getImage($oldUser['user_img'])?>" alt="Old Image" width="50" height="50">
                             <br>
                             <input type="file" name="fileToUpload">
+                            <p id='notifyMessage'><?php echo $messageImg; ?></p>
                         </div>
                         <div class="clear"></div>
                     </div> 

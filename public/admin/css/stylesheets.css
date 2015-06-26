@@ -16,3 +16,9 @@ body {
     background: url("../img/backgrounds/body.jpg") left top repeat;
 }
 
+p#notifyMessage {
+	color: red;
+	font-size: 11px;
+	font-style: italic;
+}
+

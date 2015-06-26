@@ -1,7 +1,5 @@
 <?php
 
-date_default_timezone_set("Asia/Ho_Chi_Minh");
-
 class Category extends Model {
 
     protected static $tableName = 'category';
@@ -9,7 +7,7 @@ class Category extends Model {
 
 
     //Lấy toàn bộ record cảu bảng
-    public static function get_list_category($limit) {
+    public static function get_list($limit) {
         return Model::getAllRecord(self::$tableName, $limit);
     }
     

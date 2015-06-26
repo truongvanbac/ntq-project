@@ -32,7 +32,7 @@ class User extends Model {
     }
     
     //Láy toàn bộ record của bảng
-    public static function getAll($limit) {
+    public static function get_list($limit) {
         return Model::getAllRecord(self::$tableName, $limit);
     }
     
@@ -48,7 +48,7 @@ class User extends Model {
 
     public static function getIdAdmin() {
         $db = Database::getInstance();
-        $query = "SELECT user_id FROM " . self::$tableName . " WHERE  username = '" . $_SESSION['username'] . "'";
+        $query = "SELECT user_id FROM " . self::$tableName . " WHERE  privilege = 1";
         $s = $db->query($query);
         return $s->fetchColumn();
     }

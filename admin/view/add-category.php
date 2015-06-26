@@ -19,12 +19,16 @@
                 <div class="clear"></div>
             </div>
             <div class="block-fluid">
-                <form action="<?php echo BASE_URL . '/admin/category/add'?>" method="POST">
+                <form action="" method="POST">
                     <div class="row-form">
                         <div class="span3">Category Name:</div>
-                        <div class="span9"><input type="text" placeholder="some text value..." name="new-category" value="<?php echo $oldName; ?>"/></div>
-                       
-                        <div class="clear"></div>
+                        <div class="span9">
+                            <input type="text" placeholder="some text value..." name="new-category" value="<?php echo $oldName; ?>"/>
+                            <p id='notifyMessage'><?php echo $message;?></p>
+                        </div>
+
+
+                    <div class="clear"></div>
                     </div> 
                     <div class="row-form">
                         <div class="span3">Activate:</div>
@@ -32,11 +36,11 @@
                             <select name="select">
                                 <?php 
                                     if($oldStatus == '1') {
-                                        echo "<option value='1' seleted>Activate</option>";
+                                        echo "<option value='1' selected>Activate</option>";
                                         echo "<option value='0'>Deactivate</option>";
                                     } else {
                                         echo "<option value='1'>Activate</option>";
-                                        echo "<option value='0' seleted>Deactivate</option>";
+                                        echo "<option value='0' selected>Deactivate</option>";
                                     }
                                 ?>
                             </select>

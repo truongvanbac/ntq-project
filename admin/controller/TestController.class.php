@@ -4,6 +4,6 @@ class TestController extends Controller {
 
 	public function index() {
 		$result = User::getIdAdmin();
-		echo ($result);
+		var_dump($result);
 	}
 }
