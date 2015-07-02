@@ -14,7 +14,7 @@ endHeader();
     <div class="loginHead">
         <img src="<?php echo includeImage('', 'logo.png') ?>" alt="NTQ Solution Admin Control Panel" title="NTQ Solution Admin Control Panel"/>
     </div>
-    <form class="form-horizontal" action="" method="POST">            
+    <form class="form-horizontal" action="<?php echo BASE_URL . LOGIN?>" method="POST">            
         <div class="control-group">
             <label for="inputUsername">Username</label>                
             <input type="text" id="inputUsername" name="username"/>

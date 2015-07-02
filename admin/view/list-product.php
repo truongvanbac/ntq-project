@@ -1,21 +1,3 @@
-<?php includeScript('jquery-2.1.3.min.js') ?>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $("#checkAll").click(function() {
-            if (this.checked) {
-                $('.case').each(function() {
-                    this.checked = true;
-                });
-            } else {
-                $('.case').each(function() {
-                    this.checked = false;
-                });
-            }
-        });
-
-    });
-</script>
-
 <div class="breadLine">
 
     <ul class="breadcrumb">
@@ -54,13 +36,14 @@
                 <table cellpadding="0" cellspacing="0" width="100%" class="table" id="tSortable_2">
                     <thead>
                         <tr>
+                            <?php if(empty($_GET['page'])) $_GET['page'] = 1;?>
                             <th><input type="checkbox" id="checkAll"/></th>
-                            <th width="10%" class="sorting"><a href="<?php echo BASE_URL ?>/admin/product/sort/pd_id/<?php echo $order; ?>">ID</a></th>
-                            <th width="30%" class="sorting"><a href="<?php echo BASE_URL ?>/admin/product/sort/pd_name/<?php echo $order; ?>">Product Name</a></th>
-                            <th width="15%" class="sorting"><a href="<?php echo BASE_URL ?>/admin/product/sort/pd_price/<?php echo $order; ?>">Price</a></th>
-                            <th width="15%" class="sorting"><a href="<?php echo BASE_URL ?>/admin/product/sort/pd_status/<?php echo $order; ?>">Activate</a></th>
-                            <th width="10%" class="sorting"><a href="<?php echo BASE_URL ?>/admin/product/sort/pd_time_created/<?php echo $order; ?>">Time Created</a></th>
-                            <th width="10%" class="sorting"><a href="<?php echo BASE_URL ?>/admin/product/sort/pd_time_updated/<?php echo $order; ?>">Time Updated</a></th>
+                            <th width="10%" class="sorting"><a href="<?php echo BASE_URL ?>/admin/product/sort/pd_id/<?php echo $order; ?>?page=<?php echo $_GET['page'];?>">ID</a></th>
+                            <th width="30%" class="sorting"><a href="<?php echo BASE_URL ?>/admin/product/sort/pd_name/<?php echo $order; ?>?page=<?php echo $_GET['page'];?>">Product Name</a></th>
+                            <th width="15%" class="sorting"><a href="<?php echo BASE_URL ?>/admin/product/sort/pd_price/<?php echo $order; ?>?page=<?php echo $_GET['page'];?>">Price</a></th>
+                            <th width="15%" class="sorting"><a href="<?php echo BASE_URL ?>/admin/product/sort/pd_status/<?php echo $order; ?>?page=<?php echo $_GET['page'];?>">Activate</a></th>
+                            <th width="10%" class="sorting"><a href="<?php echo BASE_URL ?>/admin/product/sort/pd_time_created/<?php echo $order; ?>?page=<?php echo $_GET['page'];?>">Time Created</a></th>
+                            <th width="10%" class="sorting"><a href="<?php echo BASE_URL ?>/admin/product/sort/pd_time_updated/<?php echo $order; ?>?page=<?php echo $_GET['page'];?>">Time Updated</a></th>
                             <th width="10%">Action</th>
                         </tr>
                     </thead>

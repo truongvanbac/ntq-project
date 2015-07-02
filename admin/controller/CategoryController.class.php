@@ -1,20 +1,33 @@
 <?php
 
 class CategoryController extends BaseController {
-
     
-    //Hàm khởi tạo
+    /**
+     * Model Name
+     */
+    protected static $model = 'Category';
+
+    /**
+    * Constructor function
+    *   
+    */
     public function __construct() {
         parent::__construct();
+
     }
 
-    //Trang category, hiển thị danh sách tất cả các category
+
+    /**
+     * Index, show list all category
+     */
     public function index() {
-        $this->homePage(CATEGORY, 'list-category', 'List Category');
+        $this->indexPage('list-category', 'List Category');         //BaseController/indexPage()
     }
 
 
-    //Thêm category
+    /**
+     * Add category
+     */
     public function add() {
 
         $data = array(
@@ -23,32 +36,16 @@ class CategoryController extends BaseController {
             'message' => ''
         );
 
-        if (isset($_POST['btn-add-ct'])) {
-
-            if ((getMethod('new-category') != '') && (getMethod('select') != '')) {
-
-                $ct_name = htmlentities(getMethod('new-category'), ENT_QUOTES);
-                $ct_status = getMethod('select');
-
-                $result = Category::add_category($ct_name, $ct_status);
-                if ($result) {
-                    directScript('Successfull!', BASE_URL . LIST_CATEGORY);
-                } else {
-                    $data['message'] = 'Category name is existent!';
-                }
-            } else {
-                $data['message'] = 'Category name is not empty!';
-            }
-
-            $data['oldName'] = getMethod('new-category');
-            $data['oldStatus'] = getMethod('select');
-        }
-
-        $this->loadView(CATEGORY, 'add-category', 'Add Category', $data);
+        $itemPost = array('new-category', 'select');
+        $dataInput = array();
+        $this->updateCategory('add', $data, 'btn-add-ct', $itemPost, $dataInput);
+        $this->loadView('add-category', 'Add Category', $data);             //BaseController/loadView()
     }
 
 
-    //Chỉnh sửa category
+    /**
+     * Edit Category
+     */
     public function edit() {
 
         $urlArray = urlAnalyze();
@@ -59,50 +56,91 @@ class CategoryController extends BaseController {
             'message' => ''
         );
 
-         //Kiem tra id category co ton tai hay khong
-        $checkUrl = Category::getIdCategory($ct_id);
+        $dataInput = array();
+
+        $checkUrl = Category::getIdCategory($ct_id);    //Check id category
         if($checkUrl == 0) {
-            directScript('Error, not existent category id', '' . BASE_URL . LIST_CATEGORY);
+            directScript('Error, category id is not exist!', '' . BASE_URL . LIST_CATEGORY);        //lib/function/directScript()
         } else {
-            
-            if (isset($_POST['btn-edit-ct'])) {
+            $itemPost = array(
+                'name-edit',
+                'select'
+            );
 
-                if ((getMethod('name-edit') != '') && (getMethod('select') != '')) {
-
-                    $ct_name = htmlentities(getMethod('name-edit'), ENT_QUOTES);
-                    $ct_status = getMethod('select');
-
-                    $result = Category::edit_category($ct_id, $ct_name, $ct_status);
-                    if ($result) {
-                        directScript('Successfull!', '' . BASE_URL . LIST_CATEGORY);
-                    } else {
-                        $data['message'] = 'Category name is existent';
-                    }
-                } else {
-                    $data['message'] = 'Category name is not empty';
-                }
-
-                $data['edit_name']['ct_name'] = getMethod('name-edit');
-                $data['edit_name']['ct_status'] = getMethod('select');
-            }   
+            $this->updateCategory('edit', $data, 'btn-edit-ct', $itemPost, $dataInput, $ct_id);
         }
-
-        $this->loadView(CATEGORY, 'edit-category', 'Edit Category', $data);
+        $this->loadView('edit-category', 'Edit Category', $data);       //BaseController/loadView
     }
 
-    //Update active các phần tử
+
+    /**
+     * Function commmon to update category contain add and edit category
+     */
+    private function updateCategory($action, &$data = array(), $button, $itemPost = array(), &$dataInput = array(), &$ct_id = null) {
+
+        if (isset($_POST[$button])) {
+            $ct_name_check = $this->validate->checkInputForm('Category name', $itemPost[0], 'require', $data['message']);   //lib/Valodation/checkInpitForm
+            $ct_status_check = $this->validate->checkInputForm('Category name', $itemPost[1], 'require', $data['message']); //lib/Valodation/checkInpitForm
+
+            if($ct_name_check && $ct_status_check) {
+
+                $dataInput['ct_name'] = htmlentities(getValue($itemPost[0]), ENT_QUOTES);
+                $dataInput['ct_status'] = getValue($itemPost[1]);
+
+                switch ($action) {
+                    case 'add':
+                        $dataInput['ct_time_created'] = $dataInput['ct_time_update'] = date('Y-m-d h:i:s');
+
+                        $result = Category::updateCategoryProcess($dataInput);
+                        break;
+                    
+                    case 'edit':
+                        $dataInput['ct_time_update'] = date('Y-m-d h:i:s');
+                        $result = Category::updateCategoryProcess($dataInput, $ct_id);
+                        break;
+                }
+
+                if ($result) {
+                    directScript('Successfull!', '' . BASE_URL . LIST_CATEGORY);    //lib/functions/directScript
+                } else {
+                    $data['message'] = 'Category name is existent!';
+                }
+            } 
+
+            switch ($action) {
+                case 'add':
+                    $data['oldName'] = getValue($itemPost[0]);
+                    $data['oldStatus'] = getValue($itemPost[1]);
+                    break;
+                case 'edit':
+                    $data['edit_name']['ct_name'] = getValue($itemPost[0]);
+                    $data['edit_name']['ct_status'] = getValue($itemPost[1]);
+                    break;   
+            }
+            return $data;
+        }
+    }
+
+
+    /**
+     * Active item category
+     */
     public function active() {
-        $this->activeItem(CATEGORY);
+        $this->activeItem();
         redirect(BASE_URL . LIST_CATEGORY);
     }
 
-    //Sắp xếp
+    /**
+     * Sort category
+     */
     public function sort() {
-        $this->sortItem(CATEGORY, 'list-category', 'Data Sorting Category');
+        $this->sortItem('list-category', 'Sorting Category');
     }
 
-    //Tìm kiếm dữ liệu
+    /**
+     * Get Data Searched
+     */
     public function getDataSearched() {
-        $this->searchingItem(CATEGORY, 'list-category', 'Data Searching Category');
+        $this->searchingItem('list-category', 'Searching Category');
     }
 }

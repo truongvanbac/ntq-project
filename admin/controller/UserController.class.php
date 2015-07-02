@@ -3,20 +3,35 @@
 class UserController extends BaseController {
     
 
-   //Hầm khỏi tạo
+    /**
+     * Model Name
+     */
+    protected static $model = 'User';
+
+   /**
+    * Constructor function
+    *   
+    */
     public function __construct() {
         parent::__construct();
     }
     
-    //Trang hiển thị danh sách user
+
+    /**
+     * Index, show list all user
+     */
     public function index() {
-        $this->homePage(USER, 'list-user', 'List User');
+        $this->indexPage('list-user', 'List User');
     }
     
-    //Thêm user
+
+    /**
+     * Add user
+     */
     public function add() {
         $data = array(
             'oldName' => '',
+            'oldPass' => '',
             'oldEmail' => '',
             'oldStatus' => '1',
             'messageName' => '',
@@ -25,60 +40,16 @@ class UserController extends BaseController {
             'messageImg' => ''
         );
         
-        if(isset($_POST['btn-add-user'])) {
-            if((getMethod('username') != '') && (getMethod('pass') != '') && (getMethod('email') != '') 
-                && (getMethod('select') != '')) {
-
-                $name = htmlentities(getMethod('username'), ENT_QUOTES);
-                $pass = md5(getMethod('pass'));
-                $email = getMethod('email');
-                $status = getMethod('select');
-                $fileName = $_FILES['fileToUpload'];
-
-                if($fileName['name'] != '') {
-                    $fileName['name'] = time() . $fileName['name'];
-                }
-                
-                if($this->uploadImg($fileName)) {
-
-                    $result = User::addUser($name, $email, $pass, $fileName['name'], $status);
-
-                    if($result) {
-                        directScript('Successfull!', '' . BASE_URL . LIST_USER);
-                    } else {
-                        $data['messageName'] = 'Username is existent!';
-                    }
-                } else {
-                    $data['messageImg'] = 'Upload Image Failed!';
-                }
-                
-            } else {
-                if(getMethod('username') == '') {
-                    $data['messageName'] = 'Field Username is not empty!';
-                }
-
-                if(getMethod('email') == '') {
-                    $data['messageEmail'] = 'Field Email is not empty!';
-                } else if(filter_var(getMethod('email'), FILTER_VALIDATE_EMAIL) == false) {
-                    $data['messageEmail'] = 'Email is invalid!';
-                }
-
-                if(getMethod('pass') == '') {
-                    $data['messagePass'] = 'Field Password is not empty!';
-                }
-            }
-
-            $data['oldName'] = getMethod('username');
-            $data['oldEmail'] = getMethod('email');
-            $data['oldStatus'] = getMethod('select');
-            $data['oldPass'] = getMethod('pass');
-        }
-
-        $this->loadView(USER, 'add-user', 'Add User', $data);
+        $itemPost = array('username', 'pass', 'email','select');
+        $dataInput = array();
+        $this->updateUser('add', $data, 'btn-add-user', $itemPost, $dataInput);
+        $this->loadView('add-user', 'Add User', $data);
     }
     
 
-    //Sửa user 
+    /**
+     * Edit user
+     */ 
     public function edit() {
         $urlArray = urlAnalyze();
         $user_id = $urlArray[3];
@@ -91,88 +62,111 @@ class UserController extends BaseController {
             'messageImg' => ''
         );
         
-        $checkUrl = User::checkIdUser($user_id);
+        $checkUrl = User::checkIdUser($user_id);    //Check id user
         if($checkUrl == 0) {
-            directScript('Error, not existent user id!', '' . BASE_URL . LIST_USER);
+            directScript('Error, user id not exist!', '' . BASE_URL . LIST_USER);
         } else {
-            if (isset($_POST['btn-edit-user'])) {
-                if((getMethod('edit_username') != '') && (getMethod('edit_pass') != '') && (getMethod('edit_email') != '') 
-                    && (getMethod('select') != '')) {
-                    
-                    $username = htmlentities(getMethod('edit_username'), ENT_QUOTES);
-                    $pass = md5(getMethod('edit_pass'));
-                    $email = getMethod('edit_email');
-                    $status = getMethod('select');
-                    $fileName = $_FILES['fileToUpload'];
-
-                    if($fileName['name'] != '') {
-                        $fileName['name'] = time() . $fileName['name'];
-                    }
-
-                    if(($fileName['name'] == '') || ($this->uploadImg($fileName))) {
-
-                        if($fileName['name'] == '') {
-                            $fileName['name'] = User::getUser($user_id)['user_img'];
-                        }
-
-                        $result = User::editUser($user_id, $username, $email, $pass, $fileName['name'], $status);
-                        
-                        if($result) {
-
-                            if(($user_id) == (User::getIdAdmin())) {
-                                session_unset();
-                                $_SESSION['username'] = getMethod('edit_username');
-                                $_SESSION['log'] = true;
-                            }
-
-                            directScript('Successfull!', '' . BASE_URL . LIST_USER);
-
-                        } else {
-                            $data['messageName'] = 'Username is existent!';
-                        }
-                    } else {
-                        $data['messageImg'] = 'Upload Image Failed!';
-                    }
-
-                } else {
-                    if(getMethod('edit_username') == '') {
-                        $data['messageName'] = 'Field username is not empty!';
-                    }
-
-                    if(getMethod('edit_email') == '') {
-                        $data['mesageEmail'] = 'Field is not empty';
-                    } else if(filter_var(getMethod('email'), FILTER_VALIDATE_EMAIL) == false) {
-                        $data['mesageEmail'] = 'Email is invalid!';
-                    }
-
-                    if(getMethod('edit_pass') == '') {
-                        $data['messagePass'] = 'Field is not empty!';
-                    }
-                }
-                $data['oldUser']['username'] = getMethod('edit_username');
-                $data['oldUser']['user_email'] = getMethod('edit_email');
-                $data['oldUser']['pass'] = getMethod('edit_pass'); 
-                $data['oldUser']['status'] = getMethod('select');
-            }
+            $itemPost = array('edit_username', 'edit_pass', 'edit_email', 'select');
+            $dataInput = array();
+            $this->updateUser('edit', $data, 'btn-edit-user', $itemPost, $dataInput, $user_id);
         }
 
-        $this->loadView(USER, 'edit-user', 'Edit User', $data);
+        $this->loadView('edit-user', 'Edit User', $data);
     }
     
 
-    //Update active
+    /**
+     * Function commmon to update user contain add and edit user
+     */
+    private function updateUser($action, &$data = array(), $button, $itemPost = array(), &$dataInput, &$user_id = null) {
+        $result = false;
+        if(isset($_POST[$button])) {
+
+            $username_check = $this->validate->checkInputForm('Username', $itemPost[0], 'require', $data['messageName']);
+            $pass_check = $this->validate->checkInputForm('Password', $itemPost[1], 'require', $data['messagePass']);
+            $email_check = $this->validate->checkInputForm('Email', $itemPost[2], 'email', $data['messageEmail']);
+            
+            if($username_check && $pass_check && $email_check) {
+
+                $dataInput['username'] = htmlentities(getValue($itemPost[0]), ENT_QUOTES);
+                $dataInput['pass'] = md5(getValue($itemPost[1]));
+                $dataInput['user_email'] = getValue($itemPost[2]);
+                $dataInput['status'] = getValue($itemPost[3]);
+                $fileName = $_FILES['fileToUpload'];
+
+                if($fileName['name'] != '') {
+                    $fileName['name'] = time() . $fileName['name'];
+                    $dataInput['user_img'] = $fileName['name'];
+                }
+                
+                switch ($action) {
+                    case 'add':
+                        if($this->uploadImg($fileName)) {
+                            $dataInput['user_time_created'] = date('Y-m-d h:i:s');
+                            $dataInput['user_time_updated'] = date('Y-m-d h:i:s');
+                            $result = User::updateUserProcess($dataInput);
+                        } else {
+                            $data['messageImg'] = 'Upload Image Failed!';
+                        }
+
+                        break;
+                        
+                    case 'edit':
+                        if(($fileName['name'] == '') || ($this->uploadImg($fileName))) {
+                            if($fileName['name'] == '') {
+                                $fileName['name'] = User::getUser($user_id)['user_img'];
+                            }
+                            $dataInput['user_time_updated'] = date('Y-m-d h:i:s');
+                            $result = User::updateUserProcess($dataInput, $user_id);
+                        } else {
+                            $data['messageImg'] = 'Upload Image Failed!';
+                        }
+                        break;
+                }
+                if($result) {
+                    directScript('Successfull!', '' . BASE_URL . LIST_USER);
+                } else {
+                    $data['messageName'] = 'Username is existent!';
+                }
+            }
+
+            switch ($action) {
+                case 'add':
+                    $data['oldName'] = getValue($itemPost[0]);
+                    $data['oldPass'] = getValue($itemPost[1]);
+                    $data['oldEmail'] = getValue($itemPost[2]);
+                    $data['oldStatus'] = getValue($itemPost[3]);
+                    break;
+                case 'edit':
+                    $data['oldUser']['username'] = getValue($itemPost[0]);
+                    $data['oldUser']['pass'] = getValue($itemPost[1]); 
+                    $data['oldUser']['user_email'] = getValue($itemPost[2]);
+                    $data['oldUser']['status'] = getValue($itemPost[3]);
+                    break;
+            }
+            return $data;
+        }
+    }
+
+    /**
+     * Function Active
+     */
     public function active() {
-        $this->activeItem(USER);
+        $this->activeItem();
         redirect(BASE_URL . LIST_USER);
     }
     
-    //Sắp xếp
+    /**
+     * Function Sort
+     */
     public function sort() {
-        $this->sortItem(USER, 'list-user', 'Data Sorting User');
+        $this->sortItem('list-user', 'Sorting User');
     }
 
-    //Tìm kiếm dữ liệu
+    /**
+     * Function get data searched
+     */
     public function getDataSearched() {
-        $this->searchingItem(USER, 'list-user', 'Data Searching User');
+        $this->searchingItem('list-user', 'Searching User');
     }
 }

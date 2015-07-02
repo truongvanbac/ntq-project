@@ -58,7 +58,7 @@
                             <br>
 
                             <?php for($i = 0; $i < NUM_IMG; $i++) { ?>
-                                <input type="file" name="fileToUpload[]">
+                                <input type="file" name="fileToUpload[]"><br>
                             <?php }?>
                             <p id='notifyMessage'><?php echo $messageImg?></p>
                         </div>

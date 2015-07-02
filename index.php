@@ -1,14 +1,19 @@
 <?php
-session_start();
-date_default_timezone_set("Asia/Ho_Chi_Minh");
+session_start();    //Start session
+date_default_timezone_set("Asia/Ho_Chi_Minh");  //set default time zone
 
-define('ROOT',dirname(realpath(__FILE__)) . "/");
-define('DIR_UPLOAD', ROOT . 'public/uploads/');
+define('ROOT',dirname(realpath(__FILE__)) . "/");   //define root directory
+define('DIR_UPLOAD', ROOT . 'public/uploads/');     //define upload diretory
 
+
+/*
+ * load config files and function common
+ */
 require_once(ROOT . 'system/configs/rounter.php');
 require_once(ROOT . 'system/configs/config.php');
 require_once(ROOT . 'system/configs/validationNotify.php');
 require_once(ROOT . 'lib/functions.php');
+
 
 $url = $_GET['url'];   //Lấy url
 
@@ -19,15 +24,18 @@ $arrayUrl = array();
 $arrayUrl = explode('/', $self);
 $base_url = "http://" . $host . "/" . $arrayUrl[1];
 
-define('BASE_URL', $base_url);
+define('BASE_URL', $base_url);      //define base url 
 
-//Load controller và action
+
+/*
+ * Function load controller and action
+ */
 function load() {
     global $url;
     global $area;
     $url = rtrim($url,"/");
     $urlArray = array();
-    $urlArray = explode("/",$url);  //Tách chuỗi url thành mảng
+    $urlArray = explode("/",$url);
     
     $controller = DEFAULT_CONROLLER;
     $action = DEFAULT_ACTION;
@@ -57,13 +65,14 @@ function load() {
     $controller .= 'Controller';
     $dispatch = new $controller();
     
-    
     if (method_exists($controller, $action)) {
         call_user_func(array($dispatch,$action));
     }
 }
 
-//Autoload các calss
+/*
+ * Function autoload class
+ */
 function __autoload($className) {
     $paths = array(
         ROOT."/lib/",

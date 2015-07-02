@@ -2,81 +2,62 @@
 
 class Category extends Model {
 
+    /**
+     * Table name and primary of table
+     */
     protected static $tableName = 'category';
     protected static $primaryKey = 'ct_id';
+    protected static $columnName = 'ct_name';
 
-
-    //Lấy toàn bộ record cảu bảng
+    /**
+     * Get all record table
+     */
     public static function get_list($limit) {
-        return Model::getAllRecord(self::$tableName, $limit);
+        return Category::getAllRecord($limit); 
     }
     
-    //Tính tổng số record
+
+    /**
+     * Count all record
+     */
     public static function count() {
-        return Model::countRecord(self::$tableName, self::$primaryKey);
+        return Category::countRecord();
     }
     
 
-    //Lấy category theo id
+    /**
+     * Get category by id
+     */
     public static function getCategory($ct_id) {
-        return Model::getItemById(self::$tableName, 'ct_id',$ct_id);
+        return Category::getItemById($ct_id);
     }
     
+    /**
+     * Count id category by id
+     */
     public static function getIdCategory($ct_id) {
-        return Model::getIdItem(self::$tableName, $ct_id, self::$primaryKey);
+        return Category::getIdItem($ct_id);
+    }
+
+    /**
+     * Update category contain add and edit
+     */
+    public static function updateCategoryProcess($data = array(), $ct_id = null) {
+        return Category::updateItem($data, $ct_id);
     }
 
 
-    //Them moi 1 category
-    public static function add_category($ct_name, $ct_status) {
-        $db = Database::getInstance();
-        $data = array(
-            'ct_name' => $ct_name,
-            'ct_status' => $ct_status,
-            'ct_time_created' => date("Y-m-d h:i:s"),
-            'ct_time_update' => date("Y-m-d h:i:s")
-        );
-
-        $count = self::count_colum('ct_name', $ct_name);
-        if ($count == 0) {
-            Model::insertDataToTable(self::$tableName, $data);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-
-    //Sua category
-    public static function edit_category($ct_id, $ct_name, $ct_status) {
-        $db = Database::getInstance();
-        $data = array(
-            'ct_name' => $ct_name,
-            'ct_status' => $ct_status,
-            'ct_time_update' => date("Y-m-d h:i:s")
-        );
-        
-        $data3 = array(
-            'name' => Category::getCategory($ct_id)
-        );
-        
-        $name = ($data3['name']['ct_name']);
-        $count = Category::count_colum('ct_name', $ct_name);
-        if (($count == 0) || (($count == 1) && ($ct_name == $name))) {
-             Model::updateDataInTable(self::$tableName, $ct_id, self::$primaryKey, $data);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    //Dem tong so row theo ten category
+    /**
+     * Count record by condition
+     */
     public static function count_colum($column, $value) {
-        return Model::countRowByColumn(self::$tableName, $column, $value);
+        return Category::countRowByColumn($column, $value);
     }
     
     
-    //Update active
+    /**
+     * Active item category
+     */
     public static function update_active($ct_id, $value) {
         $data = array(
             'ct_status' => $value,
@@ -84,7 +65,7 @@ class Category extends Model {
                 
         );
 
-        $result = Model::activeRecord(self::$tableName, $ct_id, 'ct_id', $data, $value);
+        $result = Category::activeRecord($ct_id, 'ct_id', $data, $value);
         if($result) {
             return true;
         } else {
@@ -93,18 +74,24 @@ class Category extends Model {
     }
     
 
-    //Sap xep cac phan tu
+    /**
+     * Sort category
+     */
     public static function sort_item($item, $typesort, $limit) {
-        return Model::sort(self::$tableName, $item, $typesort, $limit);
+        //Category::test();
+        return Category::sort($item, $typesort, $limit);
     }
 
 
+    /**
+     * Search data
+     */
     public static function seaching_process($string, $limit=null) {
         $column = array(
             'ct_name' => 'ct_name',
             'ct_id' => 'ct_id'
         );
-        return Model::searchingElement(self::$tableName, $string, $column, $limit);
+        return Category::searchingElement($string, $column, $limit);
     }
     
 }

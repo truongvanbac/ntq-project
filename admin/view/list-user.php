@@ -1,21 +1,3 @@
-<?php includeScript('jquery-2.1.3.min.js') ?>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $("#checkAll").click(function() {
-            if (this.checked) {
-                $('.case').each(function() {
-                    this.checked = true;
-                });
-            } else {
-                $('.case').each(function() {
-                    this.checked = false;
-                });
-            }
-        });
-
-    });
-</script>
-
 <div class="breadLine">
 
     <ul class="breadcrumb">
@@ -55,12 +37,13 @@
                 <table cellpadding="0" cellspacing="0" width="100%" class="table" id="tSortable_2">
                     <thead>
                         <tr>
+                            <?php if(empty($_GET['page'])) $_GET['page'] = 1;?>
                             <th><input type="checkbox" id="checkAll"/></th>
-                            <th width="15%" class="sorting"><a href="<?php echo BASE_URL ?>/admin/user/sort/user_id/<?php echo $order; ?>">ID</a></th>
-                            <th width="35%" class="sorting"><a href="<?php echo BASE_URL ?>/admin/user/sort/username/<?php echo $order; ?>">Username</a></th>
-                            <th width="20%" class="sorting"><a href="<?php echo BASE_URL ?>/admin/user/sort/status/<?php echo $order; ?>">Activate</a></th>
-                            <th width="10%" class="sorting"><a href="<?php echo BASE_URL ?>/admin/user/sort/user_time_created/<?php echo $order; ?>">Time Created</a></th>
-                            <th width="10%" class="sorting"><a href="<?php echo BASE_URL ?>/admin/user/sort/user_time_updated/<?php echo $order; ?>">Time Updated</a></th>
+                            <th width="15%" class="sorting"><a href="<?php echo BASE_URL ?>/admin/user/sort/user_id/<?php echo $order; ?>?page=<?php echo $_GET['page'];?>">ID</a></th>
+                            <th width="35%" class="sorting"><a href="<?php echo BASE_URL ?>/admin/user/sort/username/<?php echo $order; ?>?page=<?php echo $_GET['page'];?>">Username</a></th>
+                            <th width="20%" class="sorting"><a href="<?php echo BASE_URL ?>/admin/user/sort/status/<?php echo $order; ?>?page=<?php echo $_GET['page'];?>">Activate</a></th>
+                            <th width="10%" class="sorting"><a href="<?php echo BASE_URL ?>/admin/user/sort/user_time_created/<?php echo $order; ?>?page=<?php echo $_GET['page'];?>">Time Created</a></th>
+                            <th width="10%" class="sorting"><a href="<?php echo BASE_URL ?>/admin/user/sort/user_time_updated/<?php echo $order; ?>?page=<?php echo $_GET['page'];?>">Time Updated</a></th>
                             <th width="10%">Action</th>
                         </tr>
                     </thead>

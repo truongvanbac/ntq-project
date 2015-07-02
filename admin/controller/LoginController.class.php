@@ -7,11 +7,14 @@
 
 class LoginController extends BaseController {
 
-    //Hàm khởi tạo
+
+    /*
+     * Constructor function
+     */
     public function __construct() {
         parent::__construct();
 
-        //Kiem tra cookie        
+        //Check cookie        
         if(isset($_COOKIE)) {
             if(!empty($_COOKIE['username'])) {
                 $_SESSION['log'] = true;
@@ -19,7 +22,7 @@ class LoginController extends BaseController {
             }
         }
 
-        //Kiem tra session
+        //Check session
         if(isset($_SESSION['log'])) {
             redirect(BASE_URL  . LIST_CATEGORY);
         }
@@ -27,9 +30,15 @@ class LoginController extends BaseController {
 
     }
 
+    /*
+     * Override function BaseController
+     */
     public function checkLogin(){}
     
-    //Đăng nhập
+
+    /*
+     * Login
+     */
     public function index() {
         
         $data = array(
@@ -73,7 +82,9 @@ class LoginController extends BaseController {
         $this->view->show();
     }
 
-    //Đăng xuất
+    /*
+     * Logout
+     */
     public function logout() {
         session_destroy();
         setcookie('username');

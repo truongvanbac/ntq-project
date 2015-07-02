@@ -7,110 +7,59 @@
 
 class Product extends Model {
     
+    /**
+     * Table name and primary table
+     */
     protected static $tableName = 'product';
     protected static $primaryKey = 'pd_id';
+    protected static $columnName = 'pd_name';
 
 
-    //Lấy toàn bộ record của bảng
+    /**
+     * Get all record of product table
+     */
     public static function get_list($limit) {
-        return Model::getAllRecord(self::$tableName, $limit);
+        return Product::getAllRecord($limit);
     }
     
-    //Đếm số record của báng
+    /**
+     * Count all record of product table
+     */
     public static function count() {
-        return Model::countRecord(self::$tableName, self::$primaryKey);
+        return Product::countRecord();
     }
     
     
-    //Lấy product theo id
+    /**
+     * Get Product by id
+     */
     public static function getProduct($pd_id) {
-        // $db = Database::getInstance();
-        // $query = "select * from product where pd_id = " . $pd_id;
-        // $s = $db->query($query);
-        // $result = $s->fetch(PDO::FETCH_ASSOC);
-        // return $result;
-        return Model::getItemById(self::$tableName, self::$primaryKey, $pd_id);
+        return Product::getItemById($pd_id);
     }
 
     public static function getIdProduct($pd_id) {
-        return Model::getIdItem(self::$tableName, $pd_id, self::$primaryKey);
+        return Product::getIdItem($pd_id);
+    }
+    
+    /**
+     * Update product contain add and edit
+     */
+    public static function updateProductProcess($data = array(), $pd_id = null) {
+        return Product::updateItem($data, $pd_id);
     }
     
     
-    
-    //Thêm mới product
-    public static function addProduct($name, $price, $des, $file = array(), $status) {
-        $db = Database::getInstance();
-        $data = array(
-            'pd_name' => $name,
-            'pd_price' => $price,
-            'pd_des' => $des,
-            'pd_img0' => $file[0],
-            'pd_img1' => $file[1],
-            'pd_img2' => $file[2],
-            'pd_status' => $status,
-            'pd_time_created' => date("Y-m-d h:i:s"),
-            'pd_time_updated' => date("Y-m-d h:i:s")
-        );
-        
-        
-        $count = self::count_colum('pd_name', $name);
-        if ($count == 0) {
-            Model::insertDataToTable(self::$tableName, $data);
-            return true;
-        } else {
-            return false;
-        }
-        
-    }
-    
-    //Sửa product
-    public static function editProduct($pd_id, $pd_name, $price, $des, $file = array(), $status) {
-        $db = Database::getInstance();
-        $data = array(
-            'pd_name' => $pd_name,
-            'pd_price' => $price,
-            'pd_des' => $des,
-            'pd_img0' => $file[0],
-            'pd_img1' => $file[1],
-            'pd_img2' => $file[2],
-            'pd_status' => $status,
-            'pd_time_updated' => date("Y-m-d h:i:s")
-        );
-        
-        $data3 = array(
-            'name' => Product::getProduct($pd_id)
-        );
-        
-        $name = ($data3['name']['pd_name']);
-        $count = Product::count_colum('pd_name', $pd_name);
-        if (($count == 0) || (($count == 1) && ($pd_name == $name))) {
-            // $query = "UPDATE product SET pd_name = :pd_name, pd_price = :pd_price, pd_des = :pd_des, pd_img = :pd_img, "
-            //         . " pd_status = :pd_status, pd_time_updated = :time WHERE pd_id = :pd_id";
-
-            // $stmp = $db->prepare($query);
-            // $stmp->execute($data);
-            Model::updateDataInTable(self::$tableName, $pd_id, self::$primaryKey, $data);
-            return true;
-        } else {
-            return false;
-        }
+    /**
+     * Count record by condition
+     */
+    public static function count_colum($column, $value) {
+        return Product::countRowByColumn($column, $value);
     }
     
 
-    //Lấy tên product
-    public static function get_name_pd($pd_id) {
-        return Model::getNameItem(self::$tableName, $pd_id, 'pd_name');
-    }
-    
-   
-   //Đếm số record theo tên
-     public static function count_colum($column, $value) {
-        return Model::countRowByColumn(self::$tableName, $column, $value);
-    }
-    
-
-    //Update active record 
+    /**
+     * Active record
+     */
     public static function update_active($pd_id, $value) {
         $db = Database::getInstance();
         $data = array(
@@ -119,7 +68,7 @@ class Product extends Model {
                 
         );
 
-        $result = Model::activeRecord(self::$tableName, $pd_id, 'pd_id', $data, $value);
+        $result = Product::activeRecord($pd_id, 'pd_id', $data, $value);
         if($result) {
             return true;
         } else {
@@ -128,11 +77,17 @@ class Product extends Model {
     }
     
 
-    //Sắp xếp
+    /**
+     * Sord record
+     */
     public static function sort_item($item, $typesort, $limit) {
-        return Model::sort(self::$tableName, $item, $typesort, $limit);
+        return Product::sort($item, $typesort, $limit);
     }
 
+
+    /**
+     * Search record
+     */
     public static function seaching_process($string, $limit=null) {
         $column = array(
             'pd_name' => 'pd_name',
@@ -140,6 +95,6 @@ class Product extends Model {
             'pd_id' => 'pd_id'
         );
 
-        return Model::searchingElement(self::$tableName, $string, $column, $limit);
+        return Product::searchingElement($string, $column, $limit);
     }
 }
