@@ -6,7 +6,7 @@ class CategoryController extends BaseController {
     /**
      * Model Name
      */
-    protected static $model = 'Category';
+    protected $model = 'Category';
 
     /**
      * Index, show list all category

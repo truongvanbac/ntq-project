@@ -5,7 +5,7 @@ class ProductController extends BaseController {
     /**
      * Model Name
      */
-    protected static $model = 'Product';
+    protected $model = 'Product';
 
     /**
      * Index, show list all product

@@ -7,7 +7,7 @@ class BaseController {
 	/**
      * Model Name
      */
-	protected static $model = '';
+	protected $model = '';
 
 	/**
      * View variable
@@ -87,7 +87,7 @@ class BaseController {
 	protected function loadView($view, $title, $data = array()) {
 		$data2 = array();
 		$data2['oldUser'] = User::getUser(User::getIdAdmin());
-		$data2['content'] = $this->view->load(strtolower(static::$model), $view, $data);
+		$data2['content'] = $this->view->load(strtolower($this->model), $view, $data);
 		$data2['title'] = $title;
 		$this->view->loadTemplate('tempadmin', $data2);
 	}
@@ -97,7 +97,7 @@ class BaseController {
      * Function common show list category, product or user 
      */
 	protected function indexPage($view, $title) {
-		$model = static::$model;
+		$model = $this->model;
 		$pages = new Pagination(PER_PAGE, INSTANT);
 		$pages->set_total($model::count());
 		
@@ -128,7 +128,7 @@ class BaseController {
      * Function common to search data
      */
 	protected function searchingItem($view, $title) {
-		$model = static::$model;
+		$model = $this->model;
 		$keyword = array();
 		$value = '';
 		if(getValue('search') != '') {
@@ -162,7 +162,7 @@ class BaseController {
      * Function common to sort item
      */
 	protected function sortItem($view, $title) {
-		$model = static::$model;
+		$model = $this->model;
 
 		$item = $_GET['field'];
 		$order = $_GET['type'];
@@ -202,7 +202,7 @@ class BaseController {
 	}
 
 	private function update_active($status) {
-		$model = static::$model;
+		$model = $this->model;
 		if (!empty(getValue('checkbox'))) {
 			foreach ((getValue('checkbox')) as $check) {
 				$model::update_active($check, $status);

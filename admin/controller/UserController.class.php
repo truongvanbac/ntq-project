@@ -6,7 +6,7 @@ class UserController extends BaseController {
     /**
      * Model Name
      */
-    protected static $model = 'User';
+    protected $model = 'User';
 
 
     /**
