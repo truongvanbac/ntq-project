@@ -99,7 +99,6 @@ class User extends Model {
      * Update active record
      */
     public static function update_active($user_id, $value) {
-        //$db = Database::getInstance();
         $data = array(
             'status' => $value,
             'user_time_updated' => date("Y-m-d h:i:s")
