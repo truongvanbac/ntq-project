@@ -20,4 +20,9 @@ define('USER', 'User');
 
 define('NUM_IMG', '3');
 
+define("ACTIVE_VALUE", "1");
+define("DEACTIVE_VALUE", "0");
+
+define("TIME_COOKIE", "7200");
+
 ?>

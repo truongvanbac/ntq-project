@@ -198,7 +198,7 @@ class Model {
     protected static function updateItem($data = array(), $id = null) {
         $db = Database::getInstance();
         $model = static::$tableName;
-        $count = static::countRowByColumn(static::$columnName, $data[static::$columnName]);
+        $count = self::countRowByColumn(static::$columnName, $data[static::$columnName]);
         $check = false;
         if($id == null) {
             if($count == 0) {

@@ -5,7 +5,6 @@ date_default_timezone_set("Asia/Ho_Chi_Minh");  //set default time zone
 define('ROOT',dirname(realpath(__FILE__)) . "/");   //define root directory
 define('DIR_UPLOAD', ROOT . 'public/uploads/');     //define upload diretory
 
-
 /*
  * load config files and function common
  */
@@ -14,9 +13,7 @@ require_once(ROOT . 'system/configs/config.php');
 require_once(ROOT . 'system/configs/validationNotify.php');
 require_once(ROOT . 'lib/functions.php');
 
-
 $url = $_GET['url'];   //Lấy url
-
 
 $host = $_SERVER['HTTP_HOST'];
 $self = $_SERVER['PHP_SELF'];
@@ -25,7 +22,6 @@ $arrayUrl = explode('/', $self);
 $base_url = "http://" . $host . "/" . $arrayUrl[1];
 
 define('BASE_URL', $base_url);      //define base url 
-
 
 /*
  * Function load controller and action
@@ -39,7 +35,6 @@ function load() {
     
     $controller = DEFAULT_CONROLLER;
     $action = DEFAULT_ACTION;
-    
     
     if($urlArray[0] == "admin") {
         $area = "admin";
@@ -56,10 +51,7 @@ function load() {
         $action = array_shift($urlArray);
     }
     
-    
-    Database::getInstance('mysql:host='.DB_HOST.';dbname='.DB_NAME.';charset=utf8', DB_USER, DB_PASS);
-    
-    
+
     $controllerName = $controller;
     $controller = ucwords($controller);
     $controller .= 'Controller';
@@ -73,6 +65,7 @@ function load() {
 /*
  * Function autoload class
  */
+
 function __autoload($className) {
     $paths = array(
         ROOT."/lib/",
@@ -88,6 +81,7 @@ function __autoload($className) {
     }
 }
 
+Database::getInstance('mysql:host='.DB_HOST.';dbname='.DB_NAME.';charset=utf8', DB_USER, DB_PASS);
 $area = "home";
 load();
 

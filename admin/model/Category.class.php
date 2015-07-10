@@ -9,6 +9,7 @@ class Category extends Model {
     protected static $primaryKey = 'ct_id';
     protected static $columnName = 'ct_name';
 
+
     /**
      * Get all record table
      */
@@ -78,7 +79,6 @@ class Category extends Model {
      * Sort category
      */
     public static function sort_item($item, $typesort, $limit) {
-        //Category::test();
         return Category::sort($item, $typesort, $limit);
     }
 

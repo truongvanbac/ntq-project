@@ -13,7 +13,7 @@ endHeader();
 ?>
 
 <div class="header">
-    <a class="logo" href="<?php echo BASE_URL ?>/admin/category">
+    <a class="logo" href="<?php echo BASE_URL . LIST_CATEGORY; ?>">
         <img src="<?php echo includeImage('', 'logo.png') ?>" alt="NTQ Solution - Admin Control Panel" title="NTQ Solution - Admin Control Panel"/>
     </a>
 
@@ -33,24 +33,24 @@ endHeader();
             <img src="<?php getImage($oldUser['user_img'])?>" class="img-polaroid"/>
         </div>
         <ul class="control">
-            <li><span class="icon-cog"></span> <a href="<?php echo BASE_URL . '/admin/user/edit/' . User::getIdAdmin();?>">Update Profile</a></li>
-            <li><span class="icon-share-alt"></span> <a href="<?php echo BASE_URL . '/admin/login/logout'?>">Logout</a></li>
+            <li><span class="icon-cog"></span> <a href="<?php echo BASE_URL . EDIT_USER . '/' . User::getIdAdmin();?>">Update Profile</a></li>
+            <li><span class="icon-share-alt"></span> <a href="<?php echo BASE_URL . LOGOUT; ?>">Logout</a></li>
         </ul>
     </div>
 
     <ul class="navigation">
         <li>
-            <a href="<?php echo BASE_URL ?>/admin/category">
+            <a href="<?php echo BASE_URL . LIST_CATEGORY; ?>">
                 <span class="isw-grid"></span><span class="text">Categories</span>
             </a>
         </li>
         <li>
-            <a href="<?php echo BASE_URL ?>/admin/product">
+            <a href="<?php echo BASE_URL . LIST_PRODUCT; ?>">
                 <span class="isw-list"></span><span class="text">Products</span>
             </a>
         </li>
         <li>
-            <a href="<?php echo BASE_URL ?>/admin/user">
+            <a href="<?php echo BASE_URL . LIST_USER; ?>">
                 <span class="isw-user"></span><span class="text">Users</span>
             </a>
         </li>

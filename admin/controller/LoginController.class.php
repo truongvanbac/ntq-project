@@ -7,6 +7,7 @@
 
 class LoginController extends BaseController {
 
+    protected static $model = "user";
 
     /*
      * Constructor function
@@ -26,8 +27,6 @@ class LoginController extends BaseController {
         if(isset($_SESSION['log'])) {
             redirect(BASE_URL  . LIST_CATEGORY);
         }
-
-
     }
 
     /*
@@ -48,12 +47,11 @@ class LoginController extends BaseController {
             'message2' => ''
         );
         
-        
         if (isset($_POST['btn-login'])) {
-            if ((!empty($_POST['username'])) && (!empty($_POST['password']))) {
+            if ((!empty(getValue('username'))) && (!empty(getValue('password')))) {
 
-                $username = $_POST['username'];
-                $password = $_POST['password'];
+                $username = getValue('username');
+                $password = getValue('password');
 
                 $result = User::login_process($username, $password);
                 if ($result) {
@@ -62,23 +60,23 @@ class LoginController extends BaseController {
                     $_SESSION['log'] = true;
 
                     if (isset($_POST['remember'])) {
-                        setcookie('username', $username, time() + 7200);
+                        setcookie('username', $username, time() + TIME_COOKIE);
                     } else {
-                        setcookie('username', $username, time() - 7200);
+                        setcookie('username', $username, time() - TIME_COOKIE);
                     }
 
                     redirect(BASE_URL . LIST_CATEGORY);
                 } else {
-                    $data['message'] = 'Account is not existent!';
+                    $data['message'] = 'Account is not exist.';
                 }
-            } else if(empty($_POST['username'])) {
+            } else if(empty(getValue('username'))) {
                 $data['message1'] = 'Input username!';
-            } else if(empty($_POST['password'])) {
+            } else if(empty(getValue('password'))) {
                 $data['message2'] = 'Input password!';
             }
         }
 
-        $this->view->load('login', $data);
+        $this->view->load(strtolower(static::$model),'login', $data);
         $this->view->show();
     }
 

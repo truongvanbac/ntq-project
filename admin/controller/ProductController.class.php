@@ -8,14 +8,6 @@ class ProductController extends BaseController {
     protected static $model = 'Product';
 
     /**
-     * Constructor function
-     */
-    public function __construct() {
-        parent::__construct();
-    }
-    
-
-    /**
      * Index, show list all product
      */
     public function index() {
@@ -28,20 +20,17 @@ class ProductController extends BaseController {
      */
     public function add() {
         $data = array(
-            'oldName' => '',
-            'oldPrice' =>'',
-            'oldDes' => '',
-            'oldStatus' => '1',
-            'messageName' => '',
-            'messagePrice' => '',
-            'messageDes' => '',
-            'messageImg' => ''
+            'product' => array('pd_name' => '', 'pd_price' => '', 'pd_des' => '', 'pd_status' => '1', 'pd_img0' => '',
+                'pd_img1' => '', 'pd_img2' => ''),
+            'message' => array('name' => '', 'price' => '', 'des' => '', 'status' => '', 'img' => ''),
+            'title' => 'Add',
+            'btnName' => 'btn-add-pd'
         );
         
-        $itemPost = array('pd_name', 'pd_price', 'pd_text', 'select');
+        $itemPost = array('name', 'price', 'des', 'status');
         $dataInput = array();
         $this->updateProduct('add', $data, 'btn-add-pd', $itemPost, $dataInput);
-        $this->loadView('add-product', 'Add Product', $data);
+        $this->loadView('updateProduct', 'Add Product', $data);
     }
     
 
@@ -54,112 +43,135 @@ class ProductController extends BaseController {
         $pd_id = $urlArray[3];
         
         $data = array(
-            'oldPd' => Product::getProduct($pd_id),
-            'messageName' => '',
-            'messagePrice' => '',
-            'messageDes' => '',
-            'messageImg' => ''
+            'product' => Product::getProduct($pd_id),
+            'message' => array('name' => '', 'price' => '', 'des' => '', 'status' => '', 'img' => ''),
+            'title' => 'Edit',
+            'btnName' => 'btn-edit-pd'
         );
         
         $checkUrl = Product::getIdProduct($pd_id);  //Chek id product
         if($checkUrl == 0) {
-            directScript('Error, category id not exist!', '' . BASE_URL . LIST_PRODUCT);
+            directScript('Error, category id not exist.', '' . BASE_URL . LIST_PRODUCT);
         } else {
-            $itemPost = array('edit-name', 'edit-price', 'edit-des', 'select');
+            $itemPost = array('name', 'price', 'des', 'status');
             $dataInput = array();
             $this->updateProduct('edit', $data, 'btn-edit-pd', $itemPost, $dataInput, $pd_id);
         }
 
-        $this->loadView('edit-product', 'Edit Category', $data);
+        $this->loadView('updateProduct', 'Edit Category', $data);
     }
 
+
+    private function validateForm(&$dataValidate = array(), $itemPost = array(), &$data = array()) {
+        $dataValidate = array(
+            'name'          => array(
+                                'label' => 'product name',
+                                'input' => $itemPost[0],
+                                'rule' => array('required'),
+                                'message' => &$data['message']['name']
+            ),
+
+            'price'        => array(
+                                'label' => 'price',
+                                'input' => $itemPost[1],
+                                'rule' => array('required','valid_number_natural'),
+                                'message' => &$data['message']['price']
+            ),
+
+            'description'  => array(
+                                'label' => 'description',
+                                'input' => $itemPost[2],
+                                'rule' => array('required'),
+                                'message' => &$data['message']['des']
+            )
+        );
+
+        $validate = $this->validateData($dataValidate);
+        return $validate;
+    }
+
+    /**
+     * Format data input from form
+     * return data formatted
+     */
+    private function dataInputFormat($itemPost = array(), &$dataInput = array(), &$fileName) {
+        $dataInput['pd_name'] = htmlentities(getValue($itemPost[0]), ENT_QUOTES);
+        $dataInput['pd_price'] = htmlentities(getValue($itemPost[1]));
+        $dataInput['pd_des'] = htmlentities(getValue($itemPost[2]), ENT_QUOTES);
+        $dataInput['pd_status'] = getValue($itemPost[3]);
+        $dataInput['pd_time_updated'] = date('Y-m-d h:i:s');
+        for($i = 0; $i < NUM_IMG; $i++) {
+            if($fileName['name'][$i] != '') {
+                $fileName['name'][$i] = time() . $fileName['name'][$i];
+                $dataInput["pd_img" . $i] = $fileName['name'][$i];
+            }
+        }
+        return $dataInput;
+    }
+
+
+    /**
+     * get data when user input form
+     * return data
+     */
+    private function getDataReturn($action, &$data = array(), $itemPost = array()) {
+        $data['product']['pd_name'] = getValue($itemPost[0]);
+        $data['product']['pd_price'] = getValue($itemPost[1]);
+        $data['product']['pd_des'] = getValue($itemPost[2]); 
+        $data['product']['pd_status'] = getValue($itemPost[3]);
+        return $data;
+    }
 
     /**
      * Function commmon to update product contain add and edit
      */
     private function updateProduct($action, &$data = array(), $button, $itemPost = array(), &$dataInput, &$pd_id = null) {
         $result = false;
+        $check = false;
         if(isset($_POST[$button])) {
-            // var_dump((!preg_match('/^[0-9]+$/', getValue($itemPost[1]))));
-            // $pd_name_check = $this->validate->checkInputForm('Product', $itemPost[0], 'require', $data['messageName']);
-            // $pd_price_check = $this->validate->checkInputForm('Username', $itemPost[1], 'numeric', $data['messagePrice']);
-            // $pd_des_check = $this->validate->checkInputForm('Description', $itemPost[2], 'require', $data['messageDes']);
+            $validate = $this->validateForm($dataValidate, $itemPost, $data);
 
-            if(getValue($itemPost[0]) == ''){
-                $data['messageName'] = 'Field Product Name is not empty!';
-            } else if(getValue($itemPost[1]) == '') {
-                $data['messagePrice'] = 'Field Price is not empty!';
-            } else if(!($this->regular->check('[0-9]', getValue($itemPost[1]))) || (getValue($itemPost[1]) < 0)) {
-                $data['messagePrice'] = 'Price is must numeric and positive!';
-            } else if(getValue($itemPost[2]) == '') {
-                $data['messageDes'] = 'Filed Description is not empty!';
-            } else {
+            if($validate) {
+                $fileName = $_FILES['fileToUpload'];
+                $this->dataInputFormat($itemPost, $dataInput, $fileName);
 
-                $dataInput['pd_name'] = htmlentities(getValue($itemPost[0]), ENT_QUOTES);
-                $dataInput['pd_price'] = htmlentities(getValue($itemPost[1]));
-                $dataInput['pd_des'] = htmlentities(getValue($itemPost[2]), ENT_QUOTES);
-                $dataInput['pd_status'] = getValue($itemPost[3]);
-                $fileName = ($_FILES['fileToUpload']);
-                
-                $imgString = '';        //Check image = null?
-                for($i = 0; $i < NUM_IMG; $i++) {
-                    if($fileName['name'][$i] != '') {
-                        $imgString .= $fileName['name'][$i];
-                        $fileName['name'][$i] = time() . $fileName['name'][$i];
-                        $dataInput["pd_img" . $i] = $fileName['name'][$i];
+                $imgString = '';
+                for($i =0; $i < NUM_IMG; $i++) {
+                    $imgString .= $fileName['name'][$i];
+                }
+
+                if($pd_id == null) {  //add                                                       //add
+                    $dataInput['pd_time_created'] = date('Y-m-d h:i:s');
+                    if(($imgString != '') && ($this->uploadMultiImg($fileName))) {
+                        $check = true;
+                    } else {
+                        $data['message']['img'] = 'Upload Image Failed.';
+                    }
+                } else {
+                    if($this->uploadMultiImg($fileName)) {
+                        for($i =0; $i < NUM_IMG; $i++) {
+                            if($fileName['name'][$i] == '') {
+                                $fileName['name'][$i] = Product::getProduct($pd_id)["pd_img" . $i];
+                                $dataInput["pd_img" . $i] = $fileName['name'][$i];
+                            }
+                        }
+                        $check = true;
+                    } else {
+                        $data['message']['img'] = 'Upload Image Failed.';
                     }
                 }
 
-                switch ($action) {
-                    case 'add':
-                        if(($imgString != '') && ($this->uploadMultiImg($fileName))) {
-                            $dataInput['pd_time_created'] = date('Y-m-d h:i:s');
-                            $dataInput['pd_time_updated'] = date('Y-m-d h:i:s');
-                            $result = Product::updateProductProcess($dataInput);
-                        } else {
-                            $data['messageImg'] = 'Field Image is invalid!';
-                        }
-                            
-                        break;
-
-                    case 'edit':
-                        if($this->uploadMultiImg($fileName)) {
-                            for($i = 0; $i < NUM_IMG; $i++) {
-                                if($fileName['name'][$i] == '') {
-                                    $fileName['name'][$i] = Product::getProduct($pd_id)["pd_img" . $i];
-                                    $dataInput["pd_img" . $i] = $fileName['name'][$i];
-                                }
-                            }
-                            $dataInput['pd_time_updated'] = date('Y-m-d h:i:s');
-                            $result = Product::updateProductProcess($dataInput, $pd_id);
-                        } else {
-                            $data['messageImg'] = 'Upload image failed!';
-                        }
-                        break;
-                }
-
-                if($result) {
-                    directScript('Successfull!', '' . BASE_URL . LIST_PRODUCT); 
-                } else {
-                    $data['messageName'] = 'Product name is existent';
+                if($check) {
+                    $result = Product::updateProductProcess($dataInput, $pd_id);
+                    if($result) {
+                        directScript('Successfull!', '' . BASE_URL . LIST_PRODUCT); 
+                    } else {
+                        $data['message']['name'] = 'Product name is exist.';
+                    }
                 }
             }
 
-            switch ($action) {
-                case 'add':
-                    $data['oldName'] = getValue($itemPost[0]);
-                    $data['oldPrice'] = getValue($itemPost[1]);
-                    $data['oldDes'] = getValue($itemPost[2]); 
-                    $data['oldStatus'] = getValue($itemPost[3]);
-                    break;
-                
-                case 'edit':
-                    $data['oldPd']['pd_name'] = getValue($itemPost[0]);
-                    $data['oldPd']['pd_price'] = getValue($itemPost[1]);
-                    $data['oldPd']['pd_des'] = getValue($itemPost[2]); 
-                    $data['oldPd']['pd_status'] = getValue($itemPost[3]);
-                    break;
-            }
+            $this->getDataReturn($action, $data, $itemPost);
             return $data;
         }
     }

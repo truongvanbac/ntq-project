@@ -8,14 +8,6 @@ class UserController extends BaseController {
      */
     protected static $model = 'User';
 
-   /**
-    * Constructor function
-    *   
-    */
-    public function __construct() {
-        parent::__construct();
-    }
-    
 
     /**
      * Index, show list all user
@@ -30,20 +22,16 @@ class UserController extends BaseController {
      */
     public function add() {
         $data = array(
-            'oldName' => '',
-            'oldPass' => '',
-            'oldEmail' => '',
-            'oldStatus' => '1',
-            'messageName' => '',
-            'messageEmail' => '',
-            'messagePass' => '',
-            'messageImg' => ''
+            'user' => array('username' => '', 'user_email' => '', 'pass' => '', 'status' => '1', 'user_img' => ''),
+            'message' => array('name' => '', 'email' => '', 'pass' => '', 'img' => ''),
+            'title' => 'Add',
+            'btnName' => 'btn-add-user',
         );
         
-        $itemPost = array('username', 'pass', 'email','select');
+        $itemPost = array('username', 'pass', 'email','status');
         $dataInput = array();
         $this->updateUser('add', $data, 'btn-add-user', $itemPost, $dataInput);
-        $this->loadView('add-user', 'Add User', $data);
+        $this->loadView('updateUser', 'Add User', $data);
     }
     
 
@@ -55,95 +43,133 @@ class UserController extends BaseController {
         $user_id = $urlArray[3];
         
         $data = array(
-            'oldUser' => User::getUser($user_id),
-            'messageName' => '',
-            'messageEmail' => '',
-            'messagePass' => '',
-            'messageImg' => ''
+            'user' => User::getUser($user_id),
+            'message' => array('name' => '', 'email' => '', 'pass' => '', 'status' => '', 'img' => ''),
+            'title' => 'Edit',
+            'btnName' => 'btn-edit-user',
         );
         
         $checkUrl = User::checkIdUser($user_id);    //Check id user
         if($checkUrl == 0) {
-            directScript('Error, user id not exist!', '' . BASE_URL . LIST_USER);
+            directScript('Error, user id not exist.', '' . BASE_URL . LIST_USER);
         } else {
-            $itemPost = array('edit_username', 'edit_pass', 'edit_email', 'select');
+            $itemPost = array('username', 'pass', 'email','status');
             $dataInput = array();
             $this->updateUser('edit', $data, 'btn-edit-user', $itemPost, $dataInput, $user_id);
         }
 
-        $this->loadView('edit-user', 'Edit User', $data);
+        $this->loadView('updateUser', 'Edit User', $data);
     }
     
+
+    /**
+     * Check validate data input from form
+     * return true or false
+     */
+    private function validateForm(&$dataValidate = array(), $itemPost = array(), &$data = array()) {
+        $dataValidate = array(
+            'username'      =>  array(
+                                'label' => 'username',
+                                'input' => $itemPost[0],
+                                'rule' => array('required'),
+                                'message' => &$data['message']['name']
+            ),
+
+            'pass'          =>  array(
+                                'label' => 'password',
+                                'input' => $itemPost[1],
+                                'rule' => array('required'),
+                                'message' => &$data['message']['pass']
+            ),
+
+            'email'         =>  array(
+                                'label' => 'email',
+                                'input' => $itemPost[2],
+                                'rule' => array('required', 'valid_email'),
+                                'message' => &$data['message']['email']
+            )
+        );
+
+        $validate = $this->validateData($dataValidate);
+        return $validate;
+    }
+
+    /**
+     * Format data input from form
+     * return data formatted
+     */
+    private function dataInputFormat($itemPost = array(), &$dataInput = array(), &$fileName) {
+        $dataInput['username'] = htmlentities(getValue($itemPost[0]), ENT_QUOTES);
+        $dataInput['pass'] = getValue($itemPost[1]);
+        $dataInput['user_email'] = getValue($itemPost[2]);
+        $dataInput['status'] = getValue($itemPost[3]);
+        $dataInput['user_time_updated'] = date('Y-m-d h:i:s');
+        
+        if(!empty($fileName['name'])) {
+            $fileName['name'] = time() . $fileName['name'];
+            $dataInput['user_img'] = $fileName['name'];
+        }
+        return $dataInput;
+    }
+
+    /**
+     * get data when user input form
+     * return data
+     */
+    private function getDataReturn($action, &$data = array(), $itemPost = array()) {
+        $data['user']['username'] = htmlentities(getValue($itemPost[0]));
+        $data['user']['pass'] = getValue($itemPost[1]); 
+        $data['user']['user_email'] = getValue($itemPost[2]);
+        $data['user']['status'] = getValue($itemPost[3]);
+        return $data;
+    }
 
     /**
      * Function commmon to update user contain add and edit user
      */
     private function updateUser($action, &$data = array(), $button, $itemPost = array(), &$dataInput, &$user_id = null) {
         $result = false;
+        $check = false;
         if(isset($_POST[$button])) {
-
-            $username_check = $this->validate->checkInputForm('Username', $itemPost[0], 'require', $data['messageName']);
-            $pass_check = $this->validate->checkInputForm('Password', $itemPost[1], 'require', $data['messagePass']);
-            $email_check = $this->validate->checkInputForm('Email', $itemPost[2], 'email', $data['messageEmail']);
             
-            if($username_check && $pass_check && $email_check) {
-
-                $dataInput['username'] = htmlentities(getValue($itemPost[0]), ENT_QUOTES);
-                $dataInput['pass'] = md5(getValue($itemPost[1]));
-                $dataInput['user_email'] = getValue($itemPost[2]);
-                $dataInput['status'] = getValue($itemPost[3]);
+            $validate = $this->validateForm($dataValidate, $itemPost, $data);
+            
+            if($validate) {
                 $fileName = $_FILES['fileToUpload'];
+                $this->dataInputFormat($itemPost, $dataInput, $fileName);
 
-                if($fileName['name'] != '') {
-                    $fileName['name'] = time() . $fileName['name'];
-                    $dataInput['user_img'] = $fileName['name'];
-                }
-                
-                switch ($action) {
-                    case 'add':
-                        if($this->uploadImg($fileName)) {
-                            $dataInput['user_time_created'] = date('Y-m-d h:i:s');
-                            $dataInput['user_time_updated'] = date('Y-m-d h:i:s');
-                            $result = User::updateUserProcess($dataInput);
-                        } else {
-                            $data['messageImg'] = 'Upload Image Failed!';
-                        }
-
-                        break;
-                        
-                    case 'edit':
-                        if(($fileName['name'] == '') || ($this->uploadImg($fileName))) {
-                            if($fileName['name'] == '') {
-                                $fileName['name'] = User::getUser($user_id)['user_img'];
-                            }
-                            $dataInput['user_time_updated'] = date('Y-m-d h:i:s');
-                            $result = User::updateUserProcess($dataInput, $user_id);
-                        } else {
-                            $data['messageImg'] = 'Upload Image Failed!';
-                        }
-                        break;
-                }
-                if($result) {
-                    directScript('Successfull!', '' . BASE_URL . LIST_USER);
+                if($user_id == null) {
+                    $dataInput['user_time_created'] = date('Y-m-d h:i:s');
+                    if(($fileName['name'] == '') || (!$this->uploadImg($fileName))) {
+                        $data['message']['img'] = 'Upload image failed.';
+                    } else {
+                        $check = true;
+                    }
                 } else {
-                    $data['messageName'] = 'Username is existent!';
+                    if($fileName['name'] == '') {
+                        $fileName['name'] = User::getUser($user_id)['user_img'];
+                    } else if(!$this->uploadImg($fileName)) {
+                        $data['message']['img'] = 'Upload image failed.';
+                    }
+                    $check = true;
+                }
+
+                if($check) {
+                    $result = User::updateUserProcess($dataInput, $user_id);
+                    if($result) {
+                        if(($user_id) == (User::getIdAdmin())) {
+                            session_unset();
+                            $_SESSION['username'] = getValue('username');
+                            $_SESSION['log'] = true;
+                        }
+
+                        directScript('Successfull!', '' . BASE_URL . LIST_USER);
+                    } else {
+                        $data['message']['name'] = 'Username is exist.';
+                    }
                 }
             }
-
-            switch ($action) {
-                case 'add':
-                    $data['oldName'] = getValue($itemPost[0]);
-                    $data['oldPass'] = getValue($itemPost[1]);
-                    $data['oldEmail'] = getValue($itemPost[2]);
-                    $data['oldStatus'] = getValue($itemPost[3]);
-                    break;
-                case 'edit':
-                    $data['oldUser']['username'] = getValue($itemPost[0]);
-                    $data['oldUser']['pass'] = getValue($itemPost[1]); 
-                    $data['oldUser']['user_email'] = getValue($itemPost[2]);
-                    $data['oldUser']['status'] = getValue($itemPost[3]);
-                    break;
-            }
+            $this->getDataReturn($action, $data, $itemPost);
             return $data;
         }
     }

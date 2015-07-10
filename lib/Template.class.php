@@ -9,10 +9,10 @@ class Template {
     private $__content2 = array();
     
     //Load view
-    public function load($view, $data = array()) {
+    public function load($folder, $view, $data = array()) {
         extract($data);
         ob_start();
-        require_once ROOT . 'admin/view/' . $view .'.php';
+        require_once ROOT . 'admin/view/' . $folder .'/'. $view .'.php';
         $content = ob_get_contents();
         ob_end_clean();
         

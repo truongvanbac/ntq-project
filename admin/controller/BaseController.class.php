@@ -25,12 +25,11 @@ class BaseController {
      */
 	protected $validate = null;
 
-
 	/**
      * Constructor function
      */
 	public function __construct() {   
-		$this->view = new Template();       //Khởi tạo template
+		$this->view = new Template();
 		$this->regular = new RegularExpression();
 		$this->validate = new Validation();
 		$this->checkLogin();
@@ -51,19 +50,21 @@ class BaseController {
      */
 	protected function uploadMultiImg($file) {
 		$target_dir = DIR_UPLOAD;
-		$check = false;
+		$check = true;
 		for($i = 0; $i < NUM_IMG; $i++) {
 			$target_file[$i] = $target_dir . basename($file['name'][$i]);
 			if($file['name'][$i] != '') {
-                if(($file['type'][$i] == 'image/jpg') || ($file['type'][$i] == 'image/png') || ($file['type'][$i] == 'image/jpeg')) {
-                    move_uploaded_file($file['tmp_name'][$i], $target_file[$i]);
-                } else {
-                    $check = false;
-                }
-            }
+				if(($file['type'][$i] == 'image/jpg') || ($file['type'][$i] == 'image/png') 
+					|| ($file['type'][$i] == 'image/jpeg')) {
+					move_uploaded_file($file['tmp_name'][$i], $target_file[$i]);
+				} else {
+					$check = false;
+				}
+			}
 		}
 		return $check;
 	}
+
 
 	/**
      * Function uploda single image
@@ -76,7 +77,6 @@ class BaseController {
 			move_uploaded_file($file['tmp_name'], $target_file);
 			$check = true;
 		}
-
 		return $check;
 	}
 
@@ -87,7 +87,7 @@ class BaseController {
 	protected function loadView($view, $title, $data = array()) {
 		$data2 = array();
 		$data2['oldUser'] = User::getUser(User::getIdAdmin());
-		$data2['content'] = $this->view->load($view, $data);
+		$data2['content'] = $this->view->load(strtolower(static::$model), $view, $data);
 		$data2['title'] = $title;
 		$this->view->loadTemplate('tempadmin', $data2);
 	}
@@ -108,8 +108,19 @@ class BaseController {
 			'count' => $model::count(),
 			'valueSearch' => ''
 		);
-
 		$this->loadView($view, $title, $data);
+	}
+
+
+	protected function validateData($data = array()) {
+		$check = true;
+		foreach ($data as $value) {
+			$validate = $this->validate->checkForm($value['input'], $value['label'],  $value['rule'],$value['message']);
+			if(!$validate) {
+				$check = false;
+			}
+		}
+		return $check;
 	}
 
 
@@ -118,16 +129,13 @@ class BaseController {
      */
 	protected function searchingItem($view, $title) {
 		$model = static::$model;
-		$data1 = array();
+		$keyword = array();
 		$value = '';
 		if(getValue('search') != '') {
 			$string = getValue('search');
-			$data1 = explode(' ', $string);
-			for($i = 0; $i < count($data1); $i++) {
-				// if($data1[$i] == ' ') {
-				// 	str_replace(' ', '', $data1[$i]);
-				// }
-				$value .= $data1[$i] . '+'; 
+			$keyword = explode(' ', $string);
+			for($i = 0; $i < count($keyword); $i++) {
+				$value .= $keyword[$i] . '+'; 
 			}
 
 			$value = rtrim($value, ' +');
@@ -141,9 +149,12 @@ class BaseController {
 				'valueSearch' => $string,
 				'order' => 'desc'
 			);
-		}
 
-		$this->loadView($view, $title, $data);
+			$this->loadView($view, $title, $data);
+		} else {
+			$this->indexPage($view, $title);
+		}
+		
 	}
 
 
@@ -152,28 +163,24 @@ class BaseController {
      */
 	protected function sortItem($view, $title) {
 		$model = static::$model;
-		$urlArray = urlAnalyze();       //function/urlAnalyze
-		$item = $urlArray[3];
-		$order = $urlArray[4];
-		
+
+		$item = $_GET['field'];
+		$order = $_GET['type'];
+
 		
 		$pages = new Pagination(PER_PAGE, INSTANT);
 		$pages->set_total($model::count());
 		
+		$data = array(
+			'lists' => $model::sort_item($item, $order, $pages->get_limit()),
+			'page_links' => $pages->page_links($path='?',$ext = "&field=".$item."&type=".$order),
+			'count' => $model::count()
+		);
+
 		if ($order == "asc") {
-			$data = array(
-				'order' => "desc",
-				'lists' => $model::sort_item($item, $order, $pages->get_limit()),
-				'page_links' => $pages->page_links(),
-				'count' => $model::count()
-			);
+			$data['order'] = "desc";
 		} else {
-			$data = array(
-				'order' => "asc",
-				'lists' => $model::sort_item($item, $order, $pages->get_limit()),   
-				'page_links' => $pages->page_links(),
-				'count' => $model::count()
-			);
+			$data['order'] = "asc";
 		}
 		
 		$data['valueSearch'] = '';
@@ -185,24 +192,25 @@ class BaseController {
      * Function common to active item
      */
 	protected function activeItem() {
-		$model = static::$model;
-		if (!is_null(getValue('btn-ac'))) {
-			if (!is_null(getValue('checkbox'))) {
-				foreach ((getValue('checkbox')) as $check) {
-					$model::update_active($check, '1');
-				}
-			}
+		if (!empty(getValue('btn-ac'))) {
+			$this->update_active(ACTIVE_VALUE);
 		}
 
-		if (!is_null(getValue('btn-dac'))) {
-			if (!is_null(getValue('checkbox'))) {
-				foreach ((getValue('checkbox')) as $check) {
-					$model::update_active($check, '0');
-				}
-			}
+		if (!empty(getValue('btn-dac'))) {
+			$this->update_active(DEACTIVE_VALUE);
 		}
 	}
 
+	private function update_active($status) {
+		$model = static::$model;
+		if (!empty(getValue('checkbox'))) {
+			foreach ((getValue('checkbox')) as $check) {
+				$model::update_active($check, $status);
+			}
+		} else {
+			$_SESSION['checkBox'] = "Please tick in check box.";
+		}
+	}
 }
 
 ?>
