@@ -131,6 +131,17 @@ class User extends Model {
         );
         return User::searchingElement($string, $column, $limit);
     }
+
+    /**
+     * delete image
+     */
+
+    public static function remove_image($user_id) {
+        $data = array(
+            'user_img' => NULL
+        );
+        return User::deteleItem($user_id, $data);
+    }
     
 }
 

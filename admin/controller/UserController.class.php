@@ -146,6 +146,11 @@ class UserController extends BaseController {
                         $check = true;
                     }
                 } else {
+
+                    if(!empty($_POST['checkdel'])) {
+                        User::remove_image($user_id);
+                    }
+
                     if($fileName['name'] == '') {
                         $fileName['name'] = User::getUser($user_id)['user_img'];
                     } else if(!$this->uploadImg($fileName)) {

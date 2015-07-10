@@ -178,6 +178,22 @@ class Model {
     }
 
 
+    /*
+     * Delete item
+     */
+    protected static function deteleItem($id, $data = array()) {
+        $db = Database::getInstance();
+        $query = "UPDATE " . static::$tableName . " SET ";
+        foreach ($data as $key => $value) {
+            $query .= $key . " = '" . $value . "', "; 
+        }
+        $query = rtrim($query, ' ,');
+        $query .= " WHERE " . static::$primaryKey . " = " . $id;
+        var_dump($query);
+        $db->query($query);
+    }
+
+
     /**
      * Count id itemt by id
      */
@@ -218,5 +234,4 @@ class Model {
 
         return $check;
     }
-
 }
