@@ -141,6 +141,5 @@ class User extends Model {
         );
         return User::deteleItem($user_id, $data);
     }
-    
 }
 

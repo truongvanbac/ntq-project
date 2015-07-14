@@ -7,7 +7,7 @@
 
 class LoginController extends BaseController {
 
-    protected static $model = "user";
+    protected $model = "user";
 
     /*
      * Constructor function
@@ -76,7 +76,7 @@ class LoginController extends BaseController {
             }
         }
 
-        $this->view->load(strtolower(static::$model),'login', $data);
+        $this->view->load(strtolower($this->model),'login', $data);
         $this->view->show();
     }
 
