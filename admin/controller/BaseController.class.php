@@ -48,7 +48,7 @@ class BaseController {
 	/**
      * Function uploda multiple image
      */
-	protected function uploadMultiImg($file) {
+	protected function uploadMultiImg($file, &$message = null) {
 		$target_dir = DIR_UPLOAD;
 		$check = true;
 		for($i = 0; $i < NUM_IMG; $i++) {
@@ -60,6 +60,7 @@ class BaseController {
 				} else {
 					$message = 'Image contain .jpg, .png, .jpge';
 					$check = false;
+					break;
 				}
 			}
 		}

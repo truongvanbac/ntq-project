@@ -38,7 +38,6 @@ class CategoryController extends BaseController {
      * Edit Category
      */
     public function edit() {
-
         $urlArray = urlAnalyze();
         $ct_id = $urlArray[3];              //Get id category
 
