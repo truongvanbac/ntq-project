@@ -7,6 +7,9 @@
 
 class LoginController extends BaseController {
 
+    /**
+     * Model name
+     */
     protected $model = "user";
 
     /*
@@ -39,27 +42,47 @@ class LoginController extends BaseController {
      * Login
      */
     public function index() {
-        
+
         $data = array(
-            'title' => 'Login Administrator',
-            'message' => '',
-            'message1' => '',
-            'message2' => ''
+            'title' => 'Login',                                 //Title page
+            'account' => array('username' => '', 'pass' => ''),                 //store value when user input
+            'message' => array('name' => '', 'pass' => '', 'account' => '')     //Message 
         );
-        
-        if (isset($_POST['btn-login'])) {
-            if ((!empty(getValue('username'))) && (!empty(getValue('password')))) {
+
+        if (isset($_POST['btn-login'])) {                   //press button login
+
+            //Validate data input
+            $dataValidate = array(
+                'username'      =>  array(
+                                    'label' => 'username',
+                                    'input' => test_input(getValue('username')),
+                                    'rule' => array('required'),
+                                    'message' => &$data['message']['name']
+                ),
+
+                'pass'          =>  array(
+                                    'label' => 'password',
+                                    'input' => getValue('pass'),
+                                    'rule' => array('required'),
+                                    'message' => &$data['message']['pass']
+                )
+            );
+
+            $validateInput = $this->validateData($dataValidate);            //return true if valid or false id invalid
+
+            if ($validateInput) {
 
                 $username = getValue('username');
-                $password = getValue('password');
+                $password = getValue('pass');
 
-                $result = User::login_process($username, $password);
+                $result = User::login_process($username, $password);                //Login handle
+
                 if ($result) {
 
                     $_SESSION['username'] = $username;
                     $_SESSION['log'] = true;
 
-                    if (isset($_POST['remember'])) {
+                    if (isset($_POST['remember'])) {                                //If click remember checkbox
                         setcookie('username', $username, time() + TIME_COOKIE);
                     } else {
                         setcookie('username', $username, time() - TIME_COOKIE);
@@ -67,16 +90,14 @@ class LoginController extends BaseController {
 
                     redirect(BASE_URL . LIST_CATEGORY);
                 } else {
-                    $data['message'] = 'Account is not exist.';
+                    $data['message']['account'] = 'Account is not exist.';
                 }
-            } else if(empty(getValue('username'))) {
-                $data['message1'] = 'Input username!';
-            } else if(empty(getValue('password'))) {
-                $data['message2'] = 'Input password!';
             }
+
+            $data['account']['username'] = getValue('username');
         }
 
-        $this->view->load(strtolower($this->model),'login', $data);
+        $this->view->load(($this->model),'login', $data);
         $this->view->show();
     }
 

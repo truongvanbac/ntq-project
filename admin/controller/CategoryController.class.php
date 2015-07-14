@@ -22,16 +22,15 @@ class CategoryController extends BaseController {
     public function add() {
 
         $data = array(
-            'category' => array('ct_name' => '', 'ct_status' => '1'),
-            'message' => array('name' => '', 'status' => ''),
-            'title' => 'Add',
-            'btnName' => 'btn-add-ct',
+            'category' => array('ct_name' => '', 'ct_status' => '1'),       //Store data when user input
+            'message' => array('name' => '', 'status' => ''),            //Message error
+            'title' => 'Add',                                           //Title page
+            'btnName' => 'btn-add-ct',                                  //Button name
         );
-
-        $itemPost = array('name', 'status');
+        $itemPost = array('name', 'status');                //List item has posted
         $dataInput = array();
-        $this->updateCategory('add', $data, 'btn-add-ct', $itemPost, $dataInput);
-        $this->loadView('updateCategory', 'Add Category', $data);
+        $this->updateCategory('add', $data, 'btn-add-ct', $itemPost, $dataInput);       //Add category
+        $this->loadView('updateCategory', 'Add Category', $data);                       //Load view add page
     }
 
 
@@ -41,26 +40,24 @@ class CategoryController extends BaseController {
     public function edit() {
 
         $urlArray = urlAnalyze();
-        $ct_id = $urlArray[3];
+        $ct_id = $urlArray[3];              //Get id category
 
         $data = array(
-            'category' => Category::getCategory($ct_id),
-            'message' => array('name' => '', 'status' => ''),
-            'title' => 'Edit',
-            'btnName' => 'btn-edit-ct',
+            'category' => Category::getCategory($ct_id),                    //Get category by id
+            'message' => array('name' => '', 'status' => ''),               //Message error
+            'title' => 'Edit',                                              //Title page
+            'btnName' => 'btn-edit-ct',                                     //Button name
         );
 
         $dataInput = array();
-        //Check if id not empty
-        $checkUrl = Category::getIdCategory($ct_id);
-        if($checkUrl == 0) {
-            directScript('Error, category id is not exist!', '' . BASE_URL . LIST_CATEGORY);
+        $checkUrl = Category::getIdCategory($ct_id);        //Check id
+        if($checkUrl == 0) {                                //id not exit
+            directScript('Error, category id is not exist!', '' . BASE_URL . LIST_CATEGORY);        //redirect list category page
         } else {
             $itemPost = array('name','status');
-
-            $this->updateCategory('edit', $data, 'btn-edit-ct', $itemPost, $dataInput, $ct_id);
+            $this->updateCategory('edit', $data, 'btn-edit-ct', $itemPost, $dataInput, $ct_id);     //Edit category
         }
-        $this->loadView('updateCategory', 'Edit Category', $data);
+        $this->loadView('updateCategory', 'Edit Category', $data);              //Load view edit page
     }
 
 
@@ -72,20 +69,19 @@ class CategoryController extends BaseController {
         $dataValidate = array(
             'name'      => array(
                             'label'  => 'category name',
-                            'input' => $itemPost[0],
-                            'rule' => array('required','min_length:4','max_length:30'),
+                            'input' => test_input(getValue($itemPost[0])),
+                            'rule' => array('required','min_length:4','max_length:60'),
                             'message' => &$data['message']['name']
             ),
 
             'status'    => array(
                             'label' => 'status',
-                            'input' => $itemPost[1],
+                            'input' => getValue($itemPost[1]),
                             'rule' => array('required'),
                             'message' => &$data['message']['status']
             )
         );
-
-        $validate = $this->validateData($dataValidate);
+        $validate = $this->validateData($dataValidate);                     //BaseController -> validateData()
         return $validate;
     }
 
@@ -94,7 +90,7 @@ class CategoryController extends BaseController {
      * return data formatted
      */
     private function dataInputFormat($itemPost = array(), &$dataInput = array()) {
-        $dataInput['ct_name'] = htmlentities(getValue($itemPost[0]), ENT_QUOTES);
+        $dataInput['ct_name'] = test_input(getValue($itemPost[0]));
         $dataInput['ct_status'] = getValue($itemPost[1]);
         $dataInput['ct_time_update'] = date('Y-m-d h:i:s');
         return $dataInput;
@@ -106,7 +102,7 @@ class CategoryController extends BaseController {
      * return data
      */
     private function getDataReturn($action, &$data = array(), $itemPost = array()) {
-        $data['category']['ct_name'] = getValue($itemPost[0]);
+        $data['category']['ct_name'] = test_input(getValue($itemPost[0]));
         $data['category']['ct_status'] = getValue($itemPost[1]);
         return $data;
     }
@@ -118,6 +114,7 @@ class CategoryController extends BaseController {
 
         if (isset($_POST[$button])) {
            $validate = $this->validateForm($dataValidate, $itemPost, $data);        //Check validate data input
+            
             if($validate) {
 
                 $this->dataInputFormat($itemPost, $dataInput);                      //format daata input
@@ -133,8 +130,7 @@ class CategoryController extends BaseController {
                 } else {
                     $data['message']['name'] = 'Category name is exist.';
                 }
-                
-            } 
+            }
             $this->getDataReturn($action, $data, $itemPost);        //Get data input return
             return $data;
         }

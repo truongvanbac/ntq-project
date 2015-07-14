@@ -58,6 +58,7 @@ class BaseController {
 					|| ($file['type'][$i] == 'image/jpeg')) {
 					move_uploaded_file($file['tmp_name'][$i], $target_file[$i]);
 				} else {
+					$message = 'Image contain .jpg, .png, .jpge';
 					$check = false;
 				}
 			}
@@ -69,13 +70,17 @@ class BaseController {
 	/**
      * Function uploda single image
      */
-	protected function uploadImg($file) {
+	protected function uploadImg($file, &$message = null) {
 		$target_dir = DIR_UPLOAD;
 		$target_file = $target_dir . basename($file['name']);
-		$check = false;
-		if(($file['type'] == 'image/jpg') || ($file['type'] == 'image/png') || ($file['type'] == 'image/jpeg')) {
-			move_uploaded_file($file['tmp_name'], $target_file);
-			$check = true;
+		$check = true;
+		if($file['name'] != ''){
+			if(($file['type'] == 'image/jpg') || ($file['type'] == 'image/png') || ($file['type'] == 'image/jpeg')) {
+				move_uploaded_file($file['tmp_name'], $target_file);
+			} else {
+				$message = 'Image contain .jpg, .png, .jpge';
+				$check = false;
+			}
 		}
 		return $check;
 	}
@@ -115,7 +120,7 @@ class BaseController {
 	protected function validateData($data = array()) {
 		$check = true;
 		foreach ($data as $value) {
-			$validate = $this->validate->checkForm($value['input'], $value['label'],  $value['rule'],$value['message']);
+			$validate = $this->validate->checkInputForm($value['input'], $value['label'],  $value['rule'],$value['message']);
 			if(!$validate) {
 				$check = false;
 			}

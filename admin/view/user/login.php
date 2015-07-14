@@ -16,19 +16,19 @@ endHeader();
     <form class="form-horizontal" action="<?php echo BASE_URL . LOGIN?>" method="POST">
         <div class="control-group">
             <label for="inputUsername">Username</label>
-            <input type="text" id="inputUsername" name="username"/>
-            <p id = 'notifyMessage'><?php echo $message1?></p>
+            <input type="text" id="inputUsername" name="username" value="<?php echo $account['username'];?>" />
+            <p id = 'notifyMessage'><?php echo $message['name']?></p>
         </div>
         <div class="control-group">
             <label for="inputPassword">Password</label>
-            <input type="password" id="inputPassword" name="password"/> 
-            <p id = 'notifyMessage'><?php echo $message2?></p>
+            <input type="password" id="inputPassword" name="pass"/> 
+            <p id = 'notifyMessage'><?php echo $message['pass']?></p>
         </div>
         <div class="control-group" style="margin-bottom: 5px;">
             <label class="checkbox"><input type="checkbox" name="remember"> Remember me</label>
         </div>
         <div class="control-group" style="margin-bottom: 5px;">
-            <center><p id = 'notifyMessage'><?php echo $message?></p></center>
+            <center><p id = 'notifyMessage'><?php echo $message['account']?></p></center>
         </div>
         <div class="form-actions">
             <button type="submit" class="btn btn-block" name="btn-login">Login</button>

@@ -22,9 +22,9 @@ class ProductController extends BaseController {
         $data = array(
             'product' => array('pd_name' => '', 'pd_price' => '', 'pd_des' => '', 'pd_status' => '1', 'pd_img0' => '',
                 'pd_img1' => '', 'pd_img2' => ''),
-            'message' => array('name' => '', 'price' => '', 'des' => '', 'status' => '', 'img' => ''),
-            'title' => 'Add',
-            'btnName' => 'btn-add-pd'
+            'message' => array('name' => '', 'price' => '', 'des' => '', 'status' => '', 'img' => ''),      //Message
+            'title' => 'Add',               //Title page
+            'btnName' => 'btn-add-pd'       //Button name
         );
         
         $itemPost = array('name', 'price', 'des', 'status');
@@ -66,21 +66,21 @@ class ProductController extends BaseController {
         $dataValidate = array(
             'name'          => array(
                                 'label' => 'product name',
-                                'input' => $itemPost[0],
+                                'input' => test_input(getValue($itemPost[0])),
                                 'rule' => array('required'),
                                 'message' => &$data['message']['name']
             ),
 
             'price'        => array(
                                 'label' => 'price',
-                                'input' => $itemPost[1],
+                                'input' => test_input(getValue($itemPost[1])),
                                 'rule' => array('required','valid_number_natural'),
                                 'message' => &$data['message']['price']
             ),
 
             'description'  => array(
                                 'label' => 'description',
-                                'input' => $itemPost[2],
+                                'input' => test_input(getValue($itemPost[2])),
                                 'rule' => array('required'),
                                 'message' => &$data['message']['des']
             )
@@ -95,9 +95,9 @@ class ProductController extends BaseController {
      * return data formatted
      */
     private function dataInputFormat($itemPost = array(), &$dataInput = array(), &$fileName) {
-        $dataInput['pd_name'] = htmlentities(getValue($itemPost[0]), ENT_QUOTES);
-        $dataInput['pd_price'] = htmlentities(getValue($itemPost[1]));
-        $dataInput['pd_des'] = htmlentities(getValue($itemPost[2]), ENT_QUOTES);
+        $dataInput['pd_name'] = test_input(getValue($itemPost[0]));
+        $dataInput['pd_price'] = test_input(getValue($itemPost[1]));
+        $dataInput['pd_des'] = test_input(getValue($itemPost[2]));
         $dataInput['pd_status'] = getValue($itemPost[3]);
         $dataInput['pd_time_updated'] = date('Y-m-d h:i:s');
         for($i = 0; $i < NUM_IMG; $i++) {
@@ -115,9 +115,9 @@ class ProductController extends BaseController {
      * return data
      */
     private function getDataReturn($action, &$data = array(), $itemPost = array()) {
-        $data['product']['pd_name'] = getValue($itemPost[0]);
-        $data['product']['pd_price'] = getValue($itemPost[1]);
-        $data['product']['pd_des'] = getValue($itemPost[2]); 
+        $data['product']['pd_name'] = test_input(getValue($itemPost[0]));
+        $data['product']['pd_price'] = test_input(getValue($itemPost[1]));
+        $data['product']['pd_des'] = test_input(getValue($itemPost[2])); 
         $data['product']['pd_status'] = getValue($itemPost[3]);
         return $data;
     }
@@ -128,41 +128,33 @@ class ProductController extends BaseController {
     private function updateProduct($action, &$data = array(), $button, $itemPost = array(), &$dataInput, &$pd_id = null) {
         $result = false;
         $check = false;
-        if(isset($_POST[$button])) {
-            $validate = $this->validateForm($dataValidate, $itemPost, $data);
+        if(isset($_POST[$button])) {                //press button
+            $fileName = $_FILES['fileToUpload'];            //get file upload
+            $validate = $this->validateForm($dataValidate, $itemPost, $data);       //validate data
+            $this->dataInputFormat($itemPost, $dataInput, $fileName);           //format data
+            
+            if($pd_id == null) {
+                $validate = $this->validate->validateImg($fileName['name'], $data['message']['img']);   //check image empty
+            }
 
             if($validate) {
-                $fileName = $_FILES['fileToUpload'];
-                $this->dataInputFormat($itemPost, $dataInput, $fileName);
-
-                $imgString = '';
-                for($i =0; $i < NUM_IMG; $i++) {
-                    $imgString .= $fileName['name'][$i];
+                if($this->uploadMultiImg($fileName, $data['message']['img'] )) {
+                    $check = true;
                 }
 
-                if($pd_id == null) {  //add                                                       //add
+                if($pd_id == null) {        //add product
                     $dataInput['pd_time_created'] = date('Y-m-d h:i:s');
-                    if(($imgString != '') && ($this->uploadMultiImg($fileName))) {
-                        $check = true;
-                    } else {
-                        $data['message']['img'] = 'Upload Image Failed.';
-                    }
-                } else {
-                    if($this->uploadMultiImg($fileName)) {
-                        for($i =0; $i < NUM_IMG; $i++) {
-                            if($fileName['name'][$i] == '') {
-                                $fileName['name'][$i] = Product::getProduct($pd_id)["pd_img" . $i];
-                                $dataInput["pd_img" . $i] = $fileName['name'][$i];
-                            }
+                } else {                                //edit product
+                    for($i =0; $i < NUM_IMG; $i++) {
+                        if($fileName['name'][$i] == '') {
+                            $fileName['name'][$i] = Product::getProduct($pd_id)["pd_img" . $i];
+                            $dataInput["pd_img" . $i] = $fileName['name'][$i];
                         }
-                        $check = true;
-                    } else {
-                        $data['message']['img'] = 'Upload Image Failed.';
                     }
                 }
 
                 if($check) {
-                    $result = Product::updateProductProcess($dataInput, $pd_id);
+                    $result = Product::updateProductProcess($dataInput, $pd_id);        //update database
                     if($result) {
                         directScript('Successfull!', '' . BASE_URL . LIST_PRODUCT); 
                     } else {

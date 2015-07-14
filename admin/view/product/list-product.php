@@ -91,7 +91,7 @@
                                     ?>
                                 </td>
 
-                                <td><a href="<?php echo BASE_URL . EDIT_PRODUCT . '/' . $list['pd_id']; S?>" class="btn btn-info">Edit</a></td>
+                                <td><a href="<?php echo BASE_URL . EDIT_PRODUCT . '/' . $list['pd_id']; ?>" class="btn btn-info">Edit</a></td>
                             </tr>
                         <?php } ?>
                     </tbody>

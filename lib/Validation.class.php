@@ -11,13 +11,13 @@ class Validation {
 	/**
 	 * Check Input form 
 	 */
-	public function checkForm($field, $label, $rule = array(), &$message = array()) {
+	public function checkInputForm($field, $label, $rule = array(), &$message = array()) {
 		$check = true;
 
 		foreach ($rule as $value) {
 
 			if(preg_match('/^[a-z_]+$/', $value)) {								//if string only contain a-z characters
-				if(($this->$value(getValue($field))) == false) {
+				if(($this->$value($field)) == false) {
 					$message = sprintf($this->mesage[$value], $label);
 					$check = false;
 					break;
@@ -27,11 +27,31 @@ class Validation {
 				$str1 = $array[0];
 				$val =$array[1];
 
-				if($this->$str1(getValue($field), $val) == false) {
+				if($this->$str1($field, $val) == false) {
 					$message = sprintf($this->mesage[$str1], $label, $val);
 					$check = false;
 					break;
 				}
+			}
+		}
+		return $check;
+	}
+
+	public function validateImg($file, &$message) {
+		$check = true;
+		$string = '';
+		if(is_array($file)) {
+			for($i = 0; $i < count($file); $i++) {
+				$string .= $file[$i];
+			}
+			if(empty($string)) {
+				$message = "Please choose image";
+				$check = false;
+			}
+		} else {
+			if($file == '') {
+				$message = "Please choose image";
+				$check = false;
 			}
 		}
 		return $check;

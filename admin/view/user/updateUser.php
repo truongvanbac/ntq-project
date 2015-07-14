@@ -55,9 +55,9 @@
                                 if($user['user_img'] != '') { ?>
                                     <img src="<?php getImage($user['user_img']) ?>" alt="Old Image" width="50" height="50">
                                     <input type="checkbox" name="checkdel">Delete
+                                    <br>
                                 <?php }
                             ?>
-                            <br>
                             <input type="file" name="fileToUpload">
                             <p id='notifyMessage'><?php echo $message['img']; ?></p>
                         </div>
