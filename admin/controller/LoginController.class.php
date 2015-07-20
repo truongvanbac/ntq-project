@@ -36,7 +36,6 @@ class LoginController extends BaseController {
      * Override function BaseController
      */
     public function checkLogin(){}
-    
 
     /*
      * Login
@@ -62,7 +61,7 @@ class LoginController extends BaseController {
 
                 'pass'          =>  array(
                                     'label' => 'password',
-                                    'input' => getValue('pass'),
+                                    'input' => test_input(getValue('pass')),
                                     'rule' => array('required'),
                                     'message' => &$data['message']['pass']
                 )
@@ -83,20 +82,17 @@ class LoginController extends BaseController {
                     $_SESSION['log'] = true;
 
                     if (isset($_POST['remember'])) {                                //If click remember checkbox
-                        setcookie('username', $username, time() + TIME_COOKIE);
+                        setcookie('username', $username, time() + TIME_COOKIE);     //set cookie
                     } else {
-                        setcookie('username', $username, time() - TIME_COOKIE);
+                        setcookie('username', $username, time() - TIME_COOKIE);     //unset cookie
                     }
-
-                    redirect(BASE_URL . LIST_CATEGORY);
+                    redirect(BASE_URL . LIST_CATEGORY);     //redirect to list category
                 } else {
                     $data['message']['account'] = 'Account is not exist.';
                 }
             }
-
             $data['account']['username'] = getValue('username');
         }
-
         $this->view->load(($this->model),'login', $data);
         $this->view->show();
     }

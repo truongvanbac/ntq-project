@@ -155,11 +155,36 @@ function urlAnalyze() {
     return $urlArray;
 }
 
+/**
+ * Format data input
+ */
 function test_input($data) {
     $data = trim($data);
     $data = stripslashes($data);
     $data = htmlspecialchars($data);
     return $data;
+}
+
+/**
+ * Delete file
+ */
+
+function deleteFile($file) {
+    $path = DIR_UPLOAD . basename($file);
+    return unlink($path);
+}
+
+/**
+ * Get path link
+ */
+function pathShow($model, $field, $type, $page, $search) {
+    $path = '';
+    if(empty($_GET['search'])) {            //if not searching data
+        $path = BASE_URL . $model . '?field=' . $field . '&type=' . $type . '&page=' . $page;
+    } else {
+        $path = BASE_URL . $model . '?search=' . $search . '&field=' . $field . '&type=' . $type . '&page=' . $page;
+    }
+    echo $path;
 }
 
 ?>

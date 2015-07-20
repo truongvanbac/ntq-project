@@ -7,6 +7,7 @@ class CategoryController extends BaseController {
      * Model Name
      */
     protected $model = 'Category';
+    protected $id = 'ct_id';
 
     /**
      * Index, show list all category
@@ -145,16 +146,9 @@ class CategoryController extends BaseController {
     }
 
     /**
-     * Sort category
+     * Search and sort
      */
-    public function sort() {
-        $this->sortItem('list-category', 'Sorting Category');
-    }
-
-    /**
-     * Get Data Searched
-     */
-    public function getDataSearched() {
-        $this->searchingItem('list-category', 'Searching Category');
+    public function show() {
+        $this->showData('list-category', 'Category');
     }
 }

@@ -1,9 +1,8 @@
 <?php
 
-class TestController extends Controller {
+class TestController extends BaseController {
 
 	public function index() {
-		$result = User::getIdAdmin();
-		var_dump($result);
+        pathShow('ct_id', 'A', 'B');
 	}
 }

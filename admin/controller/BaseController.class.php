@@ -8,6 +8,7 @@ class BaseController {
      * Model Name
      */
 	protected $model = '';
+	protected $id = '';
 
 	/**
      * View variable
@@ -58,7 +59,7 @@ class BaseController {
 					|| ($file['type'][$i] == 'image/jpeg')) {
 					move_uploaded_file($file['tmp_name'][$i], $target_file[$i]);
 				} else {
-					$message = 'Image contain .jpg, .png, .jpge';
+					$message = 'Image only contain .jpg, .png, .jpge';
 					$check = false;
 					break;
 				}
@@ -79,7 +80,7 @@ class BaseController {
 			if(($file['type'] == 'image/jpg') || ($file['type'] == 'image/png') || ($file['type'] == 'image/jpeg')) {
 				move_uploaded_file($file['tmp_name'], $target_file);
 			} else {
-				$message = 'Image contain .jpg, .png, .jpge';
+				$message = 'Image only contain .jpg, .png, .jpge';
 				$check = false;
 			}
 		}
@@ -135,27 +136,38 @@ class BaseController {
      */
 	protected function searchingItem($view, $title) {
 		$model = $this->model;
-		$keyword = array();
-		$value = '';
-		if(getValue('search') != '') {
-			$string = getValue('search');
-			$keyword = explode(' ', $string);
-			for($i = 0; $i < count($keyword); $i++) {
-				$value .= $keyword[$i] . '+'; 
-			}
+		if(isset($_GET['type'])) {
+			$order = $_GET['type'];
+		}
+		else {
+			$order = 'asc';
+		}
 
-			$value = rtrim($value, ' +');
+		if(isset($_GET['field'])) {
+			$item = $_GET['field'];
+		}
+		else {
+			$item = $this->id;
+		}
+
+
+		if(getValue('search') != '') {
+			$string = test_input(getValue('search'));
+			$string = preg_replace('/\s\s+/', ' ', $string);
 			$totalRecord = $model::seaching_process($string)['count'];
 			$pages = new Pagination(PER_PAGE, INSTANT);
 			$pages->set_total($totalRecord);
 			$data = array(
-				'lists' => $model::seaching_process($string, $pages->get_limit())['result'],
-				'page_links' => $pages->page_links($path='?',$ext = "&search=$value"),
+				'lists' => $model::sort_search($string, $item, $order, $pages->get_limit())['result'],
+				'page_links' => $pages->page_links($path='?',$ext = "&field=".$item."&type=".$order."&search=" . $string),
 				'count' => $totalRecord,
-				'valueSearch' => $string,
-				'order' => 'desc'
+				'valueSearch' => $string
 			);
-
+			if ($order == "asc") {
+				$data['order'] = "desc";
+			} else {
+				$data['order'] = "asc";
+			}
 			$this->loadView($view, $title, $data);
 		} else {
 			$this->indexPage($view, $title);
@@ -170,13 +182,12 @@ class BaseController {
 	protected function sortItem($view, $title) {
 		$model = $this->model;
 
+		$pages = new Pagination(PER_PAGE, INSTANT);
+		$pages->set_total($model::count());
+
 		$item = $_GET['field'];
 		$order = $_GET['type'];
 
-		
-		$pages = new Pagination(PER_PAGE, INSTANT);
-		$pages->set_total($model::count());
-		
 		$data = array(
 			'lists' => $model::sort_item($item, $order, $pages->get_limit()),
 			'page_links' => $pages->page_links($path='?',$ext = "&field=".$item."&type=".$order),
@@ -191,6 +202,17 @@ class BaseController {
 		
 		$data['valueSearch'] = '';
 		$this->loadView($view, $title, $data);
+	}
+
+
+
+	protected function showData($view, $title) {
+		$model = $this->model;
+		if(isset($_GET['search'])) {
+			$this->searchingItem($view, $title);
+		} else {
+			$this->sortItem($view, $title);
+		}
 	}
 
 

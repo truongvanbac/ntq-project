@@ -10,7 +10,7 @@
 
     <div class="row-fluid">
         <div class="span12 search">
-            <form action="<?php echo BASE_URL . SEARCH_PRODUCT; ?>" method="GET">
+            <form action="<?php echo BASE_URL . SHOW_PRODUCT; ?>" method="GET">
                 <input type="text" class="span11" placeholder="Some text for search..." name="search" value="<?php echo $valueSearch;?>"/>
                 <button class="btn span1" type="submit" name = "btn-search-pd">Search</button>
             </form>
@@ -44,14 +44,19 @@
                 <table cellpadding="0" cellspacing="0" width="100%" class="table" id="tSortable_2">
                     <thead>
                         <tr>
-                            <?php if(empty($_GET['page'])) $_GET['page'] = 1;?>
+                            <?php 
+                                if(empty($_GET['page'])) 
+                                    $_GET['page'] = 1;
+                                if(empty($_GET['search']))
+                                    $_GET['search'] = '';
+                            ?>
                             <th><input type="checkbox" id="checkAll"/></th>
-                            <th width="10%" class="sorting"><a href="<?php echo BASE_URL . SORT_PRODUCT; ?>?field=pd_id&type=<?php echo $order; ?>&page=<?php echo $_GET['page'];?>">ID</a></th>
-                            <th width="30%" class="sorting"><a href="<?php echo BASE_URL . SORT_PRODUCT; ?>?field=pd_name&type=<?php echo $order; ?>&page=<?php echo $_GET['page'];?>">Product Name</a></th>
-                            <th width="15%" class="sorting"><a href="<?php echo BASE_URL . SORT_PRODUCT; ?>?field=pd_price&type=<?php echo $order; ?>&page=<?php echo $_GET['page'];?>">Price</a></th>
-                            <th width="15%" class="sorting"><a href="<?php echo BASE_URL . SORT_PRODUCT; ?>?field=pd_status&type=<?php echo $order; ?>&page=<?php echo $_GET['page'];?>">Activate</a></th>
-                            <th width="10%" class="sorting"><a href="<?php echo BASE_URL . SORT_PRODUCT; ?>?field=pd_time_created&type=<?php echo $order; ?>&page=<?php echo $_GET['page'];?>">Time Created</a></th>
-                            <th width="10%" class="sorting"><a href="<?php echo BASE_URL . SORT_PRODUCT; ?>?field=pd_time_updated&type=<?php echo $order; ?>&page=<?php echo $_GET['page'];?>">Time Updated</a></th>
+                            <th width="10%" class="sorting"><a href="<?php pathShow(SHOW_PRODUCT, 'pd_id', $order, $_GET['page'], $_GET['search']); ?>">ID</a></th>
+                            <th width="30%" class="sorting"><a href="<?php pathShow(SHOW_PRODUCT, 'pd_name', $order, $_GET['page'], $_GET['search']); ?>">Product Name</a></th>
+                            <th width="15%" class="sorting"><a href="<?php pathShow(SHOW_PRODUCT, 'pd_price', $order, $_GET['page'], $_GET['search']); ?>">Price</a></th>
+                            <th width="15%" class="sorting"><a href="<?php pathShow(SHOW_PRODUCT, 'pd_status', $order, $_GET['page'], $_GET['search']); ?>">Activate</a></th>
+                            <th width="10%" class="sorting"><a href="<?php pathShow(SHOW_PRODUCT, 'pd_time_created', $order, $_GET['page'], $_GET['search']); ?>">Time Created</a></th>
+                            <th width="10%" class="sorting"><a href="<?php pathShow(SHOW_PRODUCT, 'pd_time_updated', $order, $_GET['page'], $_GET['search']); ?>">Time Updated</a></th>
                             <th width="10%">Action</th>
                         </tr>
                     </thead>

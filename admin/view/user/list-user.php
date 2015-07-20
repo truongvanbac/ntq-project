@@ -10,7 +10,7 @@
 
     <div class="row-fluid">
         <div class="span12 search">
-            <form method="GET" action="<?php echo BASE_URL . SEARCH_USER; ?>">
+            <form method="GET" action="<?php echo BASE_URL . SHOW_USER; ?>">
                 <input type="text" class="span11" placeholder="Some text for search..." name="search" value="<?php echo $valueSearch;?>"/>
                 <button class="btn span1" type="submit" name = "btn-search-user">Search</button>
             </form>
@@ -44,13 +44,18 @@
                 <table cellpadding="0" cellspacing="0" width="100%" class="table" id="tSortable_2">
                     <thead>
                         <tr>
-                            <?php if(empty($_GET['page'])) $_GET['page'] = 1;?>
+                            <?php 
+                                if(empty($_GET['page'])) 
+                                    $_GET['page'] = 1;
+                                if(empty($_GET['search']))
+                                    $_GET['search'] = '';
+                            ?>
                             <th><input type="checkbox" id="checkAll"/></th>
-                            <th width="15%" class="sorting"><a href="<?php echo BASE_URL . SORT_USER; ?>?field=user_id&type=<?php echo $order; ?>&page=<?php echo $_GET['page'];?>">ID</a></th>
-                            <th width="35%" class="sorting"><a href="<?php echo BASE_URL . SORT_USER; ?>?field=username&type=<?php echo $order; ?>&page=<?php echo $_GET['page'];?>">Username</a></th>
-                            <th width="20%" class="sorting"><a href="<?php echo BASE_URL . SORT_USER; ?>?field=status&type=<?php echo $order; ?>&page=<?php echo $_GET['page'];?>">Activate</a></th>
-                            <th width="10%" class="sorting"><a href="<?php echo BASE_URL . SORT_USER; ?>?field=user_time_created&type=<?php echo $order; ?>&page=<?php echo $_GET['page'];?>">Time Created</a></th>
-                            <th width="10%" class="sorting"><a href="<?php echo BASE_URL . SORT_USER; ?>?field=user_time_updated&type=<?php echo $order; ?>&page=<?php echo $_GET['page'];?>">Time Updated</a></th>
+                            <th width="15%" class="sorting"><a href="<?php pathShow(SHOW_USER, 'user_id', $order, $_GET['page'], $_GET['search']); ?>">ID</a></th>
+                            <th width="35%" class="sorting"><a href="<?php pathShow(SHOW_USER, 'username', $order, $_GET['page'], $_GET['search']); ?>">Username</a></th>
+                            <th width="20%" class="sorting"><a href="<?php pathShow(SHOW_USER, 'status', $order, $_GET['page'], $_GET['search']); ?>">Activate</a></th>
+                            <th width="10%" class="sorting"><a href="<?php pathShow(SHOW_USER, 'user_time_created', $order, $_GET['page'], $_GET['search']); ?>">Time Created</a></th>
+                            <th width="10%" class="sorting"><a href="<?php pathShow(SHOW_USER, 'user_time_updated', $order,  $_GET['page'], $_GET['search']); ?>">Time Updated</a></th>
                             <th width="10%">Action</th>
                         </tr>
                     </thead>

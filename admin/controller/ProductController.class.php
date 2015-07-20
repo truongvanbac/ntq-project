@@ -6,6 +6,7 @@ class ProductController extends BaseController {
      * Model Name
      */
     protected $model = 'Product';
+    protected $id = 'pd_id';
 
     /**
      * Index, show list all product
@@ -142,56 +143,59 @@ class ProductController extends BaseController {
                     $check = true;
                 }
 
-                if($pd_id == null) {        //add product
+                if($pd_id == null) {                                                            //add product
                     $dataInput['pd_time_created'] = date('Y-m-d h:i:s');
-                } else {                                //edit product
-                    for($i =0; $i < NUM_IMG; $i++) {
+                } else {                                                                       //edit product
+
+                    if(!empty($_POST['checkdel'])) {                //remove image when tick checkbox
+                        $dataImg = array();
+                        foreach (getValue('checkdel') as $check) {
+                            $dataImg[] = $check;
+                        }
+                        Product::remove_image($pd_id, $dataImg);
+                    }
+
+                    for($i =0; $i < NUM_IMG; $i++) {                //check if image not exit
+                        $oldImg = Product::getProduct($pd_id)["pd_img" . $i];           //get old Image
+
                         if($fileName['name'][$i] == '') {
-                            $fileName['name'][$i] = Product::getProduct($pd_id)["pd_img" . $i];
+                            $fileName['name'][$i] = $oldImg;
                             $dataInput["pd_img" . $i] = $fileName['name'][$i];
+                        } else {
+                            if($oldImg != null)
+                                deleteFile($oldImg);                //delete image
                         }
                     }
                 }
 
                 if($check) {
                     $result = Product::updateProductProcess($dataInput, $pd_id);        //update database
-                    if($result) {
-                        directScript('Successfull!', '' . BASE_URL . LIST_PRODUCT); 
+                    if($result) {       //if upload image success
+                        directScript('Successfull!', '' . BASE_URL . LIST_PRODUCT);     //redirect list product
                     } else {
                         $data['message']['name'] = 'Product name is exist.';
                     }
                 }
             }
-
             $this->getDataReturn($action, $data, $itemPost);
             return $data;
         }
     }
 
     /**
-     * Function active item
+     * Active item
      */
     public function active() {
         $this->activeItem();
         redirect(BASE_URL . LIST_PRODUCT);
     }
-    
 
     /**
-     * Function sort
+     *Search and sort
      */
-    public function sort() {
-        $this->sortItem('list-product', 'Sorting Product');
+    public function show() {
+        $this->showData('list-product', 'Product');
     }
-
-
-    /**
-     * Get data searched
-     */
-    public function getDataSearched() {
-        $this->searchingItem('list-product', 'Searching Product');
-    }
-    
 }
 
 

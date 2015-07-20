@@ -21,11 +21,10 @@ class User extends Model {
     public static function login_process($username, $password) {
         $condition = array(
             ':username' => $username,
-            ':pass' => md5($password),
-            ':privilege' => '1'
+            ':pass' => ($password)
         );
         
-        $query = "select count(user_id) from user where username = :username and pass = :pass and privilege = :privilege";
+        $query = "select count(user_id) from user where username = :username and pass = :pass and privilege = 1";
         $db = Database::getInstance();
         $s = $db->prepare($query);
         $s->execute($condition);
@@ -65,7 +64,7 @@ class User extends Model {
      */
     public static function getIdAdmin() {
         $db = Database::getInstance();
-        $query = "SELECT user_id FROM " . self::$tableName . " WHERE  privilege = 1";
+        $query = "SELECT user_id FROM " . self::$tableName . " WHERE username = '" . $_SESSION['username'] . "'";
         $s = $db->query($query);
         return $s->fetchColumn();
     }
@@ -139,7 +138,18 @@ class User extends Model {
         $data = array(
             'user_img' => NULL
         );
+        deleteFile((User::getUser($user_id)['user_img']));
         return User::deteleItem($user_id, $data);
     }
+
+    public static function sort_search($string, $item = null, $typesort = null, $limit = null) {
+        $column = array(
+            'username' => 'username',
+            'user_id' => 'user_id'
+        );
+        return User::search_sort($item, $typesort, $limit, $string, $column);
+    }
+
+    
 }
 

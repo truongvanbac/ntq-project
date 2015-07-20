@@ -1,4 +1,5 @@
-<div class="breadLine">
+<div 
+class="breadLine">
 
     <ul class="breadcrumb">
         <li><a href="<?php echo BASE_URL . LIST_CATEGORY;?>">List Categories</a></li>
@@ -10,7 +11,7 @@
 
     <div class="row-fluid">
         <div class="span12 search">
-            <form action="<?php echo BASE_URL . SEARCH_CATEGORY;?>" method="GET">
+            <form action="<?php echo BASE_URL . SHOW_CATEGORY ;?>" method="GET">
                 <input type="text" class="span11" placeholder="Some text for search..." name="search" value="<?php echo $valueSearch;?>"/>
                 <button class="btn span1" type="submit" name="btn-search-ct">Search</button>
             </form>
@@ -43,13 +44,18 @@
                     <table cellpadding="0" cellspacing="0" width="100%" class="table" id="tSortable_2">
                         <thead>
                             <tr>
-                                <?php if(empty($_GET['page'])) $_GET['page'] = 1;?>
+                                <?php 
+                                    if(empty($_GET['page'])) 
+                                        $_GET['page'] = 1;
+                                    if(empty($_GET['search']))
+                                        $_GET['search'] = '';
+                                ?>
                                 <th><input type="checkbox" id="checkAll"/></th>
-                                <th width="15%" class="sorting"><a href="<?php echo BASE_URL . SORT_CATEGORY ?>?field=ct_id&type=<?php echo $order ?>&page=<?php echo $_GET['page'];?>">ID</a></th>
-                                <th width="35%" class="sorting"><a href="<?php echo BASE_URL . SORT_CATEGORY ?>?field=ct_name&type=<?php echo $order; ?>&page=<?php echo $_GET['page'];?>">Category Name</a></th>
-                                <th width="20%" class="sorting"><a href="<?php echo BASE_URL . SORT_CATEGORY ?>?field=ct_status&type=<?php echo $order; ?>&page=<?php echo $_GET['page'];?>">Activate</a></th>
-                                <th width="10%" class="sorting"><a href="<?php echo BASE_URL . SORT_CATEGORY ?>?field=ct_time_created&type=<?php echo $order; ?>&page=<?php echo $_GET['page'];?>">Time Created</a></th>
-                                <th width="10%" class="sorting"><a href="<?php echo BASE_URL . SORT_CATEGORY ?>?field=ct_time_update&type=<?php echo $order; ?>&page=<?php echo $_GET['page'];?>">Time Updated</a></th>
+                                <th width="15%" class="sorting"><a href="<?php pathShow(SHOW_CATEGORY,'ct_id', $order, $_GET['page'], $_GET['search']); ?>">ID</a></th>
+                                <th width="35%" class="sorting"><a href="<?php pathShow(SHOW_CATEGORY, 'ct_name', $order, $_GET['page'], $_GET['search']); ?>">Category Name</a></th>
+                                <th width="20%" class="sorting"><a href="<?php pathShow(SHOW_CATEGORY, 'ct_status', $order, $_GET['page'], $_GET['search']); ?>">Activate</a></th>
+                                <th width="10%" class="sorting"><a href="<?php pathShow(SHOW_CATEGORY, 'ct_time_created', $order, $_GET['page'], $_GET['search']); ?>">Time Created</a></th>
+                                <th width="10%" class="sorting"><a href="<?php pathShow(SHOW_CATEGORY, 'ct_time_update', $order, $_GET['page'], $_GET['search']); ?>">Time Updated</a></th>
                                 <th width="10%">Action</th>
                             </tr>
                         </thead>

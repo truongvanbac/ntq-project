@@ -43,6 +43,28 @@ class Model {
         return $result->fetchAll();
     }
 
+    protected static function search_sort($item, $typesort, $limit, $string = null, $column = array()) {
+        if(!empty($string)) {
+            $data = array();
+            $data = explode(' ', $string);
+            $db = Database::getInstance();
+            $query = self::actionSelect('where', '*', '');
+            foreach ($data as $key => $value) {
+                foreach ($column as $k => $v) {
+                    $query .= $v . " like '%" . $value . "' or " . $v . " like '" . $value . "%' or "; 
+                }
+            }
+            $query = rtrim($query, ' or');
+            $query .= " order by " . $item . " " . $typesort . " " . $limit;
+            $s = $db->prepare($query);
+            $s->execute();
+            $dataResult = array();
+            $dataResult['result'] = $s->fetchAll();
+            $dataResult['count'] = $s->rowCount();
+            return $dataResult;
+        }
+    }
+
     /**
      * Count all record in table
      */
@@ -126,7 +148,7 @@ class Model {
             }
         }
         $query = rtrim($query, ' or');
-        $query .= " " . $limit;
+        $query .= $limit;
         $s = $db->prepare($query);
         $s->execute();
         $dataResult = array();

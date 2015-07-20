@@ -7,6 +7,7 @@ class UserController extends BaseController {
      * Model Name
      */
     protected $model = 'User';
+    protected $id = 'user_id';
 
 
     /**
@@ -60,7 +61,6 @@ class UserController extends BaseController {
 
         $this->loadView('updateUser', 'Edit User', $data);          //load view edit page
     }
-    
 
     /**
      * Check validate data input from form
@@ -77,7 +77,7 @@ class UserController extends BaseController {
 
             'pass'          =>  array(
                                 'label' => 'password',
-                                'input' => getValue($itemPost[1]),
+                                'input' => test_input(getValue($itemPost[1])),
                                 'rule' => array('required'),
                                 'message' => &$data['message']['pass']
             ),
@@ -100,7 +100,7 @@ class UserController extends BaseController {
      */
     private function dataInputFormat($itemPost = array(), &$dataInput = array(), &$fileName) {
         $dataInput['username'] = test_input(getValue($itemPost[0]));
-        $dataInput['pass'] = getValue($itemPost[1]);
+        $dataInput['pass'] = (getValue($itemPost[1]));
         $dataInput['user_email'] = test_input(getValue($itemPost[2]));
         $dataInput['status'] = getValue($itemPost[3]);
         $dataInput['user_time_updated'] = date('Y-m-d h:i:s');
@@ -117,7 +117,7 @@ class UserController extends BaseController {
      */
     private function getDataReturn($action, &$data = array(), $itemPost = array()) {
         $data['user']['username'] = test_input(getValue($itemPost[0]));
-        $data['user']['pass'] = getValue($itemPost[1]);
+        $data['user']['pass'] = (getValue($itemPost[1]));
         $data['user']['user_email'] = test_input(getValue($itemPost[2]));
         $data['user']['status'] = getValue($itemPost[3]);
         return $data;
@@ -136,9 +136,9 @@ class UserController extends BaseController {
             $validate = $this->validateForm($dataValidate, $itemPost, $data);
             $this->dataInputFormat($itemPost, $dataInput, $fileName);
 
-            if($user_id == null) {
-                $validate = $this->validate->validateImg($fileName['name'], $data['message']['img']);
-            }
+            // if($user_id == null) {
+            //     $validate = $this->validate->validateImg($fileName['name'], $data['message']['img']);
+            // }
 
             if($validate) {
 
@@ -148,13 +148,19 @@ class UserController extends BaseController {
 
                 if($user_id == null) {                                              //Add User
                     $dataInput['user_time_created'] = date('Y-m-d h:i:s');
+                    $dataInput['privilege'] = 1;
                 } else {                                                             //Edit user
                     if(!empty($_POST['checkdel'])) {                        //Check tick checkbox
                         User::remove_image($user_id);
                     }
 
+                    $oldImg  = User::getUser($user_id)['user_img'];
+
                     if($fileName['name'] == '') {
-                        $fileName['name'] = User::getUser($user_id)['user_img'];
+                        $fileName['name'] = $oldImg;
+                    } else {
+                        if($oldImg != null)
+                            deleteFile($oldImg);
                     }
                 }
 
@@ -172,7 +178,6 @@ class UserController extends BaseController {
                     }
                 }
             }
-            
             $this->getDataReturn($action, $data, $itemPost);
             return $data;
         }
@@ -185,18 +190,8 @@ class UserController extends BaseController {
         $this->activeItem();
         redirect(BASE_URL . LIST_USER);
     }
-    
-    /**
-     * Function Sort
-     */
-    public function sort() {
-        $this->sortItem('list-user', 'Sorting User');
-    }
 
-    /**
-     * Function get data searched
-     */
-    public function getDataSearched() {
-        $this->searchingItem('list-user', 'Searching User');
+    public function show() {
+        $this->showData('list-user', 'User');
     }
 }

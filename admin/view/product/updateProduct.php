@@ -56,9 +56,9 @@
                                 for($i = 0; $i < NUM_IMG; $i++) {
                                     if($product["pd_img" . $i] != '') { ?>
                                         <img id="img-show" src="<?php getImage($product["pd_img" . $i])?>" alt="Old Image" width="50" height="50">
+                                        <input type="checkbox" name="checkdel[]" value="<?php echo $i?>";>Delete
                                     <?php }
                                 }
-
                                 echo "<br>";
                             ?>
 
