@@ -21,7 +21,7 @@ class User extends Model {
     public static function login_process($username, $password) {
         $condition = array(
             ':username' => $username,
-            ':pass' => ($password)
+            ':pass' => $password
         );
         
         $query = "select count(user_id) from user where username = :username and pass = :pass and privilege = 1";

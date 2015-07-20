@@ -13,7 +13,7 @@ class="breadLine">
         <div class="span12 search">
             <form action="<?php echo BASE_URL . SHOW_CATEGORY ;?>" method="GET">
                 <input type="text" class="span11" placeholder="Some text for search..." name="search" value="<?php echo $valueSearch;?>"/>
-                <button class="btn span1" type="submit" name="btn-search-ct">Search</button>
+                <button class="btn span1" type="submit" name="btn-search-ct" value="Search">Search</button>
             </form>
         </div>
     </div>

@@ -134,9 +134,9 @@ class ProductController extends BaseController {
             $validate = $this->validateForm($dataValidate, $itemPost, $data);       //validate data
             $this->dataInputFormat($itemPost, $dataInput, $fileName);           //format data
             
-            if($pd_id == null) {
-                $validate = $this->validate->validateImg($fileName['name'], $data['message']['img']);   //check image empty
-            }
+            // if($pd_id == null) {
+            //     $validate = $this->validate->validateImg($fileName['name'], $data['message']['img']);   //check image empty
+            // }
 
             if($validate) {
                 if($this->uploadMultiImg($fileName, $data['message']['img'] )) {
@@ -177,6 +177,7 @@ class ProductController extends BaseController {
                     }
                 }
             }
+
             $this->getDataReturn($action, $data, $itemPost);
             return $data;
         }
@@ -197,6 +198,5 @@ class ProductController extends BaseController {
         $this->showData('list-product', 'Product');
     }
 }
-
 
 

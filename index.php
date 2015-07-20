@@ -59,6 +59,8 @@ function load() {
     
     if (method_exists($controller, $action)) {
         call_user_func(array($dispatch,$action));
+    } else {
+        echo "Controller or action not found.";
     }
 }
 

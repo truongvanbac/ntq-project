@@ -12,7 +12,7 @@
         <div class="span12 search">
             <form method="GET" action="<?php echo BASE_URL . SHOW_USER; ?>">
                 <input type="text" class="span11" placeholder="Some text for search..." name="search" value="<?php echo $valueSearch;?>"/>
-                <button class="btn span1" type="submit" name = "btn-search-user">Search</button>
+                <button class="btn span1" type="submit" name = "btn-search-user" value="Search">Search</button>
             </form>
         </div>
     </div>

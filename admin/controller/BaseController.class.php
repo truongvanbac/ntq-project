@@ -5,30 +5,30 @@
 class BaseController {
 
 	/**
-     * Model Name
-     */
+	* Model Name
+	*/
 	protected $model = '';
 	protected $id = '';
 
 	/**
-     * View variable
-     */
+	 * View variable
+	 */
 
 	protected $view = NULL;
 
 	/**
-     * Regulation variable 
-     */
+	 * Regulation variable 
+	 */
 	protected $regular = NULL;
 
 	/**
-     * Validate variable
-     */
+	 * Validate variable
+	 */
 	protected $validate = null;
 
 	/**
-     * Constructor function
-     */
+	 * Constructor function
+	 */
 	public function __construct() {
 		$this->view = new Template();
 		$this->regular = new RegularExpression();
@@ -37,8 +37,8 @@ class BaseController {
 	}
 
 	/**
-     * Function check login
-     */
+	 * Function check login
+	 */
 	protected function checkLogin() {
 		if(empty($_SESSION['log'])) {
 			redirect(BASE_URL . LOGIN);  
@@ -47,11 +47,12 @@ class BaseController {
 	
 
 	/**
-     * Function uploda multiple image
-     */
+	 * Function uploda multiple image
+	 */
 	protected function uploadMultiImg($file, &$message = null) {
 		$target_dir = DIR_UPLOAD;
 		$check = true;
+
 		for($i = 0; $i < NUM_IMG; $i++) {
 			$target_file[$i] = $target_dir . basename($file['name'][$i]);
 			if($file['name'][$i] != '') {
@@ -70,8 +71,8 @@ class BaseController {
 
 
 	/**
-     * Function uploda single image
-     */
+	 * Function uploda single image
+	 */
 	protected function uploadImg($file, &$message = null) {
 		$target_dir = DIR_UPLOAD;
 		$target_file = $target_dir . basename($file['name']);
@@ -89,8 +90,8 @@ class BaseController {
 
 
 	/**
-     * Function load view
-     */
+	 * Function load view
+	 */
 	protected function loadView($view, $title, $data = array()) {
 		$data2 = array();
 		$data2['oldUser'] = User::getUser(User::getIdAdmin());
@@ -101,8 +102,8 @@ class BaseController {
 
 
 	/**
-     * Function common show list category, product or user 
-     */
+	 * Function common show list category, product or user 
+	 */
 	protected function indexPage($view, $title) {
 		$model = $this->model;
 		$pages = new Pagination(PER_PAGE, INSTANT);
@@ -132,8 +133,8 @@ class BaseController {
 
 
 	/**
-     * Function common to search data
-     */
+	 * Function common to search data
+	 */
 	protected function searchingItem($view, $title) {
 		$model = $this->model;
 		if(isset($_GET['type'])) {
@@ -159,15 +160,17 @@ class BaseController {
 			$pages->set_total($totalRecord);
 			$data = array(
 				'lists' => $model::sort_search($string, $item, $order, $pages->get_limit())['result'],
-				'page_links' => $pages->page_links($path='?',$ext = "&field=".$item."&type=".$order."&search=" . $string),
+				'page_links' => $pages->page_links($path="?&field=" . $item . "&type=" . $order . "&search=" . $string . "&", $ext = ''),
 				'count' => $totalRecord,
 				'valueSearch' => $string
 			);
+			
 			if ($order == "asc") {
 				$data['order'] = "desc";
 			} else {
 				$data['order'] = "asc";
 			}
+
 			$this->loadView($view, $title, $data);
 		} else {
 			$this->indexPage($view, $title);
@@ -177,8 +180,8 @@ class BaseController {
 
 
 	/**
-     * Function common to sort item
-     */
+	 * Function common to sort item
+	 */
 	protected function sortItem($view, $title) {
 		$model = $this->model;
 
@@ -190,7 +193,7 @@ class BaseController {
 
 		$data = array(
 			'lists' => $model::sort_item($item, $order, $pages->get_limit()),
-			'page_links' => $pages->page_links($path='?',$ext = "&field=".$item."&type=".$order),
+			'page_links' => $pages->page_links($path="?field=" . $item . "&type=" . $order . "&", $ext = ''),
 			'count' => $model::count()
 		);
 
@@ -217,8 +220,8 @@ class BaseController {
 
 
 	/**
-     * Function common to active item
-     */
+	 * Function common to active item
+	 */
 	protected function activeItem() {
 		if (!empty(getValue('btn-ac'))) {
 			$this->update_active(ACTIVE_VALUE);

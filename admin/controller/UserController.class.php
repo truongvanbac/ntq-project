@@ -38,7 +38,7 @@ class UserController extends BaseController {
 
     /**
      * Edit user
-     */ 
+     */
     public function edit() {
         $urlArray = urlAnalyze();
         $user_id = $urlArray[3];

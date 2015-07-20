@@ -39,7 +39,7 @@ class Validation {
 
 	/**
 	 * Validate image
-	*/
+	 */
 	public function validateImg($file, &$message) {
 		$check = true;
 		$string = '';

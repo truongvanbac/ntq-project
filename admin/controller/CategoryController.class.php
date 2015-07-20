@@ -1,7 +1,8 @@
 <?php
-
+/**
+ * Base Controller class extends from BaseController class
+ */
 class CategoryController extends BaseController {
-
 
     /**
      * Model Name

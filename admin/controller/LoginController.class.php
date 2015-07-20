@@ -101,7 +101,7 @@ class LoginController extends BaseController {
      * Logout
      */
     public function logout() {
-        setcookie('username', '', time() - TIME_COOKIE);
+        setcookie('username');
         session_destroy();
         redirect(BASE_URL . LOGIN);
     }
