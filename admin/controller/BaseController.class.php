@@ -29,7 +29,7 @@ class BaseController {
 	/**
      * Constructor function
      */
-	public function __construct() {   
+	public function __construct() {
 		$this->view = new Template();
 		$this->regular = new RegularExpression();
 		$this->validate = new Validation();
