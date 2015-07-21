@@ -86,5 +86,5 @@ function __autoload($className) {
 }
 
 Database::getInstance('mysql:host='.DB_HOST.';dbname='.DB_NAME.';charset=utf8', DB_USER, DB_PASS);
-$area = "home";
+$area = "admin";
 load();
