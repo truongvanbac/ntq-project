@@ -8,9 +8,7 @@ define('DIR_UPLOAD', ROOT . 'public/uploads/');     //define upload diretory
 /*
  * load config files and function common
  */
-require_once(ROOT . 'system/configs/rounter.php');
 require_once(ROOT . 'system/configs/config.php');
-require_once(ROOT . 'system/configs/validationNotify.php');
 require_once(ROOT . 'lib/functions.php');
 
 $url = $_GET['url'];   //Lấy url
@@ -41,27 +39,30 @@ function load() {
         array_shift($urlArray);
     }
     
-    
     if(!empty($urlArray[0])) {
         $controller = array_shift($urlArray);
     }
     
-    
     if(!empty($urlArray[0])) {
         $action = array_shift($urlArray);
     }
-    
 
     $controllerName = $controller;
     $controller = ucwords($controller);
     $controller .= 'Controller';
+
+    if(!class_exists($controller)) {
+        echo "Class " . $controller . " not found";
+    }
+
     $dispatch = new $controller();
-    
+
     if (method_exists($controller, $action)) {
         call_user_func(array($dispatch,$action));
     } else {
-        echo "Controller or action not found.";
+        echo "Method " . $action . " not found";
     }
+
 }
 
 /*

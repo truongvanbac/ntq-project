@@ -16,7 +16,6 @@ function includeStyle($filename) {
     $path =  BASE_URL . "/public/" . $area . "/css/" . $filename;
     includeExternalStyle($path);
 }
-
 /**
  * Include style css html
  */
@@ -24,8 +23,6 @@ function includeExternalStyle($location) {
     $string = "<link rel='stylesheet' type='text/css' href='".$location."' />\n";
     echo $string;
 }
-
-
 /**
  * Include script
  */
@@ -34,8 +31,6 @@ function includeScript($filename) {
     $path = BASE_URL . "/public/" . $area . "/js/" . $filename;
     includeExternalScript($path);
 }
-
-
 /**
  * Include script html
  */
@@ -43,6 +38,7 @@ function includeExternalScript($location) {
     $string = "<script type='text/javascript' src='".$location."'></script>\n";
     echo $string;
 }
+
 
 /**
  * start title html
@@ -170,7 +166,9 @@ function test_input($data) {
 
 function deleteFile($file) {
     $path = DIR_UPLOAD . basename($file);
-    return unlink($path);
+    if (file_exists($file)) {
+        return unlink($path);
+    }
 }
 
 /**

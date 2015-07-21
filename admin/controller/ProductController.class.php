@@ -7,6 +7,7 @@ class ProductController extends BaseController {
      */
     protected $model = 'Product';
     protected $id = 'pd_id';
+    protected $checkField = array('pd_id', 'pd_name', 'pd_price', 'pd_des', 'pd_status', 'pd_time_created', 'pd_time_updated');
 
     /**
      * Index, show list all product
@@ -62,7 +63,9 @@ class ProductController extends BaseController {
         $this->loadView('updateProduct', 'Edit Category', $data);
     }
 
-
+    /**
+     * Validate data
+     */
     private function validateForm(&$dataValidate = array(), $itemPost = array(), &$data = array()) {
         $dataValidate = array(
             'name'          => array(
@@ -129,19 +132,14 @@ class ProductController extends BaseController {
     private function updateProduct($action, &$data = array(), $button, $itemPost = array(), &$dataInput, &$pd_id = null) {
         $result = false;
         $check = false;
+
         if(isset($_POST[$button])) {                //press button
             $fileName = $_FILES['fileToUpload'];            //get file upload
             $validate = $this->validateForm($dataValidate, $itemPost, $data);       //validate data
             $this->dataInputFormat($itemPost, $dataInput, $fileName);           //format data
+            $uploadImg = $this->uploadMultiImg($fileName, $data['message']['img']);
             
-            // if($pd_id == null) {
-            //     $validate = $this->validate->validateImg($fileName['name'], $data['message']['img']);   //check image empty
-            // }
-
-            if($validate) {
-                if($this->uploadMultiImg($fileName, $data['message']['img'] )) {
-                    $check = true;
-                }
+            if($validate && $uploadImg) {
 
                 if($pd_id == null) {                                                            //add product
                     $dataInput['pd_time_created'] = date('Y-m-d h:i:s');
@@ -168,13 +166,11 @@ class ProductController extends BaseController {
                     }
                 }
 
-                if($check) {
-                    $result = Product::updateProductProcess($dataInput, $pd_id);        //update database
-                    if($result) {       //if upload image success
-                        directScript('Successfull!', '' . BASE_URL . LIST_PRODUCT);     //redirect list product
-                    } else {
-                        $data['message']['name'] = 'Product name is exist.';
-                    }
+                $result = Product::updateProductProcess($dataInput, $pd_id);        //update database
+                if($result) {       //if upload image success
+                    directScript('Successfull!', '' . BASE_URL . LIST_PRODUCT);     //redirect list product
+                } else {
+                    $data['message']['name'] = 'Product name is exist.';
                 }
             }
 

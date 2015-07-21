@@ -9,6 +9,7 @@ class BaseController {
 	*/
 	protected $model = '';
 	protected $id = '';
+	protected $checkField = array();
 
 	/**
 	 * View variable
@@ -31,7 +32,6 @@ class BaseController {
 	 */
 	public function __construct() {
 		$this->view = new Template();
-		$this->regular = new RegularExpression();
 		$this->validate = new Validation();
 		$this->checkLogin();
 	}
@@ -55,7 +55,14 @@ class BaseController {
 
 		for($i = 0; $i < NUM_IMG; $i++) {
 			$target_file[$i] = $target_dir . basename($file['name'][$i]);
+
 			if($file['name'][$i] != '') {
+				if(file_exists($target_file[$i])) {
+					$message = 'Image not be repeated.';
+					$check = false;
+					break;
+				}
+				
 				if(($file['type'][$i] == 'image/jpg') || ($file['type'][$i] == 'image/png') 
 					|| ($file['type'][$i] == 'image/jpeg')) {
 					move_uploaded_file($file['tmp_name'][$i], $target_file[$i]);
@@ -77,6 +84,7 @@ class BaseController {
 		$target_dir = DIR_UPLOAD;
 		$target_file = $target_dir . basename($file['name']);
 		$check = true;
+
 		if($file['name'] != ''){
 			if(($file['type'] == 'image/jpg') || ($file['type'] == 'image/png') || ($file['type'] == 'image/jpeg')) {
 				move_uploaded_file($file['tmp_name'], $target_file);
@@ -133,89 +141,52 @@ class BaseController {
 
 
 	/**
-	 * Function common to search data
+	 *	Search and sort data
 	 */
-	protected function searchingItem($view, $title) {
+	protected function showData($view, $title) {
 		$model = $this->model;
-		if(isset($_GET['type'])) {
+		$pages = new Pagination(PER_PAGE, INSTANT);
+
+		if(isset($_GET['type']) && ($_GET['type'] == "asc" || $_GET['type'] = "desc")) {
 			$order = $_GET['type'];
-		}
-		else {
-			$order = 'asc';
+		} else {
+			$order = "asc";
 		}
 
-		if(isset($_GET['field'])) {
+		if(isset($_GET['field']) && in_array($_GET['field'], $this->checkField)) {
 			$item = $_GET['field'];
-		}
-		else {
+		} else {
 			$item = $this->id;
 		}
-
 
 		if(getValue('search') != '') {
 			$string = test_input(getValue('search'));
 			$string = preg_replace('/\s\s+/', ' ', $string);
-			$totalRecord = $model::seaching_process($string)['count'];
-			$pages = new Pagination(PER_PAGE, INSTANT);
+			$totalRecord = $model::sort_search($string, $item, $order)['count'];
 			$pages->set_total($totalRecord);
 			$data = array(
 				'lists' => $model::sort_search($string, $item, $order, $pages->get_limit())['result'],
-				'page_links' => $pages->page_links($path="?&field=" . $item . "&type=" . $order . "&search=" . $string . "&", $ext = ''),
+				'page_links' => $pages->page_links($path="?search=" . $string . "&field=" . $item . "&type=" . $order . "&", $ext = ''),
 				'count' => $totalRecord,
 				'valueSearch' => $string
 			);
-			
-			if ($order == "asc") {
-				$data['order'] = "desc";
-			} else {
-				$data['order'] = "asc";
-			}
-
-			$this->loadView($view, $title, $data);
 		} else {
-			$this->indexPage($view, $title);
+			$pages->set_total($model::count());
+			$data = array(
+				'lists' => $model::sort_item($item, $order, $pages->get_limit()),
+				'page_links' => $pages->page_links($path="?field=" . $item . "&type=" . $order . "&", $ext = ''),
+				'count' => $model::count(),
+				'valueSearch' => ''
+			);
 		}
-		
-	}
-
-
-	/**
-	 * Function common to sort item
-	 */
-	protected function sortItem($view, $title) {
-		$model = $this->model;
-
-		$pages = new Pagination(PER_PAGE, INSTANT);
-		$pages->set_total($model::count());
-
-		$item = $_GET['field'];
-		$order = $_GET['type'];
-
-		$data = array(
-			'lists' => $model::sort_item($item, $order, $pages->get_limit()),
-			'page_links' => $pages->page_links($path="?field=" . $item . "&type=" . $order . "&", $ext = ''),
-			'count' => $model::count()
-		);
 
 		if ($order == "asc") {
 			$data['order'] = "desc";
 		} else {
 			$data['order'] = "asc";
 		}
-		
-		$data['valueSearch'] = '';
+
 		$this->loadView($view, $title, $data);
-	}
-
-
-
-	protected function showData($view, $title) {
-		$model = $this->model;
-		if(isset($_GET['search'])) {
-			$this->searchingItem($view, $title);
-		} else {
-			$this->sortItem($view, $title);
-		}
 	}
 
 

@@ -8,6 +8,7 @@ class UserController extends BaseController {
      */
     protected $model = 'User';
     protected $id = 'user_id';
+    protected $checkField = array('user_id', 'username', 'status', 'user_time_created', 'user_time_updated');
 
 
     /**
@@ -128,23 +129,19 @@ class UserController extends BaseController {
      */
     private function updateUser($action, &$data = array(), $button, $itemPost = array(), &$dataInput, &$user_id = null) {
         $result = false;
-        $check = false;
 
         if(isset($_POST[$button])) {
             $fileName = $_FILES['fileToUpload'];
 
             $validate = $this->validateForm($dataValidate, $itemPost, $data);
             $this->dataInputFormat($itemPost, $dataInput, $fileName);
+            $uploadImg = $this->uploadImg($fileName, $data['message']['img']);
 
             // if($user_id == null) {
             //     $validate = $this->validate->validateImg($fileName['name'], $data['message']['img']);
             // }
 
-            if($validate) {
-
-                if($this->uploadImg($fileName, $data['message']['img'] )) {
-                    $check = true;
-                }
+            if($validate && $uploadImg) {
 
                 if($user_id == null) {                                              //Add User
                     $dataInput['user_time_created'] = date('Y-m-d h:i:s');
@@ -164,18 +161,17 @@ class UserController extends BaseController {
                     }
                 }
 
-                if($check) {
-                    $result = User::updateUserProcess($dataInput, $user_id);
-                    if($result) {
-                        if(($user_id) == (User::getIdAdmin())) {
-                            session_unset();
-                            $_SESSION['username'] = getValue('username');
-                            $_SESSION['log'] = true;
-                        }
-                        directScript('Successfull!', '' . BASE_URL . LIST_USER);
-                    } else {
-                        $data['message']['name'] = 'Username is exist.';
+                $result = User::updateUserProcess($dataInput, $user_id);
+                
+                if($result) {
+                    if(($user_id) == (User::getIdAdmin())) {
+                        session_unset();
+                        $_SESSION['username'] = getValue('username');
+                        $_SESSION['log'] = true;
                     }
+                    directScript('Successfull!', '' . BASE_URL . LIST_USER);
+                } else {
+                    $data['message']['name'] = 'Username is exist.';
                 }
             }
             $this->getDataReturn($action, $data, $itemPost);

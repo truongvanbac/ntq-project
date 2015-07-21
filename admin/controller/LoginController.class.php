@@ -18,7 +18,7 @@ class LoginController extends BaseController {
     public function __construct() {
         parent::__construct();
 
-        //Check cookie        
+        //Check cookie
         if(isset($_COOKIE)) {
             if(!empty($_COOKIE['username'])) {
                 $_SESSION['log'] = true;

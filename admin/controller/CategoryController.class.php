@@ -9,6 +9,7 @@ class CategoryController extends BaseController {
      */
     protected $model = 'Category';
     protected $id = 'ct_id';
+    protected $checkField = array('ct_id', 'ct_name', 'ct_status', 'ct_time_update', 'ct_time_created');
 
     /**
      * Index, show list all category
