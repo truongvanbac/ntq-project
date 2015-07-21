@@ -136,11 +136,7 @@ class UserController extends BaseController {
             $validate = $this->validateForm($dataValidate, $itemPost, $data);
             $this->dataInputFormat($itemPost, $dataInput, $fileName);
             $uploadImg = $this->uploadImg($fileName, $data['message']['img']);
-
-            // if($user_id == null) {
-            //     $validate = $this->validate->validateImg($fileName['name'], $data['message']['img']);
-            // }
-
+            
             if($validate && $uploadImg) {
 
                 if($user_id == null) {                                              //Add User

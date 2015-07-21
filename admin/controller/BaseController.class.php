@@ -101,11 +101,11 @@ class BaseController {
 	 * Function load view
 	 */
 	protected function loadView($view, $title, $data = array()) {
-		$data2 = array();
-		$data2['oldUser'] = User::getUser(User::getIdAdmin());
-		$data2['content'] = $this->view->load(strtolower($this->model), $view, $data);
-		$data2['title'] = $title;
-		$this->view->loadTemplate('tempadmin', $data2);
+		$data1 = array();
+		$data1['oldUser'] = User::getUser(User::getIdAdmin());
+		$data1['content'] = $this->view->load(strtolower($this->model), $view, $data);
+		$data1['title'] = $title;
+		$this->view->loadTemplate('tempadmin', $data1);
 	}
 
 

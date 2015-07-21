@@ -10,5 +10,6 @@ class IndexController {
     public function index() {
         echo "PAGE HOME";
     }
+    
 }
 
