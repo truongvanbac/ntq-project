@@ -41,14 +41,14 @@ class User extends Model {
      * Get all record user
      */
     public static function get_list($limit) {
-        return User::getAllRecord($limit);
+        return self::getAllRecord($limit);
     }
     
     /**
      * Count all record
      */
     public static function count() {
-        return User::countRecord();
+        return self::countRecord();
     }
 
 
@@ -56,7 +56,7 @@ class User extends Model {
      * Check id user 
      */
     public static function checkIdUser($user_id) {
-        return User::getIdItem($user_id);
+        return self::getIdItem($user_id);
     }
 
     /**
@@ -74,7 +74,7 @@ class User extends Model {
      * Update user contain add and edit
      */
     public static function updateUserProcess($data = array(), $user_id = null) {
-        return User::updateItem($data, $user_id);
+        return self::updateItem($data, $user_id);
     }
     
     
@@ -82,7 +82,7 @@ class User extends Model {
      * Count record by condition
      */
     public static function count_colum($column, $value) {
-        return User::countRowByColumn($column, $value);
+        return self::countRowByColumn($column, $value);
     }
     
 
@@ -90,7 +90,7 @@ class User extends Model {
      * Get user by id
      */
     public static function getUser($user_id) {
-        return User::getItemById($user_id);
+        return self::getItemById($user_id);
     }
     
 
@@ -103,7 +103,7 @@ class User extends Model {
             'user_time_updated' => date("Y-m-d h:i:s")
                 
         );
-        $result = User::activeRecord($user_id, 'user_id', $data, $value);
+        $result = self::activeRecord($user_id, 'user_id', $data, $value);
         if($result) {
             return true;
         } else {
@@ -115,7 +115,7 @@ class User extends Model {
      * Sort record
      */
     public static function sort_item($item, $typesort, $limit) {
-        return User::sort($item, $typesort, $limit);
+        return self::sort($item, $typesort, $limit);
     }
 
     /**
@@ -126,7 +126,7 @@ class User extends Model {
             'username' => 'username',
             'user_id' => 'user_id'
         );
-        return User::search_sort($item, $typesort, $limit, $string, $column);
+        return self::search_sort($item, $typesort, $limit, $string, $column);
     }
 
     

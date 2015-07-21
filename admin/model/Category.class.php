@@ -14,7 +14,7 @@ class Category extends Model {
      * Get all record table
      */
     public static function get_list($limit) {
-        return Category::getAllRecord($limit); 
+        return self::getAllRecord($limit); 
     }
     
 
@@ -22,7 +22,7 @@ class Category extends Model {
      * Count all record
      */
     public static function count() {
-        return Category::countRecord();
+        return self::countRecord();
     }
     
 
@@ -30,21 +30,21 @@ class Category extends Model {
      * Get category by id
      */
     public static function getCategory($ct_id) {
-        return Category::getItemById($ct_id);
+        return self::getItemById($ct_id);
     }
     
     /**
      * Count id category by id
      */
     public static function getIdCategory($ct_id) {
-        return Category::getIdItem($ct_id);
+        return self::getIdItem($ct_id);
     }
 
     /**
      * Update category contain add and edit
      */
     public static function updateCategoryProcess($data = array(), $ct_id = null) {
-        return Category::updateItem($data, $ct_id);
+        return self::updateItem($data, $ct_id);
     }
 
 
@@ -52,7 +52,7 @@ class Category extends Model {
      * Count record by condition
      */
     public static function count_colum($column, $value) {
-        return Category::countRowByColumn($column, $value);
+        return self::countRowByColumn($column, $value);
     }
     
     
@@ -66,7 +66,7 @@ class Category extends Model {
                 
         );
 
-        $result = Category::activeRecord($ct_id, 'ct_id', $data, $value);
+        $result = self::activeRecord($ct_id, 'ct_id', $data, $value);
         if($result) {
             return true;
         } else {
@@ -78,7 +78,7 @@ class Category extends Model {
      * Sort category
      */
     public static function sort_item($item, $typesort, $limit) {
-        return Category::sort($item, $typesort, $limit);
+        return self::sort($item, $typesort, $limit);
     }
 
     /**
@@ -90,6 +90,6 @@ class Category extends Model {
             'ct_name' => 'ct_name',
             'ct_id' => 'ct_id'
         );
-        return Category::search_sort($item, $typesort, $limit, $string, $column);
+        return self::search_sort($item, $typesort, $limit, $string, $column);
     }
 }

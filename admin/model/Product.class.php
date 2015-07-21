@@ -19,14 +19,14 @@ class Product extends Model {
      * Get all record of product table
      */
     public static function get_list($limit) {
-        return Product::getAllRecord($limit);
+        return self::getAllRecord($limit);
     }
     
     /**
      * Count all record of product table
      */
     public static function count() {
-        return Product::countRecord();
+        return self::countRecord();
     }
     
     
@@ -34,18 +34,18 @@ class Product extends Model {
      * Get Product by id
      */
     public static function getProduct($pd_id) {
-        return Product::getItemById($pd_id);
+        return self::getItemById($pd_id);
     }
 
     public static function getIdProduct($pd_id) {
-        return Product::getIdItem($pd_id);
+        return self::getIdItem($pd_id);
     }
     
     /**
      * Update product contain add and edit
      */
     public static function updateProductProcess($data = array(), $pd_id = null) {
-        return Product::updateItem($data, $pd_id);
+        return self::updateItem($data, $pd_id);
     }
 
     
@@ -53,7 +53,7 @@ class Product extends Model {
      * Count record by condition
      */
     public static function count_colum($column, $value) {
-        return Product::countRowByColumn($column, $value);
+        return self::countRowByColumn($column, $value);
     }
 
     /**
@@ -67,7 +67,7 @@ class Product extends Model {
                 
         );
 
-        $result = Product::activeRecord($pd_id, 'pd_id', $data, $value);
+        $result = self::activeRecord($pd_id, 'pd_id', $data, $value);
         if($result) {
             return true;
         } else {
@@ -79,7 +79,7 @@ class Product extends Model {
      * Sord record
      */
     public static function sort_item($item, $typesort, $limit) {
-        return Product::sort($item, $typesort, $limit);
+        return self::sort($item, $typesort, $limit);
     }
 
     /**
@@ -91,6 +91,6 @@ class Product extends Model {
             'pd_price' => 'pd_price',
             'pd_id' => 'pd_id'
         );
-        return Product::search_sort($item, $typesort, $limit, $string, $column);
+        return self::search_sort($item, $typesort, $limit, $string, $column);
     }
 }
