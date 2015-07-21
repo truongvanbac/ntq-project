@@ -146,7 +146,6 @@ class ProductController extends BaseController {
      */
     private function updateProduct($action, &$data = array(), $button, $itemPost = array(), &$dataInput, &$pd_id = null) {
         $result = false;
-        $check = false;
 
         if(isset($_POST[$button])) {                        //press button
             $fileName = $_FILES['fileToUpload'];            //get file upload

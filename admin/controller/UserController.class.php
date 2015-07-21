@@ -70,7 +70,7 @@ class UserController extends BaseController {
             directScript('Error, user id not exist.', '' . BASE_URL . LIST_USER);
         } else {
             $itemPost = array('username', 'pass', 'email','status');                                //List item has posted
-            $dataInput = array();                                                                   //Store data input, use to update database
+            $dataInput = array();
             $this->updateUser('edit', $data, 'btn-edit-user', $itemPost, $dataInput, $user_id);     //edit user
         }
 
