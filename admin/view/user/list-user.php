@@ -63,7 +63,7 @@
                         <?php foreach ($lists as $list) { ?>
                             <tr>
                                 <td><input class="case" type="checkbox" value="<?php echo $list['user_id']; ?>" name="checkbox[]"/></td>
-                                <td><?php echo $list['user_id'] ?></td>
+                                <td><a href="<?php echo BASE_URL . EDIT_USER . '/' . $list['user_id']; ?>"><?php echo $list['user_id'] ?></a></td>
                                 <td><?php echo $list['username'] ?></td>
                                 <td>
                                     <?php

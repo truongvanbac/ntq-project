@@ -63,7 +63,7 @@ class="breadLine">
                             <?php foreach ($lists as $list) { ?>
                                 <tr>
                                     <td><input class="case" type="checkbox" value="<?php echo $list['ct_id']; ?>" name="checkbox[]"/></td>
-                                    <td><?php echo $list['ct_id'] ?></td>
+                                    <td><a href="<?php echo BASE_URL . EDIT_CATEGORY . '/' .$list['ct_id']?>"><?php echo $list['ct_id'] ?></a></td>
                                     <td><?php echo $list['ct_name'] ?></td>
                                     <td>
                                         <?php

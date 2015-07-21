@@ -64,7 +64,7 @@
                         <?php foreach ($lists as $list) { ?>
                             <tr>
                                 <td><input class="case" type="checkbox" value="<?php echo $list['pd_id']; ?>" name="checkbox[]"/></td>
-                                <td><?php echo $list['pd_id'] ?></td>
+                                <td><a href="<?php echo BASE_URL . EDIT_PRODUCT . '/' . $list['pd_id']; ?>"><?php echo $list['pd_id'] ?></a></td>
                                 <td><?php echo $list['pd_name'] ?></td>
                                 <td><?php echo moneyFormat($list['pd_price'])?> VND</td>
                                 <td>

@@ -13,7 +13,7 @@ class Database extends PDO {
     //Hàm khởi tạo
     function __construct($dsn,$dbname,$dbpass) {
         parent::__construct($dsn,$dbname,$dbpass);
-        $this->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);   
+        $this->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
     }
 }
 
