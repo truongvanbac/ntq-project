@@ -21,8 +21,9 @@
                     <div class="row-form">
                         <div class="span3">Category Name:</div>
                         <div class="span9">
-                            <input type="text" placeholder="some text value..." name="name" value="<?php echo $category['ct_name'];?>"/>
-                            <p id='notifyMessage'><?php echo $message['name'];?></p>
+                            <input type="text" placeholder="some text value..." name="name" 
+                            value="<?php returnData($category['ct_name']); ?>"/>
+                            <p id='notifyMessage'><?php returnData($message['name']); ?></p>
                         </div>
 
                         <div class="clear"></div>
@@ -33,6 +34,10 @@
                         <div class="span9">
                             <select name="status">
                             <?php 
+                                if(empty($category['ct_status'])) {
+                                    $category['ct_status'] = ACTIVE_VALUE;
+                                } 
+
                                 if($category['ct_status'] == ACTIVE_VALUE) {
                                     echo "<option value = '" . ACTIVE_VALUE . "' selected>Activate</option>";
                                     echo "<option value = '" . DEACTIVE_VALUE . "' >Deactivate</option>";
@@ -42,7 +47,7 @@
                                 }
                             ?>
                             </select>
-                            <p id='notifyMessage'><?php echo $message['status'];?></p>
+                            <p id='notifyMessage'><?php returnData($message['status']); ?></p>
                         </div>
                         <div class="clear"></div>
                     </div>

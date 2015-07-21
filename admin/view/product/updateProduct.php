@@ -24,8 +24,8 @@
                     <div class="row-form">
                         <div class="span3">Product Name:</div>
                         <div class="span9">
-                            <input type="text" placeholder="some text value..." name="name" value="<?php echo $product['pd_name'];?>"/>
-                            <p id='notifyMessage'><?php echo $message['name']; ?></p>
+                            <input type="text" placeholder="some text value..." name="name" value="<?php returnData($product['pd_name']); ?>"/>
+                            <p id='notifyMessage'><?php returnData($message['name']); ?></p>
                         </div>
                         <div class="clear"></div>
                     </div> 
@@ -33,8 +33,8 @@
                     <div class="row-form">
                         <div class="span3">Price:</div>
                         <div class="span9">
-                            <input type="text" placeholder="some text value..." name="price" value="<?php echo $product['pd_price'];?>" />
-                            <p id='notifyMessage'><?php echo $message['price']?></p>
+                            <input type="text" placeholder="some text value..." name="price" value="<?php returnData($product['pd_price']); ?>" />
+                            <p id='notifyMessage'><?php returnData($message['price']); ?></p>
                         </div>
                         <div class="clear"></div>
                     </div> 
@@ -42,8 +42,8 @@
                     <div class="row-form">
                         <div class="span3">Description:</div>
                         <div class="span9">
-                            <textarea name="des" placeholder="Textarea field placeholder..." ><?php echo $product['pd_des'];?></textarea>
-                            <p id='notifyMessage'><?php echo $message['des']?></p>
+                            <textarea name="des" placeholder="Textarea field placeholder..." ><?php returnData($product['pd_des']); ?></textarea>
+                            <p id='notifyMessage'><?php returnData($message['des']); ?></p>
                         </div>
                         <div class="clear"></div>
                     </div> 
@@ -55,7 +55,12 @@
                             <?php 
                                 for($i = 0; $i < NUM_IMG; $i++) {
                                     if($product["pd_img" . $i] != '') { ?>
-                                        <img id="img-show" src="<?php getImage($product["pd_img" . $i])?>" alt="Old Image" width="50" height="50">
+                                        <img id="img-show" 
+                                        src="<?php 
+                                        if(empty($product["pd_img" . $i])) {
+                                            $product["pd_img" . $i] = null;
+                                        }
+                                        getImage($product["pd_img" . $i]); ?>" alt="Old Image" width="50" height="50">
                                         <input type="checkbox" name="checkdel[]" value="<?php echo $i?>";>Delete
                                     <?php }
                                 }
@@ -65,7 +70,7 @@
                             <?php for($i = 0; $i < NUM_IMG; $i++) { ?>
                                 <input type="file" name="fileToUpload[]"><br>
                             <?php }?>
-                                <p id='notifyMessage'><?php echo $message['img']?></p>
+                                <p id='notifyMessage'><?php returnData($message['img']); ?></p>
                         </div>
                         <div class="clear"></div>
                     </div> 
@@ -75,6 +80,9 @@
                         <div class="span9">
                             <select name="status">
                             <?php 
+                                if(empty($product['pd_status'])) {
+                                    $product['pd_status'] = ACTIVE_VALUE;
+                                }
                                 if($product['pd_status'] == ACTIVE_VALUE) {
                                     echo "<option value = '" . ACTIVE_VALUE . "' selected>Activate</option>";
                                     echo "<option value = '" . DEACTIVE_VALUE . "' >Deactivate</option>";
@@ -84,7 +92,7 @@
                                 }
                             ?>
                             </select>
-                            <p id='notifyMessage'><?php echo $message['status']?></p>
+                            <p id='notifyMessage'><?php returnData($message['status']); ?></p>
                         </div>
                         <div class="clear"></div>
                     </div>

@@ -24,8 +24,8 @@
                     <div class="row-form">
                         <div class="span3">Username:</div>
                         <div class="span9">
-                            <input type="text" placeholder="some text value..." name="username" value="<?php echo $user['username']?>"/>
-                            <p id='notifyMessage'><?php echo $message['name']; ?></p>
+                            <input type="text" placeholder="some text value..." name="username" value="<?php returnData($user['username']); ?>"/>
+                            <p id='notifyMessage'><?php returnData($message['name']); ?></p>
                         </div>
                         <div class="clear"></div>
                     </div> 
@@ -33,8 +33,8 @@
                     <div class="row-form">
                         <div class="span3">Email:</div>
                         <div class="span9">
-                            <input type="text" placeholder="some text value..." name="email" value="<?php echo $user['user_email']?>"/>
-                            <p id='notifyMessage'><?php echo $message['email']; ?></p>
+                            <input type="text" placeholder="some text value..." name="email" value="<?php returnData($user['user_email']); ?>"/>
+                            <p id='notifyMessage'><?php returnData($message['email']); ?></p>
                         </div>
                         <div class="clear"></div>
                     </div> 
@@ -42,8 +42,8 @@
                     <div class="row-form">
                         <div class="span3">Password:</div>
                         <div class="span9">
-                            <input type="password" placeholder="some text value..." name="pass" value="<?php echo $user['pass']?>"/>
-                            <p id='notifyMessage'><?php echo $message['pass']; ?></p>
+                            <input type="password" placeholder="some text value..." name="pass" value="<?php returnData($user['pass']); ?>"/>
+                            <p id='notifyMessage'><?php returnData($message['pass']); ?></p>
                         </div>
                         <div class="clear"></div>
                     </div> 
@@ -53,7 +53,12 @@
                         <div class="span9">
                             <?php 
                                 if($user['user_img'] != '') { ?>
-                                    <img src="<?php getImage($user['user_img']) ?>" alt="Old Image" width="50" height="50">
+                                    <img src="<?php 
+                                    if(empty($user['user_img'])) {
+                                        $user['user_img'] = null;
+                                    }
+                                    getImage($user['user_img']) 
+                                    ?>" alt="Old Image" width="50" height="50">
                                     <input type="checkbox" name="checkdel">Delete
                                     <br>
                                 <?php }
@@ -69,6 +74,9 @@
                         <div class="span9">
                             <select name="status">
                             <?php 
+                                if(empty($user['status'])) {
+                                    $user['status'] = ACTIVE_VALUE;
+                                }
                                 if($user['status'] == ACTIVE_VALUE) {
                                     echo "<option value = '" . ACTIVE_VALUE . "' selected>Activate</option>";
                                     echo "<option value = '" . DEACTIVE_VALUE . "' >Deactivate</option>";

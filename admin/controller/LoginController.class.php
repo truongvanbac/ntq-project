@@ -33,7 +33,7 @@ class LoginController extends BaseController {
     }
 
     /*
-     * Override function BaseController
+     * Override function BaseController to avoid header loop error
      */
     public function checkLogin(){}
 

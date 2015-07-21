@@ -22,9 +22,8 @@ class ProductController extends BaseController {
      */
     public function add() {
         $data = array(
-            'product' => array('pd_name' => '', 'pd_price' => '', 'pd_des' => '', 'pd_status' => '1', 'pd_img0' => '',
-                'pd_img1' => '', 'pd_img2' => ''),
-            'message' => array('name' => '', 'price' => '', 'des' => '', 'status' => '', 'img' => ''),      //Message
+            'product' => array(),
+            'message' => array(),           //Message
             'title' => 'Add',               //Title page
             'btnName' => 'btn-add-pd'       //Button name
         );
@@ -46,12 +45,12 @@ class ProductController extends BaseController {
         
         $data = array(
             'product' => Product::getProduct($pd_id),
-            'message' => array('name' => '', 'price' => '', 'des' => '', 'status' => '', 'img' => ''),
+            'message' => array(),
             'title' => 'Edit',
             'btnName' => 'btn-edit-pd'
         );
         
-        $checkUrl = Product::getIdProduct($pd_id);  //Chek id product
+        $checkUrl = Product::getIdProduct($pd_id);          //Chek id product
         if($checkUrl == 0) {
             directScript('Error, category id exist.', '' . BASE_URL . LIST_PRODUCT);
         } else {
@@ -104,9 +103,10 @@ class ProductController extends BaseController {
         $dataInput['pd_des'] = test_input(getValue($itemPost[2]));
         $dataInput['pd_status'] = getValue($itemPost[3]);
         $dataInput['pd_time_updated'] = date('Y-m-d h:i:s');
+
         for($i = 0; $i < NUM_IMG; $i++) {
             if($fileName['name'][$i] != '') {
-                $fileName['name'][$i] = time() . $fileName['name'][$i];
+                $fileName['name'][$i] = time() . $i . $fileName['name'][$i];
                 $dataInput["pd_img" . $i] = $fileName['name'][$i];
             }
         }
@@ -133,19 +133,19 @@ class ProductController extends BaseController {
         $result = false;
         $check = false;
 
-        if(isset($_POST[$button])) {                //press button
+        if(isset($_POST[$button])) {                        //press button
             $fileName = $_FILES['fileToUpload'];            //get file upload
-            $validate = $this->validateForm($dataValidate, $itemPost, $data);       //validate data
-            $this->dataInputFormat($itemPost, $dataInput, $fileName);           //format data
+            $validate = $this->validateForm($dataValidate, $itemPost, $data);           //validate data
+            $this->dataInputFormat($itemPost, $dataInput, $fileName);                   //format data
             $uploadImg = $this->uploadMultiImg($fileName, $data['message']['img']);
             
             if($validate && $uploadImg) {
 
-                if($pd_id == null) {                                                            //add product
+                if($pd_id == null) {                                                           //add product
                     $dataInput['pd_time_created'] = date('Y-m-d h:i:s');
                 } else {                                                                       //edit product
 
-                    if(!empty($_POST['checkdel'])) {                //remove image when tick checkbox
+                    if(!empty($_POST['checkdel'])) {               //remove image when tick checkbox
                         $dataImg = array();
                         foreach (getValue('checkdel') as $check) {
                             $dataImg[] = $check;
@@ -153,7 +153,7 @@ class ProductController extends BaseController {
                         Product::remove_image($pd_id, $dataImg);
                     }
 
-                    for($i =0; $i < NUM_IMG; $i++) {                //check if image not exit
+                    for($i =0; $i < NUM_IMG; $i++) {            //check if image not exit
                         $oldImg = Product::getProduct($pd_id)["pd_img" . $i];           //get old Image
 
                         if($fileName['name'][$i] == '') {
@@ -167,7 +167,7 @@ class ProductController extends BaseController {
                 }
 
                 $result = Product::updateProductProcess($dataInput, $pd_id);        //update database
-                if($result) {       //if upload image success
+                if($result) {
                     directScript('Successfull!', '' . BASE_URL . LIST_PRODUCT);     //redirect list product
                 } else {
                     $data['message']['name'] = 'Product name is exist.';

@@ -25,10 +25,10 @@ class CategoryController extends BaseController {
     public function add() {
 
         $data = array(
-            'category' => array('ct_name' => '', 'ct_status' => '1'),       //Store data when user input
-            'message' => array('name' => '', 'status' => ''),            //Message error
-            'title' => 'Add',                                           //Title page
-            'btnName' => 'btn-add-ct',                                  //Button name
+            'category' => array(),              //Store data when user input
+            'message' => array(),               //Message error
+            'title' => 'Add',                   //Title page
+            'btnName' => 'btn-add-ct',          //Button name
         );
         $itemPost = array('name', 'status');                //List item has posted
         $dataInput = array();
@@ -45,10 +45,10 @@ class CategoryController extends BaseController {
         $ct_id = $urlArray[3];              //Get id category
 
         $data = array(
-            'category' => Category::getCategory($ct_id),                    //Get category by id
-            'message' => array('name' => '', 'status' => ''),               //Message error
-            'title' => 'Edit',                                              //Title page
-            'btnName' => 'btn-edit-ct',                                     //Button name
+            'category' => Category::getCategory($ct_id),       //Get category by id
+            'message' => array(),                              //Message error
+            'title' => 'Edit',                                 //Title page
+            'btnName' => 'btn-edit-ct',                        //Button name
         );
 
         $dataInput = array();

@@ -57,12 +57,6 @@ class BaseController {
 			$target_file[$i] = $target_dir . basename($file['name'][$i]);
 
 			if($file['name'][$i] != '') {
-				if(file_exists($target_file[$i])) {
-					$message = 'Image not be repeated.';
-					$check = false;
-					break;
-				}
-				
 				if(($file['type'][$i] == 'image/jpg') || ($file['type'][$i] == 'image/png') 
 					|| ($file['type'][$i] == 'image/jpeg')) {
 					move_uploaded_file($file['tmp_name'][$i], $target_file[$i]);
@@ -119,7 +113,6 @@ class BaseController {
 		
 		$data = array(
 			'lists' => $model::get_list($pages->get_limit()),
-			'order' => "desc",
 			'page_links' => $pages->page_links(),
 			'count' => $model::count(),
 			'valueSearch' => ''
@@ -150,7 +143,7 @@ class BaseController {
 		if(isset($_GET['type']) && ($_GET['type'] == "asc" || $_GET['type'] = "desc")) {
 			$order = $_GET['type'];
 		} else {
-			$order = "asc";
+			$order = "desc";
 		}
 
 		if(isset($_GET['field']) && in_array($_GET['field'], $this->checkField)) {

@@ -166,7 +166,7 @@ function test_input($data) {
 
 function deleteFile($file) {
     $path = DIR_UPLOAD . basename($file);
-    if (file_exists($file)) {
+    if (file_exists($path)) {
         return unlink($path);
     }
 }
@@ -182,6 +182,13 @@ function pathShow($model, $field, $type, $page, $search) {
         $path = BASE_URL . $model . '?search=' . $search . '&field=' . $field . '&type=' . $type . '&page=' . $page;
     }
     echo $path;
+}
+
+function returnData($data) {
+    if(empty($data)) {
+        $data = null;
+    } 
+    echo $data;
 }
 
 ?>

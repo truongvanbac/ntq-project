@@ -24,16 +24,16 @@ class UserController extends BaseController {
      */
     public function add() {
         $data = array(
-            'user' => array('username' => '', 'user_email' => '', 'pass' => '', 'status' => '1', 'user_img' => ''),     //Store data when user input
-            'message' => array('name' => '', 'email' => '', 'pass' => '', 'img' => ''),             //Message
-            'title' => 'Add',                                                                       //Title page
-            'btnName' => 'btn-add-user',                                                            //Button name
+            'user' => array(),                //Store data when user input
+            'message' => array(),             //Message
+            'title' => 'Add',                 //Title page
+            'btnName' => 'btn-add-user',      //Button name
         );
         
-        $itemPost = array('username', 'pass', 'email','status');                //List item has posted
+        $itemPost = array('username', 'pass', 'email','status');                    //List item has posted
         $dataInput = array();
         $this->updateUser('add', $data, 'btn-add-user', $itemPost, $dataInput);     //add user
-        $this->loadView('updateUser', 'Add User', $data);           //load view add page
+        $this->loadView('updateUser', 'Add User', $data);                           //load view add page
     }
     
 
@@ -46,18 +46,18 @@ class UserController extends BaseController {
         
         $data = array(
             'user' => User::getUser($user_id),          //get user was edit
-            'message' => array('name' => '', 'email' => '', 'pass' => '', 'status' => '', 'img' => ''),     //message
-            'title' => 'Edit',                                                  //title page
-            'btnName' => 'btn-edit-user',                       //button name
+            'message' => array(),                       //message
+            'title' => 'Edit',                          //title page
+            'btnName' => 'btn-edit-user',               //button name
         );
         
-        $checkUrl = User::checkIdUser($user_id);                //Check id user
+        $checkUrl = User::checkIdUser($user_id);        //Check id user
         if($checkUrl == 0) {
             directScript('Error, user id not exist.', '' . BASE_URL . LIST_USER);
         } else {
-            $itemPost = array('username', 'pass', 'email','status');            //List item has posted
-            $dataInput = array();                                       //Store data input, use to update database
-            $this->updateUser('edit', $data, 'btn-edit-user', $itemPost, $dataInput, $user_id);         //edit user
+            $itemPost = array('username', 'pass', 'email','status');                                //List item has posted
+            $dataInput = array();                                                                   //Store data input, use to update database
+            $this->updateUser('edit', $data, 'btn-edit-user', $itemPost, $dataInput, $user_id);     //edit user
         }
 
         $this->loadView('updateUser', 'Edit User', $data);          //load view edit page
@@ -145,8 +145,8 @@ class UserController extends BaseController {
                 if($user_id == null) {                                              //Add User
                     $dataInput['user_time_created'] = date('Y-m-d h:i:s');
                     $dataInput['privilege'] = 1;
-                } else {                                                             //Edit user
-                    if(!empty($_POST['checkdel'])) {                        //Check tick checkbox
+                } else {                                                            //Edit user
+                    if(!empty($_POST['checkdel'])) {           //Check tick checkbox
                         User::remove_image($user_id);
                     }
 
