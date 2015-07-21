@@ -17,7 +17,21 @@ class UserController extends BaseController {
     public function index() {
         $this->indexPage('list-user', 'List User');
     }
-    
+
+    /**
+     * Function Active
+     */
+    public function active() {
+        $this->activeItem();
+        redirect(BASE_URL . LIST_USER);
+    }
+
+    /**
+     * Search and sort data
+     */
+    public function show() {
+        $this->showData('list-user', 'User');
+    }
 
     /**
      * Add user
@@ -179,17 +193,5 @@ class UserController extends BaseController {
             $this->getDataReturn($action, $data, $itemPost);
             return $data;
         }
-    }
-
-    /**
-     * Function Active
-     */
-    public function active() {
-        $this->activeItem();
-        redirect(BASE_URL . LIST_USER);
-    }
-
-    public function show() {
-        $this->showData('list-user', 'User');
     }
 }

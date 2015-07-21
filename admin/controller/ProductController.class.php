@@ -15,8 +15,23 @@ class ProductController extends BaseController {
     public function index() {
         $this->indexPage('list-product', 'List Product');
     }
-    
 
+    /**
+     * Active item
+     */
+    public function active() {
+        $this->activeItem();
+        redirect(BASE_URL . LIST_PRODUCT);
+    }
+
+    /**
+     *Search and sort
+     */
+    public function show() {
+        $this->showData('list-product', 'Product');
+    }
+
+    
     /**
      * Add product
      */
@@ -176,20 +191,5 @@ class ProductController extends BaseController {
             $this->getDataReturn($action, $data, $itemPost);
             return $data;
         }
-    }
-
-    /**
-     * Active item
-     */
-    public function active() {
-        $this->activeItem();
-        redirect(BASE_URL . LIST_PRODUCT);
-    }
-
-    /**
-     *Search and sort
-     */
-    public function show() {
-        $this->showData('list-product', 'Product');
     }
 }

@@ -5,8 +5,8 @@ ob_start();
  */
 class Template {
 	
-    private $__content = array();
-    private $__content2 = array();
+    private $content = array();
+    private $content2 = array();
     
     //Load view
     public function load($folder, $view, $data = array()) {
@@ -16,7 +16,7 @@ class Template {
         $content = ob_get_contents();
         ob_end_clean();
         
-        $this->__content[] = $content;
+        $this->content[] = $content;
         return $content;
     }
     
@@ -28,15 +28,15 @@ class Template {
         $content = ob_get_contents();
         ob_end_clean();
         
-        $this->__content2[] = $content;
-        foreach ($this->__content2 as $html) {
+        $this->content2[] = $content;
+        foreach ($this->content2 as $html) {
             echo $html;
         }
     }
     
     //Show view
     public function show() {
-        foreach ($this->__content as $html) {
+        foreach ($this->content as $html) {
             echo $html;
         }
     }

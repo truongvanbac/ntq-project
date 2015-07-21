@@ -18,6 +18,20 @@ class CategoryController extends BaseController {
         $this->indexPage('list-category', 'List Category');
     }
 
+    /**
+     * Active item category
+     */
+    public function active() {
+        $this->activeItem();
+        redirect(BASE_URL . LIST_CATEGORY);
+    }
+
+    /**
+     * Search and sort
+     */
+    public function show() {
+        $this->showData('list-category', 'Category');
+    }
 
     /**
      * Add category
@@ -136,21 +150,5 @@ class CategoryController extends BaseController {
             $this->getDataReturn($action, $data, $itemPost);        //Get data input return
             return $data;
         }
-    }
-
-
-    /**
-     * Active item category
-     */
-    public function active() {
-        $this->activeItem();
-        redirect(BASE_URL . LIST_CATEGORY);
-    }
-
-    /**
-     * Search and sort
-     */
-    public function show() {
-        $this->showData('list-category', 'Category');
     }
 }
