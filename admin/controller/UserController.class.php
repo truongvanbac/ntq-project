@@ -70,24 +70,24 @@ class UserController extends BaseController {
     private function validateForm(&$dataValidate = array(), $itemPost = array(), &$data = array()) {
         $dataValidate = array(
             'username'      =>  array(
-                                'label' => 'username',
-                                'input' => test_input(getValue($itemPost[0])),          //function -> test_input()
-                                'rule' => array('required'),
-                                'message' => &$data['message']['name']
+                                'label'     =>  'username',
+                                'input'     =>  test_input(getValue($itemPost[0])),          //function -> test_input()
+                                'rule'      =>  array('required'),
+                                'message'   =>  &$data['message']['name']
             ),
 
             'pass'          =>  array(
-                                'label' => 'password',
-                                'input' => test_input(getValue($itemPost[1])),
-                                'rule' => array('required'),
-                                'message' => &$data['message']['pass']
+                                'label'     =>  'password',
+                                'input'     =>  test_input(getValue($itemPost[1])),
+                                'rule'      =>  array('required'),
+                                'message'   =>  &$data['message']['pass']
             ),
 
             'email'         =>  array(
-                                'label' => 'email',
-                                'input' => test_input(getValue($itemPost[2])),
-                                'rule' => array('required', 'valid_email'),
-                                'message' => &$data['message']['email']
+                                'label'     =>  'email',
+                                'input'     =>  test_input(getValue($itemPost[2])),
+                                'rule'      =>  array('required', 'valid_email'),
+                                'message'   =>  &$data['message']['email']
             )
         );
 
@@ -105,10 +105,12 @@ class UserController extends BaseController {
         $dataInput['user_email'] = test_input(getValue($itemPost[2]));
         $dataInput['status'] = getValue($itemPost[3]);
         $dataInput['user_time_updated'] = date('Y-m-d h:i:s');
+
         if(!empty($fileName['name'])) {
             $fileName['name'] = time() . $fileName['name'];
             $dataInput['user_img'] = $fileName['name'];
         }
+
         return $dataInput;
     }
 
@@ -121,6 +123,7 @@ class UserController extends BaseController {
         $data['user']['pass'] = (getValue($itemPost[1]));
         $data['user']['user_email'] = test_input(getValue($itemPost[2]));
         $data['user']['status'] = getValue($itemPost[3]);
+
         return $data;
     }
 
@@ -170,6 +173,7 @@ class UserController extends BaseController {
                     $data['message']['name'] = 'Username is exist.';
                 }
             }
+            
             $this->getDataReturn($action, $data, $itemPost);
             return $data;
         }

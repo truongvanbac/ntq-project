@@ -69,24 +69,24 @@ class ProductController extends BaseController {
     private function validateForm(&$dataValidate = array(), $itemPost = array(), &$data = array()) {
         $dataValidate = array(
             'name'          => array(
-                                'label' => 'product name',
-                                'input' => test_input(getValue($itemPost[0])),
-                                'rule' => array('required'),
-                                'message' => &$data['message']['name']
+                                'label'     =>  'product name',
+                                'input'     =>  test_input(getValue($itemPost[0])),
+                                'rule'      =>  array('required'),
+                                'message'   =>  &$data['message']['name']
             ),
 
             'price'        => array(
-                                'label' => 'price',
-                                'input' => test_input(getValue($itemPost[1])),
-                                'rule' => array('required','valid_number_natural'),
-                                'message' => &$data['message']['price']
+                                'label'     =>  'price',
+                                'input'     =>  test_input(getValue($itemPost[1])),
+                                'rule'      =>  array('required','valid_number_natural'),
+                                'message'   =>  &$data['message']['price']
             ),
 
             'description'  => array(
-                                'label' => 'description',
-                                'input' => test_input(getValue($itemPost[2])),
-                                'rule' => array('required'),
-                                'message' => &$data['message']['des']
+                                'label'     =>  'description',
+                                'input'     =>  test_input(getValue($itemPost[2])),
+                                'rule'      =>  array('required'),
+                                'message'   =>  &$data['message']['des']
             )
         );
 

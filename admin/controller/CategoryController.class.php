@@ -70,17 +70,17 @@ class CategoryController extends BaseController {
     private function validateForm(&$dataValidate = array(), $itemPost = array(), &$data = array()) {
         $dataValidate = array(
             'name'      => array(
-                            'label'  => 'category name',
-                            'input' => test_input(getValue($itemPost[0])),
-                            'rule' => array('required','min_length:4','max_length:60'),
-                            'message' => &$data['message']['name']
+                            'label'     =>  'category name',
+                            'input'     =>  test_input(getValue($itemPost[0])),
+                            'rule'      =>  array('required','min_length:4','max_length:60'),
+                            'message'   =>  &$data['message']['name']
             ),
 
             'status'    => array(
-                            'label' => 'status',
-                            'input' => getValue($itemPost[1]),
-                            'rule' => array('required'),
-                            'message' => &$data['message']['status']
+                            'label'     =>  'status',
+                            'input'     =>  getValue($itemPost[1]),
+                            'rule'      =>  array('required'),
+                            'message'   =>  &$data['message']['status']
             )
         );
         $validate = $this->validateData($dataValidate);                     //BaseController -> validateData()
