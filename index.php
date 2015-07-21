@@ -55,10 +55,10 @@ function load() {
         echo "Class " . $controller . " not found";
     }
 
-    $dispatch = new $controller();
+    $class = new $controller();
 
     if (method_exists($controller, $action)) {
-        call_user_func(array($dispatch,$action));
+        call_user_func(array($class,$action));
     } else {
         echo "Method " . $action . " not found";
     }
