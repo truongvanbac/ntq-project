@@ -71,14 +71,15 @@ function load() {
 
 function __autoload($className) {
     $paths = array(
-        ROOT."/lib/",
-        ROOT."/admin/controller/",
-        ROOT."/admin/model/",
-        ROOT."/home/controller/"
+        ROOT . "/lib/",
+        ROOT . "/admin/controller/",
+        ROOT . "/admin/model/",
+        ROOT . "/home/controller/"
     );
+
     foreach($paths as $path) {
-        if(file_exists($path.$className.".class.php")){
-            require_once($path.$className.".class.php");
+        if(file_exists($path . $className . ".class.php")){
+            require_once($path . $className . ".class.php");
             break;
         }
     }

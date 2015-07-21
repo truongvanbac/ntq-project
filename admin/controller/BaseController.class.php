@@ -191,7 +191,7 @@ class BaseController {
 
 
 	/**
-	 * Function common to active item
+	 * active item
 	 */
 	protected function activeItem() {
 		if (!empty(getValue('btn-ac'))) {

@@ -54,7 +54,7 @@ class CategoryController extends BaseController {
         $dataInput = array();
         $checkUrl = Category::getIdCategory($ct_id);        //Check id
         if($checkUrl == 0) {                                //id not exit
-            directScript('Error, category id is not exist!', '' . BASE_URL . LIST_CATEGORY);        //redirect list category page
+            directScript('Error, category id not exist!', '' . BASE_URL . LIST_CATEGORY);        //redirect list category page
         } else {
             $itemPost = array('name','status');
             $this->updateCategory('edit', $data, 'btn-edit-ct', $itemPost, $dataInput, $ct_id);     //Edit category

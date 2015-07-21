@@ -53,7 +53,7 @@ class ProductController extends BaseController {
         
         $checkUrl = Product::getIdProduct($pd_id);  //Chek id product
         if($checkUrl == 0) {
-            directScript('Error, category id not exist.', '' . BASE_URL . LIST_PRODUCT);
+            directScript('Error, category id exist.', '' . BASE_URL . LIST_PRODUCT);
         } else {
             $itemPost = array('name', 'price', 'des', 'status');
             $dataInput = array();
@@ -194,5 +194,3 @@ class ProductController extends BaseController {
         $this->showData('list-product', 'Product');
     }
 }
-
-
