@@ -73,7 +73,6 @@ class Category extends Model {
             return false;
         }
     }
-    
 
     /**
      * Sort category
@@ -82,18 +81,9 @@ class Category extends Model {
         return Category::sort($item, $typesort, $limit);
     }
 
-
-
     /**
-     * Search data
+     * Search and sort data
      */
-    public static function seaching_process($string, $limit=null) {
-        $column = array(
-            'ct_name' => 'ct_name',
-            'ct_id' => 'ct_id'
-        );
-        return Category::searchingElement($string, $column, $limit);
-    }
 
     public static function sort_search($string, $item = null, $typesort = null, $limit = null) {
         $column = array(

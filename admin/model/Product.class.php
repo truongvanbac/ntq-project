@@ -47,7 +47,7 @@ class Product extends Model {
     public static function updateProductProcess($data = array(), $pd_id = null) {
         return Product::updateItem($data, $pd_id);
     }
-    
+
     
     /**
      * Count record by condition
@@ -55,7 +55,6 @@ class Product extends Model {
     public static function count_colum($column, $value) {
         return Product::countRowByColumn($column, $value);
     }
-    
 
     /**
      * Active record
@@ -75,27 +74,12 @@ class Product extends Model {
             return false;
         }
     }
-    
 
     /**
      * Sord record
      */
     public static function sort_item($item, $typesort, $limit) {
         return Product::sort($item, $typesort, $limit);
-    }
-
-
-    /**
-     * Search record
-     */
-    public static function seaching_process($string, $limit=null) {
-        $column = array(
-            'pd_name' => 'pd_name',
-            'pd_price' => 'pd_price',
-            'pd_id' => 'pd_id'
-        );
-
-        return Product::searchingElement($string, $column, $limit);
     }
 
     /**
@@ -109,6 +93,9 @@ class Product extends Model {
         return Product::deteleItem($pd_id, $dataImg);
     }
 
+    /**
+     * Search and sort data
+     */
     public static function sort_search($string, $item = null, $typesort = null, $limit = null) {
         $column = array(
             'pd_name' => 'pd_name',

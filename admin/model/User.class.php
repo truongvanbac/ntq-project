@@ -120,17 +120,6 @@ class User extends Model {
 
 
     /**
-     * Search data
-     */
-    public static function seaching_process($string, $limit=null) {
-        $column = array(
-            'username' => 'username',
-            'user_id' => 'user_id'
-        );
-        return User::searchingElement($string, $column, $limit);
-    }
-
-    /**
      * delete image
      */
 
@@ -142,6 +131,9 @@ class User extends Model {
         return User::deteleItem($user_id, $data);
     }
 
+    /**
+     * Search and search
+     */
     public static function sort_search($string, $item = null, $typesort = null, $limit = null) {
         $column = array(
             'username' => 'username',
