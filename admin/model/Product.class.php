@@ -83,17 +83,6 @@ class Product extends Model {
     }
 
     /**
-     * delete image
-     */
-    public static function remove_image($pd_id, $data = array()) {
-        foreach ($data as $value) {
-            $dataImg['pd_img' . $value] = NULL;
-            deleteFile(Product::getProduct($pd_id)['pd_img' . $value]);
-        }
-        return Product::deteleItem($pd_id, $dataImg);
-    }
-
-    /**
      * Search and sort data
      */
     public static function sort_search($string, $item = null, $typesort = null, $limit = null) {

@@ -215,7 +215,6 @@ class Model {
                 $check = true;
             }
         }
-
         return $check;
     }
 

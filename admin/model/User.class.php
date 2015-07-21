@@ -118,19 +118,6 @@ class User extends Model {
         return User::sort($item, $typesort, $limit);
     }
 
-
-    /**
-     * delete image
-     */
-
-    public static function remove_image($user_id) {
-        $data = array(
-            'user_img' => NULL
-        );
-        deleteFile((User::getUser($user_id)['user_img']));
-        return User::deteleItem($user_id, $data);
-    }
-
     /**
      * Search and search
      */

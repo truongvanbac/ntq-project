@@ -146,9 +146,6 @@ class UserController extends BaseController {
                     $dataInput['user_time_created'] = date('Y-m-d h:i:s');
                     $dataInput['privilege'] = 1;
                 } else {                                                            //Edit user
-                    if(!empty($_POST['checkdel'])) {           //Check tick checkbox
-                        User::remove_image($user_id);
-                    }
 
                     $oldImg  = User::getUser($user_id)['user_img'];
 
@@ -157,6 +154,11 @@ class UserController extends BaseController {
                     } else {
                         if($oldImg != null)
                             deleteFile($oldImg);
+                    }
+
+                    if(!empty($_POST['checkdel'])) {           //Check tick checkbox
+                        deleteFile($fileName['name']);
+                        $dataInput['user_img'] = $fileName['name'] = null;
                     }
                 }
 

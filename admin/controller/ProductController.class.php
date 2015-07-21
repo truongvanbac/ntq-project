@@ -145,14 +145,6 @@ class ProductController extends BaseController {
                     $dataInput['pd_time_created'] = date('Y-m-d h:i:s');
                 } else {                                                                       //edit product
 
-                    if(!empty($_POST['checkdel'])) {               //remove image when tick checkbox
-                        $dataImg = array();
-                        foreach (getValue('checkdel') as $check) {
-                            $dataImg[] = $check;
-                        }
-                        Product::remove_image($pd_id, $dataImg);
-                    }
-
                     for($i =0; $i < NUM_IMG; $i++) {            //check if image not exit
                         $oldImg = Product::getProduct($pd_id)["pd_img" . $i];           //get old Image
 
@@ -162,6 +154,13 @@ class ProductController extends BaseController {
                         } else {
                             if($oldImg != null)
                                 deleteFile($oldImg);                //delete image
+                        }
+                    }
+
+                    if(!empty($_POST['checkdel'])) {               //remove image when tick checkbox
+                        foreach (getValue('checkdel') as $check) {
+                            deleteFile($fileName['name'][$check]);
+                            $dataInput["pd_img" . $check] = $fileName['name'][$check] = null;
                         }
                     }
                 }
