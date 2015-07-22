@@ -152,6 +152,9 @@ class UserController extends BaseController {
 
             $validate = $this->validateForm($dataValidate, $itemPost, $data);
             $this->dataInputFormat($itemPost, $dataInput, $fileName);
+
+            $oldImg  = User::getUser($user_id)['user_img'];
+
             $uploadImg = $this->uploadImg($fileName, $data['message']['img']);
             
             if($validate && $uploadImg) {
@@ -161,18 +164,15 @@ class UserController extends BaseController {
                     $dataInput['privilege'] = 1;
                 } else {                                                            //Edit user
 
-                    $oldImg  = User::getUser($user_id)['user_img'];
-
                     if($fileName['name'] == '') {
-                        $fileName['name'] = $oldImg;
+                        $dataInput['user_img'] = $oldImg;
                     } else {
-                        if($oldImg != null)
-                            deleteFile($oldImg);
+                        deleteFile($oldImg);
                     }
 
                     if(!empty($_POST['checkdel'])) {           //Check tick checkbox
-                        deleteFile($fileName['name']);
-                        $dataInput['user_img'] = $fileName['name'] = null;
+                        deleteFile($oldImg);
+                        $dataInput['user_img'] = $fileName['name'];
                     }
                 }
 

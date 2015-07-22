@@ -151,6 +151,13 @@ class ProductController extends BaseController {
             $fileName = $_FILES['fileToUpload'];            //get file upload
             $validate = $this->validateForm($dataValidate, $itemPost, $data);           //validate data
             $this->dataInputFormat($itemPost, $dataInput, $fileName);                   //format data
+
+            $oldImg = array();
+
+            for($i =0; $i < NUM_IMG; $i++) {            //check if image not exit
+                $oldImg[$i] = Product::getProduct($pd_id)["pd_img" . $i];
+            }
+
             $uploadImg = $this->uploadMultiImg($fileName, $data['message']['img']);
             
             if($validate && $uploadImg) {
@@ -160,21 +167,18 @@ class ProductController extends BaseController {
                 } else {                                                                       //edit product
 
                     for($i =0; $i < NUM_IMG; $i++) {            //check if image not exit
-                        $oldImg = Product::getProduct($pd_id)["pd_img" . $i];           //get old Image
 
-                        if($fileName['name'][$i] == '') {
-                            $fileName['name'][$i] = $oldImg;
-                            $dataInput["pd_img" . $i] = $fileName['name'][$i];
+                        if(($fileName['name'][$i] == '')) {
+                            $dataInput["pd_img" . $i] = $oldImg[$i];
                         } else {
-                            if($oldImg != null)
-                                deleteFile($oldImg);                //delete image
+                            deleteFile($oldImg[$i]);                //delete image
                         }
                     }
 
                     if(!empty($_POST['checkdel'])) {               //remove image when tick checkbox
                         foreach (getValue('checkdel') as $check) {
-                            deleteFile($fileName['name'][$check]);
-                            $dataInput["pd_img" . $check] = $fileName['name'][$check] = null;
+                            deleteFile($oldImg[$check]);
+                            $dataInput["pd_img" . $check] = $fileName['name'][$check];
                         }
                     }
                 }
